@@ -1,0 +1,10 @@
+{
+	"name": "3dgameengined",
+	"description": "A 3D game engine for educational purpose",
+	"copyright": "Copyright © 2014, naikon",
+	"authors": ["naikon"],
+	"dependencies": {
+		"derelict-sdl2": ">=1.2.0",
+		"derelict-gl3": ">=1.0.0"
+	}
+}
