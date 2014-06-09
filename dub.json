@@ -5,7 +5,6 @@
 	"authors": ["naikon"],
 	"dependencies": {
 		"derelict-sdl2": ">=1.2.0",
-		"derelict-gl3": ">=1.0.0",
-		"derelict-glfw3": ">=1.0.0"
+		"derelict-gl3": ">=1.0.0"
 	} 
 }

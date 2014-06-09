@@ -17,7 +17,7 @@ class Shader
 		if(program == 0)
 		{
 			writeln("Shader creation failed: Could not find valid memory location in constructor");
-			Runtime.terminate();
+//			Runtime.terminate();
 		}
 	}
 	
@@ -67,7 +67,7 @@ class Shader
 			char[] error = new char[len];
 			glGetProgramInfoLog(program, len, null, cast(char*)error);
 			writeln(error);
-			//			Runtime.terminate();
+//			Runtime.terminate();
 		}
 
 	}
@@ -94,7 +94,7 @@ class Shader
 			char[] error=new char[len];
 			glGetShaderInfoLog(shader, len, null, cast(char*)error);
 			writeln(error);
-//			return false;
+//			Runtime.terminate();
 		}
 
 		glAttachShader(program, shader);
