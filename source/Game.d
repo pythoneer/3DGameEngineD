@@ -2,27 +2,49 @@
 
 import std.stdio;
 
-import derelict.sdl2.sdl;
+//import derelict.sdl2.sdl;
 
 //import window;
 import input;
+import mesh;
+import shader;
+import vertex;
+import vector3f;
+import resourceLoader;
 
 class Game
 {
+	private Mesh mesh;
+	private Shader shader;
+
 
 	this()
 	{
+		mesh = new Mesh();
+		shader = new Shader();
+	
+		Vertex[] data = new Vertex[3];
+		data[0] = new Vertex(new Vector3f(-1,-1,0));
+     	data[1] = new Vertex(new Vector3f(0,1,0));
+     	data[2] = new Vertex(new Vector3f(1,-1,0));
+		
+		mesh.addVertices(data);
+		
+		shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
+		shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
+		shader.compileShader();
+
 	}
 
 	public void input()
 	{
 
 
-		if(Input.isKeyPressed(SDLK_w))
-		{
-			writeln("w is pressed");
-		}
-
+//		if(Input.isKeyPressed(SDLK_w))
+//		{
+//			writeln("w is pressed");
+//		}
+//
 
 
 //		writeln("Game input triggered");
@@ -66,6 +88,8 @@ class Game
 	
 	public void render()
 	{
+		shader.bind();
+		mesh.draw();
 	}
 }
 

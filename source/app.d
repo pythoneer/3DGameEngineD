@@ -1,9 +1,14 @@
 import std.stdio;
+import std.string;
+
+import derelict.glfw3.glfw3;
+import derelict.opengl3.gl;
 
 import game;
 import window;
 import time;
 import input;
+import renderUtil;
 
 class MainComponent
 {
@@ -17,6 +22,9 @@ class MainComponent
 
 	public this() 
 	{
+		printf("opengl version: '%s'\n", RenderUtil.getOpenGLVersion());
+		RenderUtil.initGraphics();
+
 		m_isRunning = false;
 		m_game = new Game();
 	}
@@ -41,11 +49,6 @@ class MainComponent
 	{
 		m_isRunning = true;
 
-//		while(isRunning)
-//		{
-//			render();
-//		}
-		
 		int frames = 0;
 		long frameCounter = 0;
 		
@@ -76,14 +79,14 @@ class MainComponent
 					stop();
 				
 				Time.setDelta(frameTime);
-				Input.update();
+//				Input.update();
 				
 				m_game.input();
 				m_game.update();
 
 				if(frameCounter >= Time.SECOND)
 				{
-					writeln(frames);
+//					writeln(frames);
 					frames = 0;
 					frameCounter = 0;
 				}
@@ -113,7 +116,8 @@ class MainComponent
 
 	private void render()
 	{
-		//game.render();
+		RenderUtil.clearScreen();
+		m_game.render();
 		Window.render();
 	}
 	
@@ -125,7 +129,7 @@ class MainComponent
 }//MainComponent
 
 
-void main()
+int main()
 {
 	writeln("Hello World");
 	Window.createWindow(MainComponent.WIDTH, MainComponent.HEIGHT, MainComponent.TITLE);
@@ -133,8 +137,149 @@ void main()
 	MainComponent game = new MainComponent();
 	game.start();
 
+	return 0;
+
 //	char[] buf;
 //	while (stdin.readln(buf))
 //		write(buf);
+
+
+//	scope(exit) writeln("Have a nice day!");
+//	
+//	DerelictGL3.load();
+//	DerelictGLFW3.load();
+//	
+//	write("Creating main window... ");
+//	if(!glfwInit()) {
+//		writeln("FAILED");
+//		return -1;
+//	}
+//	
+//	scope(exit) glfwTerminate();
+//	
+//	GLFWwindow* window = glfwCreateWindow(800, 600, "TTGL", null, null);
+//	if(!window) {
+//		writeln("FAILED");
+//		return -2;
+//	} else
+//		writeln("DONE");
+//	
+//	scope(exit) {
+//		writeln("Destroying main window...");
+//		glfwDestroyWindow(window);
+//	}
+//	
+//	glfwMakeContextCurrent(window);
+//	
+//	DerelictGL3.reload();
+//	//##################################
+//	//##################################
+//	
+//	float vertices[] = [
+//		0.0f,  0.5f, // Vertex 1 (X, Y)
+//		0.5f, -0.5f, // Vertex 2 (X, Y)
+//		-0.5f, -0.5f,  // Vertex 3 (X, Y)
+//	];
+//	
+//	const char* vertexSource = `
+//			#version 130
+//
+//			in vec2 position;
+//
+//			void main()
+//			{
+//			    gl_Position = vec4( position, 0.0, 1.0 );
+//			}
+//		`;
+//	
+//	const char* fragmentSource = `
+//			#version 130
+//
+//			out vec4 outColor;
+//
+//			void main()
+//			{
+//			    outColor = vec4( 1.0, 1.0, 1.0, 1.0 );
+//			}
+//		`;
+//	
+//	GLuint vao;
+//	glGenVertexArrays(1, &vao);
+//	scope(exit) glDeleteVertexArrays(1, &vao);
+//	
+//	glBindVertexArray(vao);
+//	
+//	GLuint vbo;
+//	glGenBuffers(1, &vbo);
+//	scope(exit) glDeleteBuffers(1, &vbo);
+//	
+//	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//	glBufferData(GL_ARRAY_BUFFER, vertices.length*float.sizeof, vertices.ptr, GL_STATIC_DRAW);
+//	
+//	writeln("Compiling shaders...");
+//	GLint status;
+//	
+//	write("\tVertex... ");
+//	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+//	scope(exit) glDeleteShader(vertexShader);
+//	glShaderSource(vertexShader, 1, &vertexSource, null);
+//	
+//	glCompileShader(vertexShader);
+//	glGetShaderiv( vertexShader, GL_COMPILE_STATUS, &status );
+//	if(!status) {
+//		char[512] buffer;
+//		glGetShaderInfoLog(vertexShader, 512, null, buffer.ptr);
+//		writeln("E: " ~ buffer);
+//		return -3;
+//	} else
+//		writeln("DONE");
+//	
+//	write("\tFragment... ");
+//	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+//	scope(exit) glDeleteShader(fragmentShader);
+//	glShaderSource(fragmentShader, 1, &fragmentSource, null);
+//	
+//	glCompileShader(fragmentShader);
+//	glGetShaderiv( fragmentShader, GL_COMPILE_STATUS, &status );
+//	if(!status) {
+//		char[512] buffer;
+//		glGetShaderInfoLog(fragmentShader, 512, null, buffer.ptr);
+//		writeln("E: " ~ buffer);
+//		return -3;
+//	} else
+//		writeln("DONE");
+//	
+//	GLuint shaderProgram = glCreateProgram();
+//	scope(exit) glDeleteProgram(shaderProgram);
+//	glAttachShader(shaderProgram, vertexShader);
+//	glAttachShader(shaderProgram, fragmentShader);
+//	
+//	glBindFragDataLocation(shaderProgram, 0, "outColor");
+//	glLinkProgram(shaderProgram);
+//	glUseProgram(shaderProgram);
+//	
+//	GLuint posAttrib = glGetAttribLocation(shaderProgram, "position");
+//	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, null);
+//	glEnableVertexAttribArray(posAttrib);
+//	
+//	//##################################
+//	//##################################
+//	writeln("Entering main loop...");
+//	while(!glfwWindowShouldClose(window)) {
+//		//##############
+//		
+//		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//		glClear(GL_COLOR_BUFFER_BIT);
+//		
+//		glDrawArrays(GL_TRIANGLES, 0, 3);
+//		
+//		//##############
+//		glfwSwapBuffers(window);
+//		glfwPollEvents();
+//	}
+//	
+//	writeln("Exiting...");
+//	return 0;
+//
 
 }

@@ -1,12 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="source/Window.d">
+  <MonoDevelop.Ide.Workbench ActiveDocument="source/app.d">
     <Files>
-      <File FileName="source/app.d" Line="12" Column="45" />
-      <File FileName="source/Game.d" Line="36" Column="38" />
-      <File FileName="source/Window.d" Line="83" Column="3" />
-      <File FileName="../../../../../.dub/packages/derelict-gl3-1.0.0/source/derelict/opengl3/gl3.d" Line="80" Column="1" />
-      <File FileName="source/Time.d" Line="13" Column="41" />
+      <File FileName="source/app.d" Line="24" Column="40" />
+      <File FileName="source/Game.d" Line="1" Column="1" />
+      <File FileName="source/Window.d" Line="1" Column="1" />
+      <File FileName="../../../../../.dub/packages/derelict-gl3-1.0.0/source/derelict/opengl3/gl3.d" Line="1" Column="1" />
+      <File FileName="source/Time.d" Line="1" Column="1" />
+      <File FileName="source/Input.d" Line="1" Column="1" />
+      <File FileName="source/Vector3f.d" Line="1" Column="1" />
+      <File FileName="source/Vertex.d" Line="1" Column="1" />
+      <File FileName="source/Mesh.d" Line="1" Column="1" />
+      <File FileName="source/Shader.d" Line="1" Column="1" />
+      <File FileName="source/ResourceLoader.d" Line="1" Column="1" />
+      <File FileName="source/RenderUtil.d" Line="1" Column="1" />
+      <File FileName="dub.json" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
