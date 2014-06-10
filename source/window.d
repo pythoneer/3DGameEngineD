@@ -12,6 +12,10 @@ class Window
 	private static SDL_GLContext m_context;
 	
 	private static bool isRequestingClose;
+	
+	
+	private static int width;
+	private static int height;
 
 	this()
 	{
@@ -20,6 +24,9 @@ class Window
 
 	public static void createWindow(int width, int height, string title)
 	{
+		Window.width = width;
+		Window.height = height;
+		
 		// Load OpenGL versions 1.0 and 1.1.
 		DerelictGL3.load();
 
@@ -93,18 +100,16 @@ class Window
 		this.isRequestingClose = close;
 	}
 	
-//	public static int getWidth()
-//	{
-////		return Display.getDisplayMode().getWidth();
-//		return 1;
-//	}
-//	
-//	public static int getHeight()
-//	{
-////		return Display.getDisplayMode().getHeight();
-//		return 1;
-//	}
-//	
+	public static int getWidth()
+	{
+		return Window.width;
+	}
+	
+	public static int getHeight()
+	{
+		return Window.height;
+	}
+	
 //	public static string getTitle()
 //	{
 ////		return Display.getTitle();

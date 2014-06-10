@@ -7,7 +7,7 @@ import derelict.sdl2.sdl;
 import gl3n.linalg;
 import gl3n.math;
 
-//import window;
+import window;
 import input;
 import mesh;
 import shader;
@@ -44,7 +44,9 @@ class Game
 //		
 //		mesh.addVertices(data, indices);
 		
+		Transform.setProjection(70f, Window.getWidth(), Window.getHeight(), 0.1f, 1000);
 		transform = new Transform();
+		
 		
 		shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
 		shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
@@ -71,15 +73,15 @@ class Game
 		
 		float sinTemp = cast(float)sin(temp);
 		
-		transform.setTranslation(sinTemp, 0, 0);
-		transform.setRotation(0, sinTemp * 180, 0);
-		transform.setScale(clamp(sinTemp, 0.5, 0.85), clamp(sinTemp, 0.5, 0.85), clamp(sinTemp, 0.5, 0.85));
+		transform.setTranslation(sinTemp * 2, 0, 5);
+		transform.setRotation(sinTemp * 10, sinTemp * 180, sinTemp * 45);
+//		transform.setScale(clamp(sinTemp, 0.5, 0.85), clamp(sinTemp, 0.5, 0.85), clamp(sinTemp, 0.5, 0.85));
 	}
 	
 	public void render()
 	{
 		shader.bind();
-		shader.setUniform("transform", transform.getTransformation());
+		shader.setUniform("transform", transform.getProjectedTransformation());
 		mesh.draw();
 	}
 }

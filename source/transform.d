@@ -3,8 +3,17 @@ module transform;
 import gl3n.linalg;
 import gl3n.math;
 
+import util;
+
 public class Transform
 {
+	
+	private static float zNear;
+	private static float zFar;
+	private static float width;
+	private static float height;
+	private static float fov;
+	
 	private vec3d translation;
 	private vec3d rotation;
 	private vec3d scale;
@@ -68,5 +77,22 @@ public class Transform
 	public void setScale(float x, float y, float z)
 	{
 		this.scale = vec3d(x, y, z);
+	}
+	
+	public mat4 getProjectedTransformation()
+	{
+		mat4 transformationMatrix = getTransformation();
+		mat4 projectionMatrix = Util.initProjection(fov, width, height, zNear, zFar);
+
+		return projectionMatrix * transformationMatrix;
+	}
+	
+	public static void setProjection(float fov, float width, float height, float zNear, float zFar)
+	{
+		Transform.fov = fov;
+		Transform.width = width;
+		Transform.height = height;
+		Transform.zNear = zNear;
+		Transform.zFar = zFar;
 	}
 }
