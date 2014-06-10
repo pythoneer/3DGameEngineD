@@ -28,12 +28,24 @@ class Game
 		mesh = new Mesh();
 		shader = new Shader();
 	
-		Vertex[] data = new Vertex[3];
-		data[0] = new Vertex( vec3d(-1,-1,0));
-     	data[1] = new Vertex( vec3d(0,1,0));
-     	data[2] = new Vertex( vec3d(1,-1,0));
+
+		Vertex[] data = [new Vertex(vec3d(-1,-1,0)),
+						 new Vertex(vec3d(0,1,0)),
+						 new Vertex(vec3d(1,-1,0)),
+						 new Vertex(vec3d(0,-1,1))];
+	
 		
-		mesh.addVertices(data);
+//		int[] indices = [0,1,3,
+//					     3,1,2,
+//					     2,1,0,
+//					     0,2,3];
+		
+		int[] indices = [0,1,3,
+					     3,1,2,
+					     2,1,0,
+					     0,2,3];
+		
+		mesh.addVertices(data, indices);
 		
 		transform = new Transform();
 		
@@ -63,8 +75,8 @@ class Game
 		float sinTemp = cast(float)sin(temp);
 		
 		transform.setTranslation(sinTemp, 0, 0);
-		transform.setRotation(0, 0, sinTemp * 180);
-		transform.setScale(sinTemp, sinTemp, sinTemp);
+		transform.setRotation(0, sinTemp * 180, 0);
+		//transform.setScale(sinTemp, sinTemp, sinTemp);
 	}
 	
 	public void render()
