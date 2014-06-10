@@ -2,6 +2,10 @@
 
 import std.math : sqrt;
 
+
+// UNUSED CLASS ... USING gl3n http://code.dlang.org/packages/gl3n 
+
+
 class Vector3f
 {
 	private float x;

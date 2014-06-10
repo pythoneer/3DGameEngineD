@@ -2,6 +2,8 @@
 
 import std.stdio;
 
+import gl3n.linalg;
+
 import vertex;
 
 class Util
@@ -13,9 +15,9 @@ class Util
 		float floatVertices[] = new float[size];
 		for(int i = 0; i < vertices.length; i++)
 		{
-			floatVertices[i * 3] = vertices[i].getPos.getX();
-			floatVertices[i * 3 + 1] = vertices[i].getPos().getY();
-			floatVertices[i * 3 + 2] = vertices[i].getPos().getZ();
+			floatVertices[i * 3] = vertices[i].getPos.x;
+			floatVertices[i * 3 + 1] = vertices[i].getPos().y;
+			floatVertices[i * 3 + 2] = vertices[i].getPos().z;
 		}
 
 		return floatVertices;

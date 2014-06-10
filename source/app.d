@@ -122,7 +122,6 @@ class MainComponent
 
 int main()
 {
-	writeln("Hello World");
 	Window.createWindow(MainComponent.WIDTH, MainComponent.HEIGHT, MainComponent.TITLE);
 
 	MainComponent game = new MainComponent();

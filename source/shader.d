@@ -5,10 +5,14 @@ import core.runtime;
 import std.string;
 
 import derelict.opengl3.gl3;
+import gl3n.linalg;
+
+//import vector3f;
 
 class Shader
 {
 	private int program;
+	private int[string] uniforms;
 	
 	public this()
 	{
@@ -99,5 +103,38 @@ class Shader
 
 		glAttachShader(program, shader);
 	}
+	
+	public void addUniform(string uniform)
+	{
+		int uniformLocation = glGetUniformLocation(program, uniform.toStringz());
+		
+		if(uniformLocation == 0xFFFFFFFF)
+		{
+			writeln("Error: Could not find uniform: " ~ uniform);
+		}
+		
+		uniforms[uniform] = uniformLocation;
+	}
+	
+	public void setUniformi(string uniformName, int value)
+	{
+		glUniform1i(uniforms[uniformName], value);
+	}
+	
+	public void setUniformf(string uniformName, float value)
+	{
+		glUniform1f(uniforms[uniformName], value);
+	}
+	
+	public void setUniform(string uniformName, vec3d value)
+	{
+		glUniform3f(uniforms[uniformName], value.x, value.y, value.z);
+	}
+	
+	public void setUniform(string uniformName, mat4 value)
+	{
+		glUniformMatrix4fv(uniforms[uniformName], 1, GL_TRUE, value.value_ptr);
+	}
+	
 }
 
