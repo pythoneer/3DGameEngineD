@@ -1,6 +1,7 @@
 ﻿module window;
 
 import std.stdio;
+import std.string;
 
 import derelict.sdl2.sdl;
 import derelict.opengl3.gl3;
@@ -39,7 +40,7 @@ class Window
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 		
 		m_window = SDL_CreateWindow(
-			"An SDL2 window",                  // window title
+			title.toStringz(),                  // window title
 			SDL_WINDOWPOS_UNDEFINED,           // initial x position
 			SDL_WINDOWPOS_UNDEFINED,           // initial y position
 			width,                               // width, in pixels
