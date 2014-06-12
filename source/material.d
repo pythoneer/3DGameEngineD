@@ -8,6 +8,11 @@ class Material
 	private Texture texture;
 	private Vector3f color;
 
+	public this(Texture texture)
+	{
+		this(texture, new Vector3f(1,1,1));
+	}
+
 	public this(Texture texture, Vector3f color)
 	{
 		this.texture = texture;

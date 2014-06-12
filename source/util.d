@@ -24,6 +24,10 @@ class Util
 			
 			floatVertices[i * 3 + 3] = vertices[i].getTexCoord().getX();
 			floatVertices[i * 3 + 4] = vertices[i].getTexCoord().getY();
+			
+			floatVertices[i * 3 + 5] = vertices[i].getNormal().getX();
+			floatVertices[i * 3 + 6] = vertices[i].getNormal().getY();
+			floatVertices[i * 3 + 7] = vertices[i].getNormal().getZ();
 		}
 
 		return floatVertices;

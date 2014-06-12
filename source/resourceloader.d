@@ -86,7 +86,7 @@ class ResourceLoader
 		}
 			
 		Mesh mesh = new Mesh();
-		mesh.addVertices(vertices, indices);
+		mesh.addVertices(vertices, indices, true);
 		
 		return mesh;	
 	}
