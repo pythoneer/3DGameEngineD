@@ -12,6 +12,7 @@ import input;
 import mesh;
 import shader;
 import basicshader;
+import phongshader;
 import vertex;
 import vector3f;
 import vector2f;
@@ -34,9 +35,12 @@ class Game
 	{
 		mesh = new Mesh();//ResourceLoader.loadMesh("box.obj");//new Mesh();
 		camera = new Camera();
-		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,0,0));
- 		shader = new BasicShader();
-
+		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,1,1));
+// 		shader = new BasicShader();
+		shader = new PhongShader();
+		transform = new Transform();
+		
+		
 		Vertex[] data = [new Vertex(new Vector3f(-1,-1,0), new Vector2f(0,0)),
 						 new Vertex(new Vector3f(0,1,0), new Vector2f(0.5f,0)),
 						 new Vertex(new Vector3f(1,-1,0), new Vector2f(1.0f,0)),
@@ -50,8 +54,11 @@ class Game
 		mesh.addVertices(data, indices);
 		
 		Transform.setProjection(70f, Window.getWidth(), Window.getHeight(), 0.1f, 1000);
-		transform = new Transform();
+		
 		Transform.setCamera(camera);
+		
+		
+		PhongShader.setAmbientLight(new Vector3f(0.1f,0.1f,0.1f));
 		
 	}
 
