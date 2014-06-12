@@ -24,7 +24,7 @@ class Quaternion
 		return cast(float)sqrt(x * x + y * y + z * z + w * w);
 	}
 
-	public Quaternion normalize()
+	public Quaternion normalized()
 	{
 		float length = length();
 
@@ -33,7 +33,7 @@ class Quaternion
 		z /= length;
 		w /= length;
 
-		return this;
+		return new Quaternion(x / length, y / length, z / length, w / length);
 	}
 
 	public Quaternion conjugate()

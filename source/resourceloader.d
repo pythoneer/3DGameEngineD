@@ -1,4 +1,4 @@
-﻿module resourceLoader;
+﻿module resourceloader;
 
 import std.stdio;
 import std.file;

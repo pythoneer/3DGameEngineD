@@ -7,7 +7,7 @@ import game;
 import window;
 import time;
 import input;
-import renderUtil;
+import renderutil;
  
 class MainComponent
 {

@@ -1,6 +1,8 @@
-﻿module renderUtil;
+﻿module renderutil;
 
 import derelict.opengl3.gl3;
+
+import vector3f;
 
 class RenderUtil
 {
@@ -29,5 +31,23 @@ class RenderUtil
 	{
 		return glGetString(GL_VERSION);
 	}
+	
+	public static void setTextures(bool enabled)
+	{
+		if(enabled)
+			glEnable(GL_TEXTURE_2D);
+		else
+			glDisable(GL_TEXTURE_2D);
+	}
+
+	public static void unbindTextures()
+	{
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+ 	
+ 	public static void setClearColor(Vector3f color)
+ 	{
+ 		glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
+ 	}
 }
 

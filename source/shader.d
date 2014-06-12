@@ -10,6 +10,7 @@ import derelict.opengl3.gl3;
 import vector3f;
 import matrix;
 import util;
+import material;
 
 class Shader
 {
@@ -26,6 +27,7 @@ class Shader
 //			Runtime.terminate();
 		}
 	}
+	
 	
 	public void bind()
 	{
@@ -136,6 +138,11 @@ class Shader
 	public void setUniform(string uniformName, Matrix4f value)
 	{
 		glUniformMatrix4fv(uniforms[uniformName], 1, GL_TRUE, Util.createBuffer(value).ptr);
+	}
+	
+	public void updateUniforms(Matrix4f worldMatrix, Matrix4f projectedMatrix, Material material)
+	{
+
 	}
 	
 }

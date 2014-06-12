@@ -11,14 +11,15 @@ import window;
 import input;
 import mesh;
 import shader;
+import basicshader;
 import vertex;
 import vector3f;
 import vector2f;
-import resourceLoader;
+import resourceloader;
 import time;
 import transform;
 import camera;
-import texture;
+import material;
 
 class Game
 {
@@ -26,16 +27,15 @@ class Game
 	private Shader shader;
 	private Transform transform;
 	private Camera camera;
-	private Texture texture;
+	private Material material;
 
 
 	this()
 	{
 		mesh = new Mesh();//ResourceLoader.loadMesh("box.obj");//new Mesh();
-		shader = new Shader();
 		camera = new Camera();
-		texture = ResourceLoader.loadTexture("test.png");
-	
+		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,0,0));
+ 		shader = new BasicShader();
 
 		Vertex[] data = [new Vertex(new Vector3f(-1,-1,0), new Vector2f(0,0)),
 						 new Vertex(new Vector3f(0,1,0), new Vector2f(0.5f,0)),
@@ -53,14 +53,6 @@ class Game
 		transform = new Transform();
 		Transform.setCamera(camera);
 		
-		
-		shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
-		shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
-		shader.compileShader();
-		
-		shader.addUniform("transform");
-//		shader.addUniform("uni");
-
 	}
 
 	public void input()
@@ -91,8 +83,7 @@ class Game
 	public void render()
 	{
 		shader.bind();
-		shader.setUniform("transform", transform.getProjectedTransformation());
-		texture.bind();
+		shader.updateUniforms(transform.getTransformation(), transform.getProjectedTransformation(), material);
 		mesh.draw();
 	}
 }
