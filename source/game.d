@@ -16,18 +16,21 @@ import vector3f;
 import resourceLoader;
 import time;
 import transform;
+import camera;
 
 class Game
 {
 	private Mesh mesh;
 	private Shader shader;
 	private Transform transform;
+	private Camera camera;
 
 
 	this()
 	{
 		mesh = ResourceLoader.loadMesh("box.obj");//new Mesh();
 		shader = new Shader();
+		camera = new Camera();
 	
 //
 //		Vertex[] data = [new Vertex(new Vector3f(-1,-1,0)),
@@ -46,6 +49,7 @@ class Game
 		
 		Transform.setProjection(70f, Window.getWidth(), Window.getHeight(), 0.1f, 1000);
 		transform = new Transform();
+		Transform.setCamera(camera);
 		
 		
 		shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
@@ -59,10 +63,13 @@ class Game
 
 	public void input()
 	{
-		if(Input.isKeyPressed(SDLK_w))
-		{
-			writeln("w is pressed");
-		}
+		
+		camera.input();
+		
+//		if(Input.isKeyPressed(SDLK_w))
+//		{
+//			writeln("w is pressed");
+//		}
 
 	}
 	

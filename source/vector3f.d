@@ -1,7 +1,9 @@
 ﻿module vector3f;
 
-import std.math : sqrt;
+import std.math;
 
+import util;
+import quaternion;
 
 class Vector3f
 {
@@ -48,26 +50,24 @@ class Vector3f
 	
 	public Vector3f rotate(float angle, Vector3f axis)
 	{
-//		float sinHalfAngle = const(float)sin(Math.toRadians(angle / 2));
-//		float cosHalfAngle = const(float)cos(Math.toRadians(angle / 2));
-//
-//		float rX = axis.getX() * sinHalfAngle;
-//		float rY = axis.getY() * sinHalfAngle;
-//		float rZ = axis.getZ() * sinHalfAngle;
-//		float rW = cosHalfAngle;
-//
-//		Quaternion rotation = new Quaternion(rX, rY, rZ, rW);
-//		Quaternion conjugate = rotation.conjugate();
-//
-//		Quaternion w = rotation.mul(this).mul(conjugate);
-//
-//		x = w.getX();
-//		y = w.getY();
-//		z = w.getZ();
-//
-//		return this;
-	
-		return null;
+		float sinHalfAngle = cast(float)sin(Util.toRadians(angle / 2));
+		float cosHalfAngle = cast(float)cos(Util.toRadians(angle / 2));
+
+		float rX = axis.getX() * sinHalfAngle;
+		float rY = axis.getY() * sinHalfAngle;
+		float rZ = axis.getZ() * sinHalfAngle;
+		float rW = cosHalfAngle;
+
+		Quaternion rotation = new Quaternion(rX, rY, rZ, rW);
+		Quaternion conjugate = rotation.conjugate();
+
+		Quaternion w = rotation.mul(this).mul(conjugate);
+
+		x = w.getX();
+		y = w.getY();
+		z = w.getZ();
+
+		return this;
 	}
 	
 	public Vector3f add(Vector3f r)

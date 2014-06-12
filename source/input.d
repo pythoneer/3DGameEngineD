@@ -1,5 +1,7 @@
 ﻿module input;
 
+import std.stdio;
+
 import derelict.sdl2.sdl;
 
 import window;
@@ -11,7 +13,7 @@ class Input
 		// Constructor code
 	}
 
-	private static bool[] keysHeld = new bool[323];
+	private static bool[] keysHeld = new bool[500];
 	private static bool[] mouseButtonsHeld = new bool[10];
 
 	public static void update()
@@ -21,7 +23,7 @@ class Input
 		while(SDL_PollEvent(&event))
 		{
 
-			if(event.key.keysym.sym < 322)
+			if(event.key.keysym.sym < 500)
 			{
 				keysHeld[event.key.keysym.sym] = event.type == SDL_KEYDOWN;
 			}
@@ -47,6 +49,7 @@ class Input
 
 	public static bool isKeyPressed(int keyCode)
 	{
+//		writefln("kc: %d", keyCode);
 		return keysHeld[keyCode];
 	}
 
