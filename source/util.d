@@ -13,14 +13,17 @@ class Util
 {
 	public static float[] createBuffer(Vertex[] vertices)
 	{
-		long size = vertices.length * 3;
+		long size = vertices.length * Vertex.SIZE;
 
 		float floatVertices[] = new float[size];
 		for(int i = 0; i < vertices.length; i++)
 		{
-			floatVertices[i * 3] = vertices[i].getPos.getX();
+			floatVertices[i * 3	   ] = vertices[i].getPos().getX();
 			floatVertices[i * 3 + 1] = vertices[i].getPos().getY();
 			floatVertices[i * 3 + 2] = vertices[i].getPos().getZ();
+			
+			floatVertices[i * 3 + 3] = vertices[i].getTexCoord().getX();
+			floatVertices[i * 3 + 4] = vertices[i].getTexCoord().getY();
 		}
 
 		return floatVertices;

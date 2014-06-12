@@ -6,10 +6,15 @@ import std.string;
 import std.conv;
 
 //import gl3n.linalg;
+import derelict.opengl3.gl3;
+import derelict.freeimage.types;
+import derelict.freeimage.freeimage;
+import derelict.freeimage.functions;
 
 import vertex;
 import vector3f;
 import mesh;
+import texture;
 
 
 class ResourceLoader
@@ -29,7 +34,7 @@ class ResourceLoader
 		}
 		else 
 		{
-			writefln("could not find resource: %s", fileName);
+			writefln("could not find shader: %s", fileName);
 		}
 
 //		writeln("\n\nshaderSource:\n");
@@ -77,7 +82,7 @@ class ResourceLoader
 		}
 		else 
 		{
-			writeln("could not find resource file: " ~ fileName);
+			writeln("could not find mesh file: " ~ fileName);
 		}
 			
 		Mesh mesh = new Mesh();
@@ -85,6 +90,58 @@ class ResourceLoader
 		
 		return mesh;	
 	}
+	
+	public static Texture loadTexture(string fileName)
+	{
+
+		string texturePath = "./res/textures/" ~ fileName;
+		const char *pPath = texturePath.toStringz();
+		
+		
+		if(exists(texturePath) != 0)
+		{
+			FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pPath), pPath);
+			
+			GLuint textureId;
+			glGenTextures(1, &textureId);
+			
+			glBindTexture(GL_TEXTURE_2D, textureId);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+			
+			FIBITMAP *pImage = FreeImage_ConvertTo32Bits(bitmap);
+			int nWidth = FreeImage_GetWidth(pImage);
+			int nHeight = FreeImage_GetHeight(pImage);
+			
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, nWidth, nHeight,
+			    0, GL_BGRA, GL_UNSIGNED_BYTE, FreeImage_GetBits(pImage));
+			
+			FreeImage_Unload(pImage);
+			
+			return new Texture(textureId);
+		}
+		else
+		{
+			writeln("could not find texture: " ~ fileName);
+		}
+
+		return null;
+
+//		try
+//		{		
+//			int id = TextureLoader.getTexture(ext, new FileInputStream(new File("./res/textures/" + fileName))).getTextureID();
+//
+//			return new Texture(id);
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//			System.exit(1);
+//		}
+//
+//		return null;
+	}
+
 	
 	
 }

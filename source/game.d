@@ -13,10 +13,12 @@ import mesh;
 import shader;
 import vertex;
 import vector3f;
+import vector2f;
 import resourceLoader;
 import time;
 import transform;
 import camera;
+import texture;
 
 class Game
 {
@@ -24,28 +26,28 @@ class Game
 	private Shader shader;
 	private Transform transform;
 	private Camera camera;
+	private Texture texture;
 
 
 	this()
 	{
-		mesh = ResourceLoader.loadMesh("box.obj");//new Mesh();
+		mesh = new Mesh();//ResourceLoader.loadMesh("box.obj");//new Mesh();
 		shader = new Shader();
 		camera = new Camera();
+		texture = ResourceLoader.loadTexture("test.png");
 	
-//
-//		Vertex[] data = [new Vertex(new Vector3f(-1,-1,0)),
-//						 new Vertex(new Vector3f(0,1,0)),
-//						 new Vertex(new Vector3f(1,-1,0)),
-//						 new Vertex(new Vector3f(0,-1,1))];
-//	
-//		
-//		
-//		int[] indices = [0,1,3,
-//					     3,1,2,
-//					     2,1,0,
-//					     0,2,3];
-//		
-//		mesh.addVertices(data, indices);
+
+		Vertex[] data = [new Vertex(new Vector3f(-1,-1,0), new Vector2f(0,0)),
+						 new Vertex(new Vector3f(0,1,0), new Vector2f(0.5f,0)),
+						 new Vertex(new Vector3f(1,-1,0), new Vector2f(1.0f,0)),
+						 new Vertex(new Vector3f(0,-1,1), new Vector2f(0.5f,1.0f))];
+		
+		int[] indices = [3,1,0,
+					     2,1,3,
+					     0,1,2,
+					     0,2,3];
+		
+		mesh.addVertices(data, indices);
 		
 		Transform.setProjection(70f, Window.getWidth(), Window.getHeight(), 0.1f, 1000);
 		transform = new Transform();
@@ -90,8 +92,7 @@ class Game
 	{
 		shader.bind();
 		shader.setUniform("transform", transform.getProjectedTransformation());
-//		shader.setUniform("transform", transform.getTransformation());
-//		shader.setUniformf("uni", cast(float)sin(temp));
+		texture.bind();
 		mesh.draw();
 	}
 }

@@ -21,6 +21,7 @@ class RenderUtil
 		
 		//TODO: Depth clamp for later
 		
+		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_FRAMEBUFFER_SRGB);
 	}
 	

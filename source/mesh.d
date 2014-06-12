@@ -33,9 +33,11 @@ class Mesh
 	public void draw()
 	{
 		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glVertexAttribPointer(cast(uint)0, 3, GL_FLOAT, GL_FALSE, 0, null);		
+		glVertexAttribPointer(cast(uint)1, 2, GL_FLOAT, GL_FALSE, 12, null);
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glDrawElements(GL_TRIANGLES, cast(int)size, GL_UNSIGNED_INT, null);
@@ -44,6 +46,7 @@ class Mesh
 //		glDrawArrays(GL_TRIANGLES, 0, 3);
 		
 		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
 	}
 }
 

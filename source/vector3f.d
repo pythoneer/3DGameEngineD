@@ -67,7 +67,7 @@ class Vector3f
 		y = w.getY();
 		z = w.getZ();
 
-		return this;
+		return new Vector3f(x, y, z);
 	}
 	
 	public Vector3f add(Vector3f r)

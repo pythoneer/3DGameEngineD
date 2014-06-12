@@ -5,6 +5,7 @@ import std.string;
 
 import derelict.sdl2.sdl;
 import derelict.opengl3.gl3;
+import derelict.freeimage.freeimage;
 
 class Window
 {
@@ -71,6 +72,8 @@ class Window
 		DerelictGL3.reload();
 
 
+		//load freeimage
+		DerelictFI.load();
 	}
 	
 	public static void render()
