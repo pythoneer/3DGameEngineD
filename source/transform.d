@@ -111,4 +111,9 @@ public class Transform
 	{
 		Transform.camera = camera;
 	}
+	
+	public static Camera getCamera()
+	{
+		return Transform.camera;
+	}
 }

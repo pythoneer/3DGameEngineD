@@ -8,6 +8,7 @@ import resourceloader;
 import renderutil;
 import directionallight;
 import baselight;
+import transform;
 
 class PhongShader : Shader
 {
@@ -34,9 +35,14 @@ class PhongShader : Shader
 		addUniform("baseColor");
 		addUniform("ambientLight");
 		
+		addUniform("specularIntensity");
+ 		addUniform("specularPower");
+ 		addUniform("eyePos");
+		
 		addUniform("directionalLight.base.color");
  		addUniform("directionalLight.base.intensity");
  		addUniform("directionalLight.direction");
+ 		
 	}
 
 	override
@@ -52,6 +58,11 @@ class PhongShader : Shader
   		super.setUniform("baseColor", material.getColor());
   		super.setUniform("ambientLight", ambientLight);
  		setUniform("directionalLight", directionalLight);
+ 		
+ 		super.setUniformf("specularIntensity", material.getSpecularIntensity());
+ 		super.setUniformf("specularPower", material.getSpecularPower());
+ 		
+ 		super.setUniform("eyePos", Transform.getCamera().getPos());
 	}
 
 	public static Vector3f getAmbientLight()

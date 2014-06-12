@@ -1,24 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="source/app.d">
+  <MonoDevelop.Ide.Workbench ActiveDocument="source/input.d">
     <Files>
-      <File FileName="source/app.d" Line="24" Column="40" />
-      <File FileName="source/Game.d" Line="1" Column="1" />
-      <File FileName="source/Window.d" Line="1" Column="1" />
-      <File FileName="../../../../../.dub/packages/derelict-gl3-1.0.0/source/derelict/opengl3/gl3.d" Line="1" Column="1" />
-      <File FileName="source/Time.d" Line="1" Column="1" />
-      <File FileName="source/Input.d" Line="1" Column="1" />
-      <File FileName="source/Vector3f.d" Line="1" Column="1" />
-      <File FileName="source/Vertex.d" Line="1" Column="1" />
-      <File FileName="source/Mesh.d" Line="1" Column="1" />
-      <File FileName="source/Shader.d" Line="1" Column="1" />
-      <File FileName="source/ResourceLoader.d" Line="1" Column="1" />
-      <File FileName="source/RenderUtil.d" Line="1" Column="1" />
+      <File FileName="source/app.d" Line="71" Column="1" />
       <File FileName="dub.json" Line="1" Column="1" />
+      <File FileName="source/util.d" Line="1" Column="1" />
+      <File FileName="source/shader.d" Line="1" Column="1" />
+      <File FileName="source/game.d" Line="1" Column="1" />
+      <File FileName="source/input.d" Line="56" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/naikon/Documents/dev/git-repos/3DGameEngineD/source/util.d" line="37" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

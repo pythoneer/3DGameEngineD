@@ -18,16 +18,17 @@ class Util
 		float floatVertices[] = new float[size];
 		for(int i = 0; i < vertices.length; i++)
 		{
-			floatVertices[i * 3	   ] = vertices[i].getPos().getX();
-			floatVertices[i * 3 + 1] = vertices[i].getPos().getY();
-			floatVertices[i * 3 + 2] = vertices[i].getPos().getZ();
+			floatVertices[i * Vertex.SIZE	 ] = vertices[i].getPos().getX();
+			floatVertices[i * Vertex.SIZE + 1] = vertices[i].getPos().getY();
+			floatVertices[i * Vertex.SIZE + 2] = vertices[i].getPos().getZ();
 			
-			floatVertices[i * 3 + 3] = vertices[i].getTexCoord().getX();
-			floatVertices[i * 3 + 4] = vertices[i].getTexCoord().getY();
+			floatVertices[i * Vertex.SIZE + 3] = vertices[i].getTexCoord().getX();
+			floatVertices[i * Vertex.SIZE + 4] = vertices[i].getTexCoord().getY();
 			
-			floatVertices[i * 3 + 5] = vertices[i].getNormal().getX();
-			floatVertices[i * 3 + 6] = vertices[i].getNormal().getY();
-			floatVertices[i * 3 + 7] = vertices[i].getNormal().getZ();
+			floatVertices[i * Vertex.SIZE + 5] = vertices[i].getNormal().getX();
+			floatVertices[i * Vertex.SIZE + 6] = vertices[i].getNormal().getY();
+			floatVertices[i * Vertex.SIZE + 7] = vertices[i].getNormal().getZ();
+		
 		}
 
 		return floatVertices;

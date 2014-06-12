@@ -85,13 +85,13 @@ class Game
 		float sinTemp = cast(float)sin(temp);
 //		
 //		transform.setTranslation(0, 0, 5);
-//		transform.setRotation(sinTemp * 10, sinTemp * 180, sinTemp * 45);
+		transform.setRotation(sinTemp * 10, sinTemp * 180, sinTemp * 45);
 //		transform.setRotation(sinTemp * 10, sinTemp * 180, sinTemp * 45);
 //		transform.setScale(sinTemp, sinTemp, sinTemp);
 		
 		transform.setTranslation(sinTemp, 0, 5);
- 		transform.setTranslation(0, 0, 5);
-  		transform.setRotation(0, sinTemp * 180, 0);
+// 		transform.setTranslation(0, 0, 5);
+//  		transform.setRotation(0, sinTemp * 180, 0);
 			
 	}
 	

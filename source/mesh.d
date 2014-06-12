@@ -1,10 +1,13 @@
 ﻿module mesh;
 
+import std.stdio;
+
 import derelict.opengl3.gl3;
 
 import vertex;
 import util;
 import vector3f;
+import vector2f;
 
 class Mesh
 {
@@ -33,8 +36,13 @@ class Mesh
 
 		size = indices.length;
 
+		float[] vertexDataArray = Util.createBuffer(vertices);
+		
+		writeln(vertexDataArray);
+		writeln(vertexDataArray.length);
+
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, vertices.length * 3 * float.sizeof, Util.createBuffer(vertices).ptr, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vertexDataArray.length * float.sizeof, vertexDataArray.ptr, GL_STATIC_DRAW);
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.length * int.sizeof, indices.ptr, GL_STATIC_DRAW);
@@ -48,9 +56,27 @@ class Mesh
 		glEnableVertexAttribArray(2);	//norm
 		
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glVertexAttribPointer(cast(uint)0, 3, GL_FLOAT, GL_FALSE, 0, null);		//pos
-		glVertexAttribPointer(cast(uint)1, 2, GL_FLOAT, GL_FALSE, 12, null);	//tex
-		glVertexAttribPointer(cast(uint)2, 3, GL_FLOAT, GL_FALSE, 20, null);	//norm
+		
+		glVertexAttribPointer(cast(uint)0, 
+							  3, 
+							  GL_FLOAT, 
+							  GL_FALSE, 
+							  8 * float.sizeof, 
+							  cast(GLvoid*)0);	//pos
+							  
+		glVertexAttribPointer(cast(uint)1, 
+							  2, 
+							  GL_FLOAT, 
+							  GL_FALSE, 
+							  8 * float.sizeof, 
+							  cast(GLvoid*)(3 * float.sizeof));	//tex
+							  
+		glVertexAttribPointer(cast(uint)2, 
+							  3, 
+							  GL_FLOAT, 
+							  GL_FALSE, 
+							  8 * float.sizeof, 
+							  cast(GLvoid*)(3 * float.sizeof + 2 * float.sizeof));	//norm
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glDrawElements(GL_TRIANGLES, cast(int)size, GL_UNSIGNED_INT, null);
@@ -79,7 +105,9 @@ class Mesh
 		}
 
 		for(int i = 0; i < vertices.length; i++)
+		{
 			vertices[i].setNormal(vertices[i].getNormal().normalized());
+		}
 	}
 
 }
