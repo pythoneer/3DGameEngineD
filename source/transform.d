@@ -1,12 +1,16 @@
 module transform;
 
-import gl3n.linalg;
-import gl3n.math;
+//import gl3n.linalg;
+//import gl3n.math;
 
 import util;
+import vector3f;
+import matrix;
+//import camera;
 
 public class Transform
 {
+//	private static Camera camera;
 	
 	private static float zNear;
 	private static float zFar;
@@ -14,77 +18,84 @@ public class Transform
 	private static float height;
 	private static float fov;
 	
-	private vec3d translation;
-	private vec3d rotation;
-	private vec3d scale;
+	private Vector3f translation;
+	private Vector3f rotation;
+	private Vector3f scale;
 	
 	public this()
 	{
-		translation = vec3d(0f,0f,0f);
-		rotation = vec3d(0f,0f,0f);
-		scale = vec3d(1f,1f,1f);
+		translation = new Vector3f(0f,0f,0f);
+		rotation = new Vector3f(0f,0f,0f);
+		scale = new Vector3f(1f,1f,1f);
 	}
 	
-	public mat4 getTransformation()
+	public Matrix4f getTransformation()
 	{
-		mat4 translationMatrix =  mat4.translation(translation.x, translation.y, translation.z);
-		mat4 rotationMatrix =  mat4.translation(0f,0f,0f).rotatex(rotation.x).rotatey(rotation.y).rotatez(rotation.z);
-		mat4 scaleMatrix = mat4.scaling(scale.x, scale.y, scale.z);
-		
-		return translationMatrix * rotationMatrix * scaleMatrix;
+		Matrix4f translationMatrix = new Matrix4f().initTranslation(translation.getX(), translation.getY(), translation.getZ());
+		Matrix4f rotationMatrix = new Matrix4f().initRotation(rotation.getX(), rotation.getY(), rotation.getZ());
+		Matrix4f scaleMatrix = new Matrix4f().initScale(scale.getX(), scale.getY(), scale.getZ());
+
+		return translationMatrix.mul(rotationMatrix.mul(scaleMatrix));
 	}
 	
-	public vec3d getTranslation()
+	public Vector3f getTranslation()
 	{
 		return translation;
 	}
 
-	public void setTranslation(vec3d translation)
+	public void setTranslation(Vector3f translation)
 	{
 		this.translation = translation;
 	}
 	
 	public void setTranslation(float x, float y, float z)
 	{
-		this.translation =  vec3d(x, y, z);
+		this.translation = new Vector3f(x, y, z);
 	}
 
-	public vec3d getRotation()
+	public Vector3f getRotation()
 	{
 		return rotation;
 	}
 
-	public void setRotation(vec3d rotation)
+	public void setRotation(Vector3f rotation)
 	{
 		this.rotation = rotation;
 	}
 	
 	public void setRotation(float x, float y, float z)
 	{
-		this.rotation =  vec3d(radians(x) * 2, radians(y) * 2, radians(z) * 2);
+		this.rotation = new Vector3f(x, y, z);
 	}
 	
-	public vec3d getScale()
+	public Vector3f getScale()
 	{
 		return scale;
 	}
 
-	public void setScale(vec3d scale)
+	public void setScale(Vector3f scale)
 	{
 		this.scale = scale;
 	}
 	
 	public void setScale(float x, float y, float z)
 	{
-		this.scale = vec3d(x, y, z);
+		this.scale = new Vector3f(x, y, z);
 	}
 	
-	public mat4 getProjectedTransformation()
+	public Matrix4f getProjectedTransformation()
 	{
-		mat4 transformationMatrix = getTransformation();
-		mat4 projectionMatrix = Util.initProjection(fov, width, height, zNear, zFar);
+//		Matrix4f transformationMatrix = getTransformation();
+//		Matrix4f projectionMatrix = new Matrix4f().initProjection(fov, width, height, zNear, zFar);
+//		Matrix4f cameraRotation = new Matrix4f().initCamera(camera.getForward(), camera.getUp());
+//		Matrix4f cameraTranslation = new Matrix4f().initTranslation(-camera.getPos().getX(), -camera.getPos().getY(), -camera.getPos().getZ());
+//
+//		return projectionMatrix.mul(cameraRotation.mul(cameraTranslation.mul(transformationMatrix)));
+	
+		Matrix4f transformationMatrix = getTransformation();
+		Matrix4f projectionMatrix = new Matrix4f().initProjection(fov, width, height, zNear, zFar);
 
-		return projectionMatrix * transformationMatrix;
+		return projectionMatrix.mul(transformationMatrix);
 	}
 	
 	public static void setProjection(float fov, float width, float height, float zNear, float zFar)
@@ -95,4 +106,9 @@ public class Transform
 		Transform.zNear = zNear;
 		Transform.zFar = zFar;
 	}
+	
+//	public static void setCamera(Camera camera)
+//	{
+//		Transform.camera = camera;
+//	}
 }

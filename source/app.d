@@ -14,7 +14,7 @@ class MainComponent
 	public static const int WIDTH = 800;
 	public static const int HEIGHT = 600;
 	public static const string TITLE = "3D Engine";
-	public static const double FRAME_CAP = 5000.0;
+	public static const double FRAME_CAP = 5000.0f;
 
 	private bool m_isRunning; 
 	private Game m_game;
@@ -51,7 +51,7 @@ class MainComponent
 		int frames = 0;
 		long frameCounter = 0;
 		
-		const double frameTime = 1.0 / FRAME_CAP;
+		const double frameTime = 1.0f / FRAME_CAP;
 		
 		long lastTime = Time.getTime();
 		double unprocessedTime = 0;
@@ -84,8 +84,9 @@ class MainComponent
 				m_game.update();
 
 				if(frameCounter >= Time.SECOND)
-				{
-					writeln(frames);
+				{				
+					writefln("FPS: %d",frames);
+					write("\33[1A\33[2K");
 					frames = 0;
 					frameCounter = 0;
 				}

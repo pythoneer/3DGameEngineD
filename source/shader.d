@@ -5,9 +5,11 @@ import core.runtime;
 import std.string;
 
 import derelict.opengl3.gl3;
-import gl3n.linalg;
+//import gl3n.linalg;
 
-//import vector3f;
+import vector3f;
+import matrix;
+import util;
 
 class Shader
 {
@@ -126,14 +128,14 @@ class Shader
 		glUniform1f(uniforms[uniformName], value);
 	}
 	
-	public void setUniform(string uniformName, vec3d value)
+	public void setUniform(string uniformName, Vector3f value)
 	{
-		glUniform3f(uniforms[uniformName], value.x, value.y, value.z);
+		glUniform3f(uniforms[uniformName], value.getX(), value.getY(), value.getZ());
 	}
 	
-	public void setUniform(string uniformName, mat4 value)
+	public void setUniform(string uniformName, Matrix4f value)
 	{
-		glUniformMatrix4fv(uniforms[uniformName], 1, GL_TRUE, value.value_ptr);
+		glUniformMatrix4fv(uniforms[uniformName], 1, GL_TRUE, Util.createBuffer(value).ptr);
 	}
 	
 }

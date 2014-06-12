@@ -4,15 +4,15 @@ import std.stdio;
 import std.math;
 
 import derelict.sdl2.sdl;
-import gl3n.linalg;
-import gl3n.math;
+//import gl3n.linalg;
+//import gl3n.math;
 
 import window;
 import input;
 import mesh;
 import shader;
 import vertex;
-//import vector3f;
+import vector3f;
 import resourceLoader;
 import time;
 import transform;
@@ -29,11 +29,11 @@ class Game
 		mesh = ResourceLoader.loadMesh("box.obj");//new Mesh();
 		shader = new Shader();
 	
-
-//		Vertex[] data = [new Vertex(vec3d(-1,-1,0)),
-//						 new Vertex(vec3d(0,1,0)),
-//						 new Vertex(vec3d(1,-1,0)),
-//						 new Vertex(vec3d(0,-1,1))];
+//
+//		Vertex[] data = [new Vertex(new Vector3f(-1,-1,0)),
+//						 new Vertex(new Vector3f(0,1,0)),
+//						 new Vertex(new Vector3f(1,-1,0)),
+//						 new Vertex(new Vector3f(0,-1,1))];
 //	
 //		
 //		
@@ -53,6 +53,7 @@ class Game
 		shader.compileShader();
 		
 		shader.addUniform("transform");
+//		shader.addUniform("uni");
 
 	}
 
@@ -72,16 +73,18 @@ class Game
 		temp += Time.getDelta();
 		
 		float sinTemp = cast(float)sin(temp);
-		
+//		
 		transform.setTranslation(sinTemp * 2, 0, 5);
 		transform.setRotation(sinTemp * 10, sinTemp * 180, sinTemp * 45);
-//		transform.setScale(clamp(sinTemp, 0.5, 0.85), clamp(sinTemp, 0.5, 0.85), clamp(sinTemp, 0.5, 0.85));
+//		transform.setScale(sinTemp, sinTemp, sinTemp);
 	}
 	
 	public void render()
 	{
 		shader.bind();
 		shader.setUniform("transform", transform.getProjectedTransformation());
+//		shader.setUniform("transform", transform.getTransformation());
+//		shader.setUniformf("uni", cast(float)sin(temp));
 		mesh.draw();
 	}
 }

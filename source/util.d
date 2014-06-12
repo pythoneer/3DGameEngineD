@@ -3,10 +3,11 @@
 import std.stdio;
 import std.math;
 
-import gl3n.linalg;
-import gl3n.math;
+//import gl3n.linalg;
+//import gl3n.math;
 
 import vertex;
+import matrix;
 
 class Util
 {
@@ -17,28 +18,57 @@ class Util
 		float floatVertices[] = new float[size];
 		for(int i = 0; i < vertices.length; i++)
 		{
-			floatVertices[i * 3] = vertices[i].getPos.x;
-			floatVertices[i * 3 + 1] = vertices[i].getPos().y;
-			floatVertices[i * 3 + 2] = vertices[i].getPos().z;
+			floatVertices[i * 3] = vertices[i].getPos.getX();
+			floatVertices[i * 3 + 1] = vertices[i].getPos().getY();
+			floatVertices[i * 3 + 2] = vertices[i].getPos().getZ();
 		}
 
 		return floatVertices;
 	}
 	
-	public static mat4 initProjection(float fov, float width, float height, float zNear, float zFar)
+	public static float[] createBuffer(Matrix4f matrix)
 	{
-		mat4 m;
+
+
+		float floatValues[];
 		
-		float ar = width/height;
-		float tanHalfFOV = cast(float)tan(radians(fov / 2));
-		float zRange = zNear - zFar;
-
-		m[0][0] = 1.0f / (tanHalfFOV * ar);	m[0][1] = 0;					m[0][2] = 0;	m[0][3] = 0;
-		m[1][0] = 0;						m[1][1] = 1.0f / tanHalfFOV;	m[1][2] = 0;	m[1][3] = 0;
-		m[2][0] = 0;						m[2][1] = 0;					m[2][2] = (-zNear -zFar)/zRange;	m[2][3] = 2 * zFar * zNear / zRange;
-		m[3][0] = 0;						m[3][1] = 0;					m[3][2] = 1;	m[3][3] = 0;
-
-		return m;
+		for(int i = 0; i < 4; i++)
+		{
+			for(int j = 0; j < 4; j++)
+			{
+				floatValues ~= matrix.get(i, j);
+			}
+		}
+		
+		return floatValues;
 	}
+		
+	public static float toRadians(float angle)
+	{
+		return ( PI / 180) * angle;
+	}
+	
+//	public static vec3d rotate(vec3d vector, float angle, vec3d axis)
+//	{
+//		float sinHalfAngle = cast(float)sin(radians(angle / 2));
+//		float cosHalfAngle = cast(float)cos(radians(angle / 2));
+//
+//		float rX = axis.x * sinHalfAngle;
+//		float rY = axis.y * sinHalfAngle;
+//		float rZ = axis.z * sinHalfAngle;
+//		float rW = cosHalfAngle;
+//
+//		quat rotation = quat(rW, rX, rY, rZ);
+//		quat conjugate = rotation.conjugated();
+//
+//		//Quaternion w = rotation.mul(this).mul(conjugate);
+//		quat w = rotation * vector * conjugate;
+//
+////		x = w.getX();
+////		y = w.getY();
+////		z = w.getZ();
+//
+//		return vec3d(w.x, w.y, w.z);
+//	}
 }
 

@@ -47,12 +47,12 @@ class Window
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 		
 		m_window = SDL_CreateWindow(
-			title.toStringz(),                  // window title
-			SDL_WINDOWPOS_UNDEFINED,           // initial x position
-			SDL_WINDOWPOS_UNDEFINED,           // initial y position
-			width,                               // width, in pixels
-			height,                               // height, in pixels
-			SDL_WINDOW_SHOWN|SDL_WINDOW_OPENGL                  // flags - see below  // SDL_WINDOW_OPENGL
+			title.toStringz(),                  	// window title
+			SDL_WINDOWPOS_UNDEFINED,           		// initial x position
+			SDL_WINDOWPOS_UNDEFINED,           		// initial y position
+			width,                               	// width, in pixels
+			height,                               	// height, in pixels
+			SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL    // flags - see below  // SDL_WINDOW_OPENGL
 			);
 					
 		if (m_window == null) {

@@ -3,9 +3,6 @@
 import std.math : sqrt;
 
 
-// UNUSED CLASS ... USING gl3n http://code.dlang.org/packages/gl3n 
-
-
 class Vector3f
 {
 	private float x;
@@ -49,8 +46,27 @@ class Vector3f
 		return this;
 	}
 	
-	public Vector3f rotate()
+	public Vector3f rotate(float angle, Vector3f axis)
 	{
+//		float sinHalfAngle = const(float)sin(Math.toRadians(angle / 2));
+//		float cosHalfAngle = const(float)cos(Math.toRadians(angle / 2));
+//
+//		float rX = axis.getX() * sinHalfAngle;
+//		float rY = axis.getY() * sinHalfAngle;
+//		float rZ = axis.getZ() * sinHalfAngle;
+//		float rW = cosHalfAngle;
+//
+//		Quaternion rotation = new Quaternion(rX, rY, rZ, rW);
+//		Quaternion conjugate = rotation.conjugate();
+//
+//		Quaternion w = rotation.mul(this).mul(conjugate);
+//
+//		x = w.getX();
+//		y = w.getY();
+//		z = w.getZ();
+//
+//		return this;
+	
 		return null;
 	}
 	
