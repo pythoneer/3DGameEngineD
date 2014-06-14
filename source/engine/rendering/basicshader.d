@@ -3,7 +3,7 @@ module engine.rendering.basicshader;
 import engine.rendering.shader;
 import engine.core.matrix;
 import engine.rendering.material;
-import engine.rendering.renderutil;
+//import engine.rendering.renderutil;
 
 public class BasicShader : Shader
 {
@@ -21,14 +21,7 @@ public class BasicShader : Shader
 	override 
 	public void updateUniforms(Matrix4f worldMatrix, Matrix4f projectedMatrix, Material material)
 	{
-		if(material.getTexture() !is null)
-		{
-			material.getTexture().bind();
-		}			
-		else
-		{
-			RenderUtil.unbindTextures();
-		}
+		material.getTexture().bind();
 			
 		setUniform("transform", projectedMatrix);
 		setUniform("color", material.getColor());

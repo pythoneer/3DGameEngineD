@@ -2,6 +2,7 @@ module engine.core.gameobject;
 
 import engine.core.gamecomponent;
 import engine.core.transform;
+import engine.rendering.shader;
 
 class GameObject
 {
@@ -51,16 +52,16 @@ class GameObject
 		}			
 	}
 
-	public void render()
+	public void render(Shader shader)
 	{
 		foreach(component; components)
 		{
-			component.render(transform);
+			component.render(transform, shader);
 		}
 
 		foreach(child; children)
 		{
-			child.render();
+			child.render(shader);
 		}
 	}
 

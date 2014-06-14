@@ -7,7 +7,7 @@ import engine.core.vector3f;
 import engine.core.matrix;
 import engine.core.transform;
 import engine.rendering.material;
-import engine.rendering.renderutil;
+//import engine.rendering.renderutil;
 import engine.rendering.directionallight;
 import engine.rendering.baselight;
 import engine.rendering.shader;
@@ -74,11 +74,8 @@ class PhongShader : Shader
 	override
 	public void updateUniforms(Matrix4f worldMatrix, Matrix4f projectedMatrix, Material material)
 	{
-		if(material.getTexture() !is null)
-			material.getTexture().bind();
-		else
-			RenderUtil.unbindTextures();
-
+		material.getTexture().bind();
+		
 		super.setUniform("transformProjected", projectedMatrix);
  		super.setUniform("transform", worldMatrix);
   		super.setUniform("baseColor", material.getColor());

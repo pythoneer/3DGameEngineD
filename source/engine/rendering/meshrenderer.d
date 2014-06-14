@@ -12,13 +12,13 @@ class MeshRenderer : GameComponent
 {
 	private Mesh mesh;
 	private Material material;
-	private Shader shader;
+//	private Shader shader;
 
 	public this(Mesh mesh, Material material)
 	{
 		this.mesh = mesh;
 		this.material = material;
-		this.shader = new BasicShader();
+//		this.shader = new BasicShader();
 	}
 
 	override
@@ -28,7 +28,7 @@ class MeshRenderer : GameComponent
 	public void update(Transform transform) {}
 
 	override
-	public void render(Transform transform)
+	public void render(Transform transform, Shader shader)
 	{
 		shader.bind();
 		shader.updateUniforms(transform.getTransformation(), transform.getProjectedTransformation(), material);

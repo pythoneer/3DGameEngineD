@@ -8,7 +8,7 @@ import derelict.opengl3.gl;
 import engine.core.game;
 import engine.core.time;
 import engine.core.input;
-import engine.rendering.renderutil;
+import engine.rendering.renderingengine;
 import engine.rendering.window;
 
 class CoreEngine
@@ -18,6 +18,7 @@ class CoreEngine
 	public static const string TITLE = "3D Engine";
 	public static const double FRAME_CAP = 5000.0f;
 
+	private RenderingEngine renderingEngine;
 	private bool m_isRunning; 
 	private Game m_game;
 	private int m_width;
@@ -43,16 +44,16 @@ class CoreEngine
 		m_frameTime = 1.0/framerate;
 	}
 	
-	private void initializeRenderingSystem()
-	{
-		writeln(RenderUtil.getOpenGLVersion());
-		RenderUtil.initGraphics();
-	}
+//	private void initializeRenderingSystem()
+//	{
+//		writeln(RenderUtil.getOpenGLVersion());
+//		RenderUtil.initGraphics();
+//	}
 
 	public void createWindow(string title)
 	{
 		Window.createWindow(m_width, m_height, title);
-		initializeRenderingSystem();
+		this.renderingEngine = new RenderingEngine();
 	}
 
 	public void start()
@@ -121,7 +122,8 @@ class CoreEngine
 			}
 			if(shouldRender)
 			{
-				render();
+				renderingEngine.render(m_game.getRootObject());
+ 				Window.render();
 				frames++;
 			}
 			else
@@ -134,12 +136,12 @@ class CoreEngine
 	}//run
 
 
-	private void render()
-	{
-		RenderUtil.clearScreen();
-		m_game.render();
-		Window.render();
-	}
+//	private void render()
+//	{
+//		RenderUtil.clearScreen();
+//		m_game.render();
+//		Window.render();
+//	}
 	
 	private void cleanUp()
 	{
