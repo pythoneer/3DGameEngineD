@@ -38,9 +38,6 @@ class Mesh
 
 		float[] vertexDataArray = Util.createBuffer(vertices);
 		
-		writeln(vertexDataArray);
-		writeln(vertexDataArray.length);
-
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, vertexDataArray.length * float.sizeof, vertexDataArray.ptr, GL_STATIC_DRAW);
 		

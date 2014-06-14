@@ -14,17 +14,17 @@ class RenderUtil
 	
 	public static void initGraphics()
 	{
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
 		
 		glFrontFace(GL_CW);
 		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 		
-		//TODO: Depth clamp for later
+//		glEnable(GL_DEPTH_CLAMP);
 		
 		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_FRAMEBUFFER_SRGB);
+//		glEnable(GL_FRAMEBUFFER_SRGB);
 	}
 	
 	public static const (char*) getOpenGLVersion()
