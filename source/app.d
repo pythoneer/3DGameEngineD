@@ -3,130 +3,17 @@ import std.string;
 
 import derelict.opengl3.gl;
 
-import game;
-import engine.core.time;
-import engine.core.input;
-import engine.rendering.renderutil;
-import engine.rendering.window;
- 
-class MainComponent
-{
-	public static const int WIDTH = 800;
-	public static const int HEIGHT = 600;
-	public static const string TITLE = "3D Engine";
-	public static const double FRAME_CAP = 5000.0f;
+import engine.core.coreengine;
 
-	private bool m_isRunning; 
-	private Game m_game;
+import testgame; 
 
-	public this() 
-	{
-		printf("opengl version: '%s'\n", RenderUtil.getOpenGLVersion());
-		RenderUtil.initGraphics();
-
-		m_isRunning = false;
-		m_game = new Game();
-	}
-
-	public void start()
-	{
-		if(m_isRunning)
-			return;
-		
-		run();
-	}
-	
-	public void stop()
-	{
-		if(!m_isRunning)
-			return;
-		
-		m_isRunning = false;
-	}
-
-	private void run()
-	{
-		m_isRunning = true;
-
-		int frames = 0;
-		long frameCounter = 0;
-		
-		const double frameTime = 1.0f / FRAME_CAP;
-		
-		long lastTime = Time.getTime();
-		double unprocessedTime = 0;
-		
-		while(m_isRunning)
-		{
-			bool shouldRender = false;
-			
-			long startTime = Time.getTime();
-			long passedTime = startTime - lastTime;
-			lastTime = startTime;
-			
-			unprocessedTime += cast(double)passedTime / cast(double)Time.SECOND;
-			frameCounter += passedTime;
-
-
-			while(unprocessedTime > frameTime)
-			{
-				shouldRender = true;
-				
-				unprocessedTime -= frameTime;
-				
-				if(Window.isCloseRequested())
-					stop();
-				
-				Time.setDelta(frameTime);
-				Input.update();
-				
-				m_game.input();
-				m_game.update();
-
-				if(frameCounter >= Time.SECOND)
-				{				
-					writefln("FPS: %d",frames);
-					write("\33[1A\33[2K");
-					frames = 0;
-					frameCounter = 0;
-				}
-			}
-			if(shouldRender)
-			{
-				render();
-				frames++;
-			}
-			else
-			{
-				Window.delay();
-			}
-		}
-		
-		cleanUp();
-	}//run
-
-
-	private void render()
-	{
-		RenderUtil.clearScreen();
-		m_game.render();
-		Window.render();
-	}
-	
-	private void cleanUp()
-	{
-		Window.dispose();
-	}
-
-}//MainComponent
 
 
 int main()
 {
-	Window.createWindow(MainComponent.WIDTH, MainComponent.HEIGHT, MainComponent.TITLE);
-
-	MainComponent game = new MainComponent();
-	game.start();
-
+	CoreEngine engine = new CoreEngine(800, 600, 60, new TestGame());
+	engine.createWindow("3D Game Engine");
+	engine.start();
+	
 	return 0;
 }

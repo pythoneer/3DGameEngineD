@@ -1,11 +1,8 @@
-﻿module game;
+module testgame;
 
-import std.stdio;
 import std.math;
 
-import derelict.sdl2.sdl;
-
-
+import engine.core.game;
 import engine.core.input;
 import engine.core.vector3f;
 import engine.core.vector2f;
@@ -26,7 +23,8 @@ import engine.rendering.attenuation;
 import engine.rendering.spotlight;
 import engine.rendering.texture;
 
-class Game
+
+class TestGame : Game
 {
 	private Mesh mesh;
 	private Shader shader;
@@ -42,7 +40,11 @@ class Game
 
 	this()
 	{
-//		mesh = new Mesh("box.obj");//ResourceLoader.loadMesh("box.obj");//new Mesh();
+	}
+	
+	public void init()
+	{
+		//		mesh = new Mesh("box.obj");//ResourceLoader.loadMesh("box.obj");//new Mesh();
 		camera = new Camera();
 //		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,1,1));
 //		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,1,1), 1, 8);
@@ -87,7 +89,6 @@ class Game
 		
 		SpotLight[] sLights = [sLight1];
 		(cast(PhongShader)shader).setSpotLights(sLights);
-		
 	}
 
 	public void input()
@@ -135,4 +136,3 @@ class Game
 		mesh.draw();
 	}
 }
-
