@@ -1,8 +1,8 @@
-module quaternion;
+module engine.core.quaternion;
 
 import std.math;
 
-import vector3f;
+import engine.core.vector3f;
 
 class Quaternion
 {

@@ -2,7 +2,7 @@
 
 import derelict.opengl3.gl3;
 
-import vector3f;
+import engine.core.vector3f;
 
 class RenderUtil
 {

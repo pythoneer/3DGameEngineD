@@ -4,14 +4,14 @@ import std.stdio;
 import std.string;
 
 import shader;
-import vector3f;
-import matrix;
+import engine.core.vector3f;
+import engine.core.matrix;
 import material;
-import resourceloader;
+//import resourceloader;
 import renderutil;
 import directionallight;
 import baselight;
-import transform;
+import engine.core.transform;
 import pointlight;
 import spotlight;	
 

@@ -1,9 +1,9 @@
 module basicshader;
 
 import shader;
-import matrix;
+import engine.core.matrix;
 import material;
-import resourceloader;
+//import resourceloader;
 import renderutil;
 
 public class BasicShader : Shader

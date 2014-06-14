@@ -1,10 +1,9 @@
-module matrix;
+module engine.core.matrix;
 
 import std.math;
 
-import util;
-
-import vector3f;
+import engine.core.util;
+import engine.core.vector3f;
 
 class Matrix4f
 {

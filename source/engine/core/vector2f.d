@@ -1,10 +1,10 @@
-module vector2f;
+module engine.core.vector2f;
 
 import std.math;
 import std.conv;
 import std.string;
 
-import util;
+import engine.core.util;
 
 class Vector2f 
 {

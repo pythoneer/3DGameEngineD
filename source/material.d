@@ -1,6 +1,6 @@
 module material;
 
-import vector3f;
+import engine.core.vector3f;
 import texture;
 
 class Material

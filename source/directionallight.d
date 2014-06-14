@@ -1,6 +1,6 @@
 module directionallight;
 
-import vector3f;
+import engine.core.vector3f;
 import baselight;
 
 class DirectionalLight

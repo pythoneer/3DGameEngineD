@@ -5,9 +5,9 @@ import std.stdio;
 //import gl3n.linalg;
 import derelict.sdl2.sdl;
 
-import time;
-import vector3f;
-import input;
+import engine.core.time;
+import engine.core.vector3f;
+import engine.core.input;
 
 class Camera
 {

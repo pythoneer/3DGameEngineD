@@ -1,4 +1,4 @@
-﻿module input;
+﻿module engine.core.input;
 
 import std.stdio;
 

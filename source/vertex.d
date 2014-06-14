@@ -2,8 +2,8 @@
 
 //import gl3n.linalg;
 
-import vector3f;
-import vector2f;
+import engine.core.vector3f;
+import engine.core.vector2f;
 
 class Vertex
 {

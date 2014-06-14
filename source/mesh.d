@@ -8,9 +8,9 @@ import std.conv;
 import derelict.opengl3.gl3;
 
 import vertex;
-import util;
-import vector3f;
-import vector2f;
+import engine.core.util;
+import engine.core.vector3f;
+import engine.core.vector2f;
 
 class Mesh
 {

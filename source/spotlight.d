@@ -1,7 +1,7 @@
 module spotlight;
 
 import pointlight;
-import vector3f;
+import engine.core.vector3f;
 
 public class SpotLight
 {

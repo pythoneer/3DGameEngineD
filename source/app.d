@@ -5,8 +5,8 @@ import derelict.opengl3.gl;
 
 import game;
 import window;
-import time;
-import input;
+import engine.core.time;
+import engine.core.input;
 import renderutil;
  
 class MainComponent

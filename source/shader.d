@@ -8,9 +8,9 @@ import std.string;
 import derelict.opengl3.gl3;
 //import gl3n.linalg;
 
-import vector3f;
-import matrix;
-import util;
+import engine.core.vector3f;
+import engine.core.matrix;
+import engine.core.util;
 import material;
 
 class Shader

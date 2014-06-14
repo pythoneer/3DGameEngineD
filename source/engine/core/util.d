@@ -1,4 +1,4 @@
-﻿module util;
+﻿module engine.core.util;
 
 import std.stdio;
 import std.math;
@@ -7,7 +7,7 @@ import std.math;
 //import gl3n.math;
 
 import vertex;
-import matrix;
+import engine.core.matrix;
 
 class Util
 {

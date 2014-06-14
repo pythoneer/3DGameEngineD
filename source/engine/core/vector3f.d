@@ -1,9 +1,9 @@
-﻿module vector3f;
+﻿module engine.core.vector3f;
 
 import std.math;
 
-import util;
-import quaternion;
+import engine.core.util;
+import engine.core.quaternion;
 
 class Vector3f
 {

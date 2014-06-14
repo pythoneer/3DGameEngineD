@@ -2,7 +2,7 @@ module pointlight;
 
 import baselight;
 import attenuation;
-import vector3f;
+import engine.core.vector3f;
 
 public class PointLight
 {

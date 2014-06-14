@@ -1,4 +1,4 @@
-﻿module time;
+﻿module engine.core.time;
 
 import std.datetime;
 
