@@ -9,12 +9,14 @@ public class PointLight
 	private BaseLight baseLight;
 	private Attenuation atten;
 	private Vector3f position;
+	private float range;
 
-	public this(BaseLight baseLight, Attenuation atten, Vector3f position)
+	public this(BaseLight baseLight, Attenuation atten, Vector3f position, float range)
 	{
 		this.baseLight = baseLight;
 		this.atten = atten;
 		this.position = position;
+		this.range = range;
 	}
 
 	public BaseLight getBaseLight()
@@ -41,4 +43,13 @@ public class PointLight
 	{
 		this.position = position;
 	}
+	public float getRange()
+ 	{
+ 		return range;
+ 	}
+ 
+ 	public void setRange(float range)
+ 	{
+ 		this.range = range;
+ 	}
 }

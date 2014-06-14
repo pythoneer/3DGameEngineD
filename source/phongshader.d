@@ -13,11 +13,14 @@ import directionallight;
 import baselight;
 import transform;
 import pointlight;
+import spotlight;	
 
 class PhongShader : Shader
 {
 	private static const int MAX_POINT_LIGHTS = 4;
+	private static final int MAX_SPOT_LIGHTS = 4;
 	private PointLight[] pointLights;
+	private SpotLight[] spotLights;
 	
 //	private static final PhongShader instance = new PhongShader();
 //
@@ -58,7 +61,21 @@ class PhongShader : Shader
  			addUniform(format("pointLights[%d].atten.linear", i));
  			addUniform(format("pointLights[%d].atten.exponent", i));
  			addUniform(format("pointLights[%d].position", i));
+ 			addUniform(format("pointLights[%d].range",i));
  		}
+ 		
+ 		for(int i = 0; i < MAX_SPOT_LIGHTS; i++)
+ 		{
+ 			addUniform(format("spotLights[%d].pointLight.base.color", i));
+ 			addUniform(format("spotLights[%d].pointLight.base.intensity", i));
+ 			addUniform(format("spotLights[%d].pointLight.atten.constant", i));
+ 			addUniform(format("spotLights[%d].pointLight.atten.linear", i));
+ 			addUniform(format("spotLights[%d].pointLight.atten.exponent", i));
+ 			addUniform(format("spotLights[%d].pointLight.position", i));
+ 			addUniform(format("spotLights[%d].pointLight.range", i));
+ 			addUniform(format("spotLights[%d].direction", i));
+ 			addUniform(format("spotLights[%d].cutoff", i));
+  		}
  		
 	}
 
@@ -85,6 +102,11 @@ class PhongShader : Shader
  		{
  			setUniform(format("pointLights[%d]",i), pointLights[i]);
  		}
+ 		
+ 		for(int i = 0; i < spotLights.length; i++)
+ 		{
+ 			setUniform(format("spotLights[%d]",i), spotLights[i]);
+ 		}		
  			
 	}
 
@@ -108,13 +130,23 @@ class PhongShader : Shader
  		if(pointLights.length > MAX_POINT_LIGHTS)
  		{
  			writefln("Error: You passed in too many point lights. Max allowed is %d , you passed in %d" ,MAX_POINT_LIGHTS, pointLights.length  );
-// 			new Exception().printStackTrace();
-// 			System.exit(1);
  			
  			return;
  		}
  		
  		PhongShader.pointLights = pointLights;
+ 	}
+ 	
+ 	public void setSpotLights(SpotLight[] spotLights)
+ 	{
+ 		if(spotLights.length > MAX_SPOT_LIGHTS)
+ 		{
+ 			writefln("Error: You passed in too many spot lights. Max allowed is %d, you passed in %d" , MAX_SPOT_LIGHTS, spotLights.length);
+
+ 			return;
+ 		}
+ 		
+ 		PhongShader.spotLights = spotLights;
  	}
 
 	public void setUniform(string uniformName, BaseLight baseLight)
@@ -136,5 +168,13 @@ class PhongShader : Shader
  		setUniformf(uniformName ~ ".atten.linear", pointLight.getAtten().getLinear());
  		setUniformf(uniformName ~ ".atten.exponent", pointLight.getAtten().getExponent());
  		super.setUniform(uniformName ~ ".position", pointLight.getPosition());
+ 		setUniformf(uniformName ~ ".range", pointLight.getRange());
+ 	}
+ 	
+ 	public void setUniform(string uniformName, SpotLight spotLight)
+ 	{
+ 		setUniform(uniformName ~ ".pointLight", spotLight.getPointLight());
+ 		super.setUniform(uniformName ~ ".direction", spotLight.getDirection());
+ 		setUniformf(uniformName ~ ".cutoff", spotLight.getCutoff());
  	}
 }
