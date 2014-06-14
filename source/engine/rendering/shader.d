@@ -10,12 +10,15 @@ import derelict.opengl3.gl3;
 import engine.core.vector3f;
 import engine.core.matrix;
 import engine.core.util;
+import engine.core.transform;
 import engine.rendering.material;
+import engine.rendering.renderingengine;
 
 class Shader
 {
 	private int program;
 	private int[string] uniforms;
+	private RenderingEngine renderingEngine;
 	
 	public this()
 	{
@@ -178,10 +181,20 @@ class Shader
 		glUniformMatrix4fv(uniforms[uniformName], 1, GL_TRUE, Util.createBuffer(value).ptr);
 	}
 	
-	public void updateUniforms(Matrix4f worldMatrix, Matrix4f projectedMatrix, Material material)
+	public void updateUniforms(Transform transform, Material material)
 	{
 
 	}
+	
+	public void setRenderingEngine(RenderingEngine renderingEngine)
+ 	{
+ 		this.renderingEngine = renderingEngine;
+ 	}
+ 
+ 	public RenderingEngine getRenderingEngine()
+ 	{
+ 		return renderingEngine;
+ 	}
 	
 }
 

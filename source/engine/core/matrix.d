@@ -74,10 +74,10 @@ class Matrix4f
 		return this;
 	}
 
-	public Matrix4f initProjection(float fov, float width, float height, float zNear, float zFar)
+	public Matrix4f initPerspective(float fov, float aspectRatio, float zNear, float zFar)
 	{
-		float ar = width/height;
-		float tanHalfFOV = cast(float)tan(Util.toRadians(fov / 2));
+		float ar = aspectRatio;
+		float tanHalfFOV = cast(float)tan(fov / 2);
 		float zRange = zNear - zFar;
 
 		m[0][0] = 1.0f / (tanHalfFOV * ar);	m[0][1] = 0;					m[0][2] = 0;	m[0][3] = 0;
@@ -88,7 +88,7 @@ class Matrix4f
 		return this;
 	}
 
-	public Matrix4f initCamera(Vector3f forward, Vector3f up)
+	public Matrix4f initRotation(Vector3f forward, Vector3f up)
 	{
 		Vector3f f = forward.normalized();
 

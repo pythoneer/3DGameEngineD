@@ -1,9 +1,9 @@
 module engine.rendering.basicshader;
 
-import engine.rendering.shader;
 import engine.core.matrix;
+import engine.core.transform;
+import engine.rendering.shader;
 import engine.rendering.material;
-//import engine.rendering.renderutil;
 
 public class BasicShader : Shader
 {
@@ -19,8 +19,10 @@ public class BasicShader : Shader
 	}
 	
 	override 
-	public void updateUniforms(Matrix4f worldMatrix, Matrix4f projectedMatrix, Material material)
+	public void updateUniforms(Transform transform, Material material)
 	{
+		Matrix4f worldMatrix = transform.getTransformation();
+ 		Matrix4f projectedMatrix = getRenderingEngine().getMainCamera().getViewProjection().mul(worldMatrix);
 		material.getTexture().bind();
 			
 		setUniform("transform", projectedMatrix);

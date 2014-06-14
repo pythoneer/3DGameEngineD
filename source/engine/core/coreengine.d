@@ -108,7 +108,7 @@ class CoreEngine
 				
 				Time.setDelta(m_frameTime);
 				Input.update();
-				
+				renderingEngine.input();
 				m_game.input();
 				m_game.update();
 
