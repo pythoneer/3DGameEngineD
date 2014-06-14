@@ -3,10 +3,7 @@
 import std.stdio;
 import std.math;
 
-//import gl3n.linalg;
-//import gl3n.math;
-
-import vertex;
+import engine.rendering.vertex;
 import engine.core.matrix;
 
 class Util

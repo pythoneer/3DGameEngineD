@@ -1,4 +1,4 @@
-module baselight;
+module engine.rendering.baselight;
 
 import engine.core.vector3f;
 

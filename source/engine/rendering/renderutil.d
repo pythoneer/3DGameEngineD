@@ -1,4 +1,4 @@
-﻿module renderutil;
+﻿module engine.rendering.renderutil;
 
 import derelict.opengl3.gl3;
 

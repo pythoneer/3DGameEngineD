@@ -1,7 +1,7 @@
-module pointlight;
+module engine.rendering.pointlight;
 
-import baselight;
-import attenuation;
+import engine.rendering.baselight;
+import engine.rendering.attenuation;
 import engine.core.vector3f;
 
 public class PointLight

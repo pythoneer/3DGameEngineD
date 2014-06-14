@@ -4,29 +4,27 @@ import std.stdio;
 import std.math;
 
 import derelict.sdl2.sdl;
-//import gl3n.linalg;
-//import gl3n.math;
 
-import window;
+
 import engine.core.input;
-import mesh;
-import shader;
-import basicshader;
-import phongshader;
-import vertex;
 import engine.core.vector3f;
 import engine.core.vector2f;
-//import resourceloader;
 import engine.core.time;
 import engine.core.transform;
-import camera;
-import material;
-import directionallight;
-import baselight;
-import pointlight;
-import attenuation;
-import spotlight;
-import texture;
+import engine.rendering.window;
+import engine.rendering.mesh;
+import engine.rendering.shader;
+import engine.rendering.basicshader;
+import engine.rendering.phongshader;
+import engine.rendering.vertex;
+import engine.rendering.camera;
+import engine.rendering.material;
+import engine.rendering.directionallight;
+import engine.rendering.baselight;
+import engine.rendering.pointlight;
+import engine.rendering.attenuation;
+import engine.rendering.spotlight;
+import engine.rendering.texture;
 
 class Game
 {

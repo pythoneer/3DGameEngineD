@@ -1,4 +1,4 @@
-module attenuation;
+module engine.rendering.attenuation ;
 
 public class Attenuation
 {

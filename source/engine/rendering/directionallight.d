@@ -1,7 +1,7 @@
-module directionallight;
+module engine.rendering.directionallight;
 
 import engine.core.vector3f;
-import baselight;
+import engine.rendering.baselight;
 
 class DirectionalLight
 {

@@ -1,4 +1,4 @@
-﻿module shader;
+﻿module engine.rendering.shader;
 
 import std.stdio;
 import std.file;
@@ -6,12 +6,11 @@ import core.runtime;
 import std.string;
 
 import derelict.opengl3.gl3;
-//import gl3n.linalg;
 
 import engine.core.vector3f;
 import engine.core.matrix;
 import engine.core.util;
-import material;
+import engine.rendering.material;
 
 class Shader
 {

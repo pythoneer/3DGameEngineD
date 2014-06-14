@@ -1,4 +1,4 @@
-module texture;
+module engine.rendering.texture;
 
 import std.stdio;
 import std.string;

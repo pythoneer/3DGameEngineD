@@ -1,4 +1,4 @@
-module camera;
+module engine.rendering.camera;
 
 import std.stdio;
 

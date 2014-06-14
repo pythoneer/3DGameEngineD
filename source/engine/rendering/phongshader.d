@@ -1,19 +1,19 @@
-module phongshader;
+module engine.rendering.phongshader;
 
 import std.stdio;
 import std.string;
 
-import shader;
 import engine.core.vector3f;
 import engine.core.matrix;
-import material;
-//import resourceloader;
-import renderutil;
-import directionallight;
-import baselight;
 import engine.core.transform;
-import pointlight;
-import spotlight;	
+import engine.rendering.material;
+import engine.rendering.renderutil;
+import engine.rendering.directionallight;
+import engine.rendering.baselight;
+import engine.rendering.shader;
+
+import engine.rendering.pointlight;
+import engine.rendering.spotlight;	
 
 class PhongShader : Shader
 {
@@ -21,13 +21,6 @@ class PhongShader : Shader
 	private static final int MAX_SPOT_LIGHTS = 4;
 	private PointLight[] pointLights;
 	private SpotLight[] spotLights;
-	
-//	private static final PhongShader instance = new PhongShader();
-//
-//	public static PhongShader getInstance()
-//	{
-//		return instance;
-//	}
 
 	private  Vector3f ambientLight = new Vector3f(0.1f,0.1f,0.1f);
 	private  DirectionalLight directionalLight = new DirectionalLight(new BaseLight(new Vector3f(0,0,0), 0), new Vector3f(0,0,0));
@@ -35,9 +28,6 @@ class PhongShader : Shader
 	public this()
 	{
 		super();
-
-//		addVertexShader(ResourceLoader.loadShader("phongVertex.vs"));
-//		addFragmentShader(ResourceLoader.loadShader("phongFragment.fs"));
 		addVertexShaderFromFile("phongVertex.vs");
  		addFragmentShaderFromFile("phongFragment.fs");
 		compileShader();
@@ -131,8 +121,7 @@ class PhongShader : Shader
  	{
  		if(pointLights.length > MAX_POINT_LIGHTS)
  		{
- 			writefln("Error: You passed in too many point lights. Max allowed is %d , you passed in %d" ,MAX_POINT_LIGHTS, pointLights.length  );
- 			
+ 			writefln("Error: You passed in too many point lights. Max allowed is %d , you passed in %d" ,MAX_POINT_LIGHTS, pointLights.length  );	
  			return;
  		}
  		
@@ -144,7 +133,6 @@ class PhongShader : Shader
  		if(spotLights.length > MAX_SPOT_LIGHTS)
  		{
  			writefln("Error: You passed in too many spot lights. Max allowed is %d, you passed in %d" , MAX_SPOT_LIGHTS, spotLights.length);
-
  			return;
  		}
  		

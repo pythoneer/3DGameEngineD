@@ -1,26 +1,15 @@
-module basicshader;
+module engine.rendering.basicshader;
 
-import shader;
+import engine.rendering.shader;
 import engine.core.matrix;
-import material;
-//import resourceloader;
-import renderutil;
+import engine.rendering.material;
+import engine.rendering.renderutil;
 
 public class BasicShader : Shader
 {
-	//private static final BasicShader instance = new BasicShader();
-
-//	public static BasicShader getInstance()
-//	{
-//		return instance;
-//	}
-
 	public this()
 	{
 		super();
-
-//		addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
-//		addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
 		addVertexShaderFromFile("basicVertex.vs");
  		addFragmentShaderFromFile("basicFragment.fs");
 		compileShader();
@@ -41,7 +30,6 @@ public class BasicShader : Shader
 			RenderUtil.unbindTextures();
 		}
 			
-
 		setUniform("transform", projectedMatrix);
 		setUniform("color", material.getColor());
 	}

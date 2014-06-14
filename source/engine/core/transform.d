@@ -1,12 +1,9 @@
 module engine.core.transform;
 
-//import gl3n.linalg;
-//import gl3n.math;
-
 import engine.core.util;
 import engine.core.vector3f;
 import engine.core.matrix;
-import camera;
+import engine.rendering.camera;
 
 public class Transform
 {

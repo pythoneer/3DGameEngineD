@@ -1,6 +1,6 @@
-module spotlight;
+module engine.rendering.spotlight;
 
-import pointlight;
+import engine.rendering.pointlight;
 import engine.core.vector3f;
 
 public class SpotLight

@@ -1,4 +1,4 @@
-﻿module vertex;
+﻿module engine.rendering.vertex;
 
 //import gl3n.linalg;
 

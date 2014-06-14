@@ -1,4 +1,4 @@
-﻿module window;
+﻿module engine.rendering.window;
 
 import std.stdio;
 import std.string;

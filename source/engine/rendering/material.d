@@ -1,7 +1,7 @@
-module material;
+module engine.rendering.material;
 
 import engine.core.vector3f;
-import texture;
+import engine.rendering.texture;
 
 class Material
 {

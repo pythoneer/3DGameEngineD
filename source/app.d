@@ -4,10 +4,10 @@ import std.string;
 import derelict.opengl3.gl;
 
 import game;
-import window;
 import engine.core.time;
 import engine.core.input;
-import renderutil;
+import engine.rendering.renderutil;
+import engine.rendering.window;
  
 class MainComponent
 {

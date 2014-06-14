@@ -4,7 +4,7 @@ import std.stdio;
 
 import derelict.sdl2.sdl;
 
-import window;
+import engine.rendering.window;
 
 class Input
 {
