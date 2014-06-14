@@ -19,8 +19,10 @@ public class BasicShader : Shader
 	{
 		super();
 
-		addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
-		addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
+//		addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
+//		addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
+		addVertexShaderFromFile("basicVertex.vs");
+ 		addFragmentShaderFromFile("basicFragment.fs");
 		compileShader();
 
 		addUniform("transform");

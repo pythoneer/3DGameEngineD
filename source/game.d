@@ -26,6 +26,7 @@ import baselight;
 import pointlight;
 import attenuation;
 import spotlight;
+import texture;
 
 class Game
 {
@@ -43,10 +44,11 @@ class Game
 
 	this()
 	{
-		mesh = new Mesh();//ResourceLoader.loadMesh("box.obj");//new Mesh();
+//		mesh = new Mesh("box.obj");//ResourceLoader.loadMesh("box.obj");//new Mesh();
 		camera = new Camera();
 //		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,1,1));
-		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,1,1), 1, 8);
+//		material = new Material(ResourceLoader.loadTexture("test.png"), new Vector3f(1,1,1), 1, 8);
+		material = new Material(new Texture("test.png"), new Vector3f(1,1,1), 1, 8);
 // 		shader = new BasicShader();
 		shader = new PhongShader();
 		transform = new Transform();
@@ -72,12 +74,14 @@ class Game
  		int indices[] = [ 0, 1, 2,
  					      2, 1, 3];
 		
-		mesh.addVertices(vertices, indices, true);
+		//mesh.addVertices(vertices, indices, true);
+		mesh = new Mesh(vertices, indices, true);
 		
 		Transform.setProjection(70f, Window.getWidth(), Window.getHeight(), 0.1f, 1000);		
 		Transform.setCamera(camera);
 		
 		(cast(PhongShader)shader).setAmbientLight(new Vector3f(0.1f,0.1f,0.1f));
+		(cast(PhongShader)shader).setDirectionalLight(new DirectionalLight(new BaseLight(new Vector3f(1,1,1), 0.1f), new Vector3f(1,1,1)));
 //		(cast(PhongShader)shader).setDirectionalLight(new DirectionalLight(new BaseLight(new Vector3f(1,1,1), 0.8f), new Vector3f(1,1,1)));
 		
 		PointLight[] lights = [pLight1, pLight2];		
