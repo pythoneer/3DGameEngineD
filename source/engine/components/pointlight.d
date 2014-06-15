@@ -1,48 +1,33 @@
 module engine.components.pointlight;
 
 import engine.core.vector3f;
-import engine.rendering.baselight;
-import engine.rendering.attenuation;
+//import engine.rendering.attenuation;
 import engine.rendering.renderingengine;
+import engine.rendering.forwardpoint;
 import engine.components.gamecomponent;
+import engine.components.baselight;
 
-public class PointLight : GameComponent
+public class PointLight : BaseLight
 {
-	private BaseLight baseLight;
-	private Attenuation atten;
 	private Vector3f position;
+	private float constant;
+	private float linear;
+	private float exponent;
 	private float range;
 
-	public this(BaseLight baseLight, Attenuation atten, Vector3f position, float range)
+	public this(Vector3f color, float intensity, float constant, float linear, float exponent, Vector3f position, float range)
 	{
-		this.baseLight = baseLight;
-		this.atten = atten;
-		this.position = position;
-		this.range = range;
+		super(color, intensity);
+ 		this.constant = constant;
+ 		this.linear = linear;
+ 		this.exponent = exponent;
+  		this.position = position;
+  		this.range = range;
+  		
+  		setShader(new ForwardPoint());
 	}
 	
-	override
- 	public void addToRenderingEngine(RenderingEngine renderingEngine)
- 	{
- 		renderingEngine.addPointLight(this);
- 	}
 
-	public BaseLight getBaseLight()
-	{
-		return baseLight;
-	}
-	public void setBaseLight(BaseLight baseLight)
-	{
-		this.baseLight = baseLight;
-	}
-	public Attenuation getAtten()
-	{
-		return atten;
-	}
-	public void setAtten(Attenuation atten)
-	{
-		this.atten = atten;
-	}
 	public Vector3f getPosition()
 	{
 		return position;
@@ -51,13 +36,38 @@ public class PointLight : GameComponent
 	{
 		this.position = position;
 	}
+
 	public float getRange()
- 	{
- 		return range;
- 	}
- 
- 	public void setRange(float range)
- 	{
- 		this.range = range;
- 	}
+	{
+		return range;
+	}
+
+	public void setRange(float range)
+	{
+		this.range = range;
+	}
+
+	public float getConstant() {
+		return constant;
+	}
+
+	public void setConstant(float constant) {
+		this.constant = constant;
+	}
+
+	public float getLinear() {
+		return linear;
+	}
+
+	public void setLinear(float linear) {
+		this.linear = linear;
+	}
+
+	public float getExponent() {
+		return exponent;
+	}
+
+	public void setExponent(float exponent) {
+		this.exponent = exponent;
+	}
 }

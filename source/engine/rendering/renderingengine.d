@@ -14,40 +14,42 @@ import engine.rendering.forwarddirectional;
 import engine.rendering.forwardpoint;
 import engine.rendering.forwardspot;
 import engine.rendering.camera;
-import engine.rendering.baselight;
-import engine.rendering.spotlight;
-import engine.rendering.attenuation;
-import engine.components.directionallight;
+import engine.components.baselight;
+import engine.components.directionallight; 
 import engine.components.pointlight;
+import engine.components.spotlight;
 
 public class RenderingEngine
 {
 	private Shader forwardAmbient;
-	private Shader forwardDirectional;
-	private Shader forwardPoint;
-	private Shader forwardSpot;
+//	private Shader forwardDirectional;
+//	private Shader forwardPoint;
+//	private Shader forwardSpot;
 	private Camera mainCamera;
 	private Vector3f ambientLight;
 //	private DirectionalLight directionalLight;
 // 	private DirectionalLight directionalLight2; 	
 // 	private PointLight pointLight;
  	
- 	private DirectionalLight activeDirectionalLight;
- 	private PointLight activePointLight; 	
- 	private SpotLight spotLight; 
+// 	private DirectionalLight activeDirectionalLight;
+// 	private PointLight activePointLight; 	
+// 	private SpotLight spotLight; 
  	
  	
 // 	private PointLight[] pointLightList;
  	
- 	private DirectionalLight[] directionalLights;
-	private PointLight[] pointLights;
+// 	private DirectionalLight[] directionalLights;
+//	private PointLight[] pointLights;
+ 	
+ 	private BaseLight[] lights;
+ 	private BaseLight activeLight;
 	
 	public this()
 	{
 		forwardAmbient = new ForwardAmbient();
-		forwardDirectional = new ForwardDirectional();
-		forwardPoint = new ForwardPoint();
- 		forwardSpot = new ForwardSpot();
+//		forwardDirectional = new ForwardDirectional();
+//		forwardPoint = new ForwardPoint();
+// 		forwardSpot = new ForwardSpot();
 		
 		glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
@@ -103,20 +105,7 @@ public class RenderingEngine
  		return ambientLight;
   	}
  	
- 	public DirectionalLight getActiveDirectionalLight()
- 	{
- 		return activeDirectionalLight;
- 	}
- 	
- 	public PointLight getActivePointLight()
- 	{
- 		return activePointLight;
- 	}
- 
- 	public SpotLight getSpotLight()
- 	{
- 		return spotLight;
- 	}
+
 
 	public void input(float delta)
  	{
@@ -127,14 +116,14 @@ public class RenderingEngine
 	{
 		clearScreen();
 		
-		clearLightList();
+		lights.clear();
 		object.addToRenderingEngine(this);
 		
 		
  		forwardAmbient.setRenderingEngine(this);
- 		forwardDirectional.setRenderingEngine(this);
- 		forwardPoint.setRenderingEngine(this);
- 		forwardSpot.setRenderingEngine(this);
+// 		forwardDirectional.setRenderingEngine(this);
+// 		forwardPoint.setRenderingEngine(this);
+// 		forwardSpot.setRenderingEngine(this);
  		
 		object.render(forwardAmbient);
 		
@@ -143,17 +132,24 @@ public class RenderingEngine
  		glDepthMask(false);
  		glDepthFunc(GL_EQUAL);
  
-		foreach(light; directionalLights)
-		{
-			activeDirectionalLight = light;
-			object.render(forwardDirectional);
-		}
-
-		foreach(light; pointLights)
-		{
-			activePointLight = light;
-			object.render(forwardPoint);
-		}
+//		foreach(light; directionalLights)
+//		{
+//			activeDirectionalLight = light;
+//			object.render(forwardDirectional);
+//		}
+//
+//		foreach(light; pointLights)
+//		{
+//			activePointLight = light;
+//			object.render(forwardPoint);
+//		}
+ 
+ 		foreach(light; lights)
+ 		{
+ 			light.getShader().setRenderingEngine(this);
+ 			activeLight = light;
+ 			object.render(light.getShader());
+ 		}
 
  		glDepthFunc(GL_LESS);
  		glDepthMask(true);
@@ -162,11 +158,11 @@ public class RenderingEngine
 		
 	}
 	
-	private void clearLightList()
-	{
-		directionalLights.clear();
-		pointLights.clear();
-	}
+//	private void clearLightList()
+//	{
+//		directionalLights.clear();
+//		pointLights.clear();
+//	}
 
 	private static void clearScreen()
 	{
@@ -207,14 +203,24 @@ public class RenderingEngine
  		this.mainCamera = mainCamera;
  	}
  	
- 	public void addDirectionalLight(DirectionalLight directionalLight)
+ 	public void addLight(BaseLight light)
  	{
- 		directionalLights ~= directionalLight;
+ 		this.lights ~= light;
  	}
- 
- 	public void addPointLight(PointLight pointLight)
+ 	
+ 	public BaseLight getActiveLight()
  	{
- 		pointLights ~= pointLight;
+ 		return this.activeLight;
  	}
+ 	
+// 	public void addDirectionalLight(DirectionalLight directionalLight)
+// 	{
+// 		directionalLights ~= directionalLight;
+// 	}
+// 
+// 	public void addPointLight(PointLight pointLight)
+// 	{
+// 		pointLights ~= pointLight;
+// 	}
  	
 }

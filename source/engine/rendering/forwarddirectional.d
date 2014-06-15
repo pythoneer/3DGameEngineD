@@ -3,8 +3,8 @@ module engine.rendering.forwarddirectional;
 import engine.core.transform;
 import engine.core.matrix;
 import engine.rendering.shader;
-import engine.rendering.baselight;
 import engine.rendering.material;
+import engine.components.baselight;
 import engine.components.directionallight;
 
 class ForwardDirectional : Shader
@@ -55,18 +55,18 @@ class ForwardDirectional : Shader
 		setUniformf("specularPower", material.getSpecularPower());
 
 		super.setUniform("eyePos", getRenderingEngine().getMainCamera().getPos());
-		setUniform("directionalLight", getRenderingEngine().getActiveDirectionalLight()); 
+		setUniformDirectionalLight("directionalLight", cast(DirectionalLight)getRenderingEngine().getActiveLight());
 	}
 
-	public void setUniform(string uniformName, BaseLight baseLight)
+	public void setUniformBaseLight(string uniformName, BaseLight baseLight)
 	{
 		super.setUniform(uniformName ~ ".color", baseLight.getColor());
 		setUniformf(uniformName ~ ".intensity", baseLight.getIntensity());
 	}
 
-	public void setUniform(string uniformName, DirectionalLight directionalLight)
+	public void setUniformDirectionalLight(string uniformName, DirectionalLight directionalLight)
 	{
-		setUniform(uniformName ~ ".base", directionalLight.getBase());
+		setUniformBaseLight(uniformName ~ ".base", directionalLight);
 		super.setUniform(uniformName ~ ".direction", directionalLight.getDirection());
 	}
 }

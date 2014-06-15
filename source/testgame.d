@@ -14,44 +14,31 @@ import engine.rendering.mesh;
 import engine.rendering.meshrenderer;
 import engine.rendering.shader;
 import engine.rendering.basicshader;
-import engine.rendering.phongshader;
 import engine.rendering.vertex;
 import engine.rendering.material;
-import engine.rendering.baselight;
-import engine.rendering.attenuation;
-import engine.rendering.spotlight;
 import engine.rendering.texture;
+import engine.components.baselight;
 import engine.components.directionallight;
 import engine.components.pointlight;
+import engine.components.spotlight;
 
 class TestGame : Game
-{
-
-	PointLight pLight1 = new PointLight(new BaseLight(new Vector3f(1,0.5f,0), 0.8f), new Attenuation(0,0,1), new Vector3f(-2,0,5f), 10f);
- 	PointLight pLight2 = new PointLight(new BaseLight(new Vector3f(0,0.5f,1), 0.8f), new Attenuation(0,0,1), new Vector3f(2,0,7f), 10f);
- 	
- 	SpotLight sLight1 = new SpotLight(new PointLight(new BaseLight(new Vector3f(0,1f,1f), 0.8f), new Attenuation(0,0,0.1f), new Vector3f(-2,0,5f), 30f),
- 									  new Vector3f(1,1,1), 0.7f);
-
-	this()
-	{
-	}
-	
+{	
 	override
 	public void init()
 	{	
 		float fieldDepth = 10.0f;
- 		float fieldWidth = 10.0f;
- 		
- 		Vertex[] vertices = [ 	new Vertex( new Vector3f(-fieldWidth, 0.0f, -fieldDepth), new Vector2f(0.0f, 0.0f)),
-								new Vertex( new Vector3f(-fieldWidth, 0.0f, fieldDepth * 3), new Vector2f(0.0f, 1.0f)),
-								new Vertex( new Vector3f(fieldWidth * 3, 0.0f, -fieldDepth), new Vector2f(1.0f, 0.0f)),
-								new Vertex( new Vector3f(fieldWidth * 3, 0.0f, fieldDepth * 3), new Vector2f(1.0f, 1.0f))];
- 		
- 		int indices[] = [ 0, 1, 2,
- 					      2, 1, 3];
- 					      
- 		Mesh mesh = new Mesh(vertices, indices, true);
+		float fieldWidth = 10.0f;
+
+		Vertex[] vertices = [ 	new Vertex( new Vector3f(-fieldWidth, 0.0f, -fieldDepth), new Vector2f(0.0f, 0.0f)),
+				new Vertex( new Vector3f(-fieldWidth, 0.0f, fieldDepth * 3), new Vector2f(0.0f, 1.0f)),
+				new Vertex( new Vector3f(fieldWidth * 3, 0.0f, -fieldDepth), new Vector2f(1.0f, 0.0f)),
+				new Vertex( new Vector3f(fieldWidth * 3, 0.0f, fieldDepth * 3), new Vector2f(1.0f, 1.0f))];
+
+		int indices[] = [ 0, 1, 2,
+				2, 1, 3];
+
+		Mesh mesh = new Mesh(vertices, indices, true);
 		Material material = new Material(new Texture("test.png"), new Vector3f(1,1,1), 1, 8);
 
 		MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
@@ -61,15 +48,23 @@ class TestGame : Game
 		planeObject.getTransform().setPos(0, -1, 5);
 
 		GameObject directionalLightObject = new GameObject();
-		DirectionalLight directionalLight = new DirectionalLight(new BaseLight(new Vector3f(0,0,1), 0.4f), new Vector3f(1,1,1));
+		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0,0,1), 0.4f, new Vector3f(1,1,1));
 		directionalLightObject.addComponent(directionalLight);
 
 		GameObject pointLightObject = new GameObject();
-		pointLightObject.addComponent(new PointLight(new BaseLight(new Vector3f(0,1,0), 0.4f), new Attenuation(0,0,1), new Vector3f(5,0,5), 100));
+		pointLightObject.addComponent(new PointLight(new Vector3f(0,1,0), 0.4f, 0,0,1, new Vector3f(5,0,5), 100));
+
+		SpotLight spotLight = new SpotLight(new Vector3f(0,1,1), 0.4f,
+				0,0,0.1f,
+				new Vector3f(5,0,5), 100,
+				new Vector3f(1,0,0), 0.7f);
+
+		GameObject spotLightObject = new GameObject();
+		spotLightObject.addComponent(spotLight);
 
 		getRootObject().addChild(planeObject);
 		getRootObject().addChild(directionalLightObject);
 		getRootObject().addChild(pointLightObject);
-				
+		getRootObject().addChild(spotLightObject);
 	}
 }

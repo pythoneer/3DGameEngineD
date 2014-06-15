@@ -1,29 +1,21 @@
-module engine.rendering.spotlight;
+module engine.components.spotlight;
 
 import engine.core.vector3f;
 import engine.components.pointlight;
+import engine.rendering.forwardspot;
 
-public class SpotLight
+class SpotLight : PointLight
 {
-	private PointLight pointLight;
 	private Vector3f direction;
 	private float cutoff;
 
-	public this(PointLight pointLight, Vector3f direction, float cutoff)
+	public this(Vector3f color, float intensity, float constant, float linear, float exponent, Vector3f position, float range, Vector3f direction, float cutoff)
 	{
-		this.pointLight = pointLight;
+		super(color, intensity, constant, linear, exponent, position, range);
 		this.direction = direction.normalized();
 		this.cutoff = cutoff;
-	}
 
-	public PointLight getPointLight()
-	{
-		return pointLight;
-	}
-
-	public void setPointLight(PointLight pointLight)
-	{
-		this.pointLight = pointLight;
+		setShader(new ForwardSpot());
 	}
 
 	public Vector3f getDirection()

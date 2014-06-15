@@ -3,8 +3,8 @@ module engine.rendering.forwardpoint;
 import engine.core.transform;
 import engine.core.matrix;
 import engine.rendering.shader;
-import engine.rendering.baselight;
 import engine.rendering.material;
+import engine.components.baselight;
 import engine.components.pointlight;
 
 class ForwardPoint : Shader
@@ -52,21 +52,21 @@ class ForwardPoint : Shader
 		setUniformf("specularPower", material.getSpecularPower());
 
 		super.setUniform("eyePos", getRenderingEngine().getMainCamera().getPos());
-		setUniform("pointLight", getRenderingEngine().getActivePointLight());
+		setUniformPointLight("pointLight", cast(PointLight)getRenderingEngine().getActiveLight());
 	}
 
-	public void setUniform(string uniformName, BaseLight baseLight)
+	public void setUniformBaseLight(string uniformName, BaseLight baseLight)
 	{
 		super.setUniform(uniformName ~ ".color", baseLight.getColor());
 		setUniformf(uniformName ~ ".intensity", baseLight.getIntensity());
 	}
 
-	public void setUniform(string uniformName, PointLight pointLight)
+	public void setUniformPointLight(string uniformName, PointLight pointLight)
 	{
-		setUniform(uniformName ~ ".base", pointLight.getBaseLight());
-		setUniformf(uniformName ~ ".atten.constant", pointLight.getAtten().getConstant());
-		setUniformf(uniformName ~ ".atten.linear", pointLight.getAtten().getLinear());
-		setUniformf(uniformName ~ ".atten.exponent", pointLight.getAtten().getExponent());
+		setUniformBaseLight(uniformName ~ ".base", pointLight);
+ 		setUniformf(uniformName ~ ".atten.constant", pointLight.getConstant());
+ 		setUniformf(uniformName ~ ".atten.linear", pointLight.getLinear());
+ 		setUniformf(uniformName ~ ".atten.exponent", pointLight.getExponent());
 		super.setUniform(uniformName ~ ".position", pointLight.getPosition());
 		setUniformf(uniformName ~ ".range", pointLight.getRange());
 	}
