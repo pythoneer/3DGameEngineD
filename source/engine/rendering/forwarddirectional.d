@@ -5,7 +5,7 @@ import engine.core.matrix;
 import engine.rendering.shader;
 import engine.rendering.baselight;
 import engine.rendering.material;
-import engine.rendering.directionallight;
+import engine.components.directionallight;
 
 class ForwardDirectional : Shader
 {
@@ -55,7 +55,7 @@ class ForwardDirectional : Shader
 		setUniformf("specularPower", material.getSpecularPower());
 
 		super.setUniform("eyePos", getRenderingEngine().getMainCamera().getPos());
-		setUniform("directionalLight", getRenderingEngine().getDirectionalLight()); 
+		setUniform("directionalLight", getRenderingEngine().getActiveDirectionalLight()); 
 	}
 
 	public void setUniform(string uniformName, BaseLight baseLight)

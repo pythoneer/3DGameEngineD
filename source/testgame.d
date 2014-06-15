@@ -17,13 +17,12 @@ import engine.rendering.basicshader;
 import engine.rendering.phongshader;
 import engine.rendering.vertex;
 import engine.rendering.material;
-import engine.rendering.directionallight;
 import engine.rendering.baselight;
-import engine.rendering.pointlight;
 import engine.rendering.attenuation;
 import engine.rendering.spotlight;
 import engine.rendering.texture;
-
+import engine.components.directionallight;
+import engine.components.pointlight;
 
 class TestGame : Game
 {
@@ -61,6 +60,16 @@ class TestGame : Game
 		planeObject.addComponent(meshRenderer);
 		planeObject.getTransform().setPos(0, -1, 5);
 
-		getRootObject().addChild(planeObject);				
+		GameObject directionalLightObject = new GameObject();
+		DirectionalLight directionalLight = new DirectionalLight(new BaseLight(new Vector3f(0,0,1), 0.4f), new Vector3f(1,1,1));
+		directionalLightObject.addComponent(directionalLight);
+
+		GameObject pointLightObject = new GameObject();
+		pointLightObject.addComponent(new PointLight(new BaseLight(new Vector3f(0,1,0), 0.4f), new Attenuation(0,0,1), new Vector3f(5,0,5), 100));
+
+		getRootObject().addChild(planeObject);
+		getRootObject().addChild(directionalLightObject);
+		getRootObject().addChild(pointLightObject);
+				
 	}
 }

@@ -4,8 +4,8 @@ import engine.core.transform;
 import engine.core.matrix;
 import engine.rendering.shader;
 import engine.rendering.baselight;
-import engine.rendering.pointlight;
 import engine.rendering.material;
+import engine.components.pointlight;
 
 class ForwardPoint : Shader
 {
@@ -52,7 +52,7 @@ class ForwardPoint : Shader
 		setUniformf("specularPower", material.getSpecularPower());
 
 		super.setUniform("eyePos", getRenderingEngine().getMainCamera().getPos());
-		setUniform("pointLight", getRenderingEngine().getPointLight());
+		setUniform("pointLight", getRenderingEngine().getActivePointLight());
 	}
 
 	public void setUniform(string uniformName, BaseLight baseLight)

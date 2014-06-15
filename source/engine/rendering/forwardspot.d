@@ -4,9 +4,9 @@ import engine.core.transform;
 import engine.core.matrix;
 import engine.rendering.shader;
 import engine.rendering.baselight;
-import engine.rendering.pointlight;
 import engine.rendering.spotlight;
 import engine.rendering.material;
+import engine.components.pointlight;
 
 class ForwardSpot : Shader
 {

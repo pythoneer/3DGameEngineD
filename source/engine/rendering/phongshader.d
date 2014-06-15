@@ -7,13 +7,11 @@ import engine.core.vector3f;
 import engine.core.matrix;
 import engine.core.transform;
 import engine.rendering.material;
-//import engine.rendering.renderutil;
-import engine.rendering.directionallight;
 import engine.rendering.baselight;
 import engine.rendering.shader;
-
-import engine.rendering.pointlight;
 import engine.rendering.spotlight;	
+import engine.components.directionallight;
+import engine.components.pointlight;
 
 class PhongShader : Shader
 {

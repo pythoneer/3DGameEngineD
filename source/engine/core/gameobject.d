@@ -1,8 +1,9 @@
 module engine.core.gameobject;
 
-import engine.core.gamecomponent;
 import engine.core.transform;
 import engine.rendering.shader;
+import engine.rendering.renderingengine;
+import engine.components.gamecomponent;
 
 class GameObject
 {
@@ -62,6 +63,19 @@ class GameObject
 		foreach(child; children)
 		{
 			child.render(shader);
+		}
+	}
+	
+	public void addToRenderingEngine(RenderingEngine renderingEngine)
+	{
+		foreach(component; components)
+		{
+			component.addToRenderingEngine(renderingEngine);
+		}
+
+		foreach(child; children)
+		{
+			child.addToRenderingEngine(renderingEngine);
 		}
 	}
 

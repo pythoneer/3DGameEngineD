@@ -1,9 +1,11 @@
-module engine.rendering.directionallight;
+module engine.components.directionallight;
 
 import engine.core.vector3f;
 import engine.rendering.baselight;
+import engine.rendering.renderingengine;
+import engine.components.gamecomponent;
 
-class DirectionalLight
+class DirectionalLight : GameComponent
 {
 	private BaseLight base;
 	private Vector3f direction;
@@ -13,6 +15,12 @@ class DirectionalLight
 		this.base = base;
 		this.direction = direction.normalized();
 	}
+	
+	override
+ 	public void addToRenderingEngine(RenderingEngine renderingEngine)
+ 	{
+ 		renderingEngine.addDirectionalLight(this);
+ 	}
 
 	public BaseLight getBase()
 	{

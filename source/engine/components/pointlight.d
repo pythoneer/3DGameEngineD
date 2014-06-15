@@ -1,10 +1,12 @@
-module engine.rendering.pointlight;
+module engine.components.pointlight;
 
+import engine.core.vector3f;
 import engine.rendering.baselight;
 import engine.rendering.attenuation;
-import engine.core.vector3f;
+import engine.rendering.renderingengine;
+import engine.components.gamecomponent;
 
-public class PointLight
+public class PointLight : GameComponent
 {
 	private BaseLight baseLight;
 	private Attenuation atten;
@@ -18,6 +20,12 @@ public class PointLight
 		this.position = position;
 		this.range = range;
 	}
+	
+	override
+ 	public void addToRenderingEngine(RenderingEngine renderingEngine)
+ 	{
+ 		renderingEngine.addPointLight(this);
+ 	}
 
 	public BaseLight getBaseLight()
 	{
