@@ -10,17 +10,24 @@ import engine.core.util;
 import engine.rendering.shader;
 import engine.rendering.basicshader;
 import engine.rendering.forwardambient;
+import engine.rendering.forwarddirectional;
 import engine.rendering.camera;
+import engine.rendering.baselight;
+import engine.rendering.directionallight;
 
 public class RenderingEngine
 {
-	private Shader shader;
+	private Shader forwardAmbient;
+	private Shader forwardDirectional;
 	private Camera mainCamera;
 	private Vector3f ambientLight;
+	private DirectionalLight directionalLight;
+ 	private DirectionalLight directionalLight2;
 	
 	public this()
 	{
-		shader = new ForwardAmbient();
+		forwardAmbient = new ForwardAmbient();
+		forwardDirectional = new ForwardDirectional();
 		
 		glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
@@ -36,12 +43,20 @@ public class RenderingEngine
 		//TODO window width and height
 		mainCamera = new Camera(cast(float)Util.toRadians(70.0f), 800.0f/600.0f, 0.01f, 1000.0f);
 		ambientLight = new Vector3f(0.2f, 0.2f, 0.2f);
+		directionalLight = new DirectionalLight(new BaseLight(new Vector3f(0,0,1), 0.4f), new Vector3f(1,1,1));
+ 		directionalLight2 = new DirectionalLight(new BaseLight(new Vector3f(1,0,0), 0.4f), new Vector3f(-1,1,-1));
+  	
 	}
 	
 	public Vector3f getAmbientLight()
  	{
  		return ambientLight;
   	}
+ 	
+ 	public DirectionalLight getDirectionalLight()
+ 	{
+ 		return directionalLight;
+ 	}
 
 	public void input(float delta)
  	{
@@ -51,8 +66,32 @@ public class RenderingEngine
 	public void render(GameObject object)
 	{
 		clearScreen();
- 		shader.setRenderingEngine(this);
-		object.render(shader);
+ 		forwardAmbient.setRenderingEngine(this);
+ 		forwardDirectional.setRenderingEngine(this);
+		object.render(forwardAmbient);
+		
+		glEnable(GL_BLEND);
+ 		glBlendFunc(GL_ONE, GL_ONE);
+ 		glDepthMask(false);
+ 		glDepthFunc(GL_EQUAL);
+ 
+ 		object.render(forwardDirectional);
+ 
+ 		DirectionalLight temp = directionalLight;
+ 		directionalLight = directionalLight2;
+ 		directionalLight2 = temp;
+ 
+ 		object.render(forwardDirectional);
+ 
+ 		temp = directionalLight;
+ 		directionalLight = directionalLight2;
+ 		directionalLight2 = temp;
+ 
+ 		glDepthFunc(GL_LESS);
+ 		glDepthMask(true);
+ 		glDisable(GL_BLEND);
+		
+		
 	}
 
 	private static void clearScreen()
