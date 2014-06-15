@@ -80,13 +80,28 @@ class Matrix4f
 		float tanHalfFOV = cast(float)tan(fov / 2);
 		float zRange = zNear - zFar;
 
-		m[0][0] = 1.0f / (tanHalfFOV * ar);	m[0][1] = 0;					m[0][2] = 0;	m[0][3] = 0;
-		m[1][0] = 0;						m[1][1] = 1.0f / tanHalfFOV;	m[1][2] = 0;	m[1][3] = 0;
+		m[0][0] = 1.0f / (tanHalfFOV * ar);	m[0][1] = 0;					m[0][2] = 0;						m[0][3] = 0;
+		m[1][0] = 0;						m[1][1] = 1.0f / tanHalfFOV;	m[1][2] = 0;						m[1][3] = 0;
 		m[2][0] = 0;						m[2][1] = 0;					m[2][2] = (-zNear -zFar)/zRange;	m[2][3] = 2 * zFar * zNear / zRange;
-		m[3][0] = 0;						m[3][1] = 0;					m[3][2] = 1;	m[3][3] = 0;
+		m[3][0] = 0;						m[3][1] = 0;					m[3][2] = 1;						m[3][3] = 0;
 
 		return this;
 	}
+	
+	public Matrix4f initOrthographic(float left, float right, float bottom, float top, float near, float far)
+	{
+		float halfWidth = (right - left)/2.0f;
+		float halfHeight = (top - bottom)/2.0f;
+		float halfDepth = (far - near)/2.0f;
+
+		m[0][0] = halfWidth;	m[0][1] = 0;			m[0][2] = 0;			m[0][3] = abs(halfWidth);
+		m[1][0] = 0;			m[1][1] = halfHeight;	m[1][2] = 0;			m[1][3] = abs(halfHeight);
+		m[2][0] = 0;			m[2][1] = 0;			m[2][2] = halfDepth;	m[2][3] = abs(halfDepth);
+		m[3][0] = 0;			m[3][1] = 0;			m[3][2] = 0;			m[3][3] = 1;
+
+		return this;
+	}
+
 
 	public Matrix4f initRotation(Vector3f forward, Vector3f up)
 	{

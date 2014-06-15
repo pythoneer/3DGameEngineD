@@ -25,6 +25,7 @@ class Camera
 		this.forward = new Vector3f(0,0,1).normalized();
 		this.up = new Vector3f(0,1,0).normalized();
 		this.projection = new Matrix4f().initPerspective(fov, aspect, zNear, zFar);
+//		this.projection = new Matrix4f().initOrthographic(0, 600, 800, 0, 0.1, 1000.0);
 	}
 	
 	public Matrix4f getViewProjection()
