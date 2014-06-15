@@ -25,30 +25,30 @@ class GameObject
 		components ~= component;
 	}
 
-	public void input()
+	public void input(float delta)
 	{
 		foreach(component; components)
 		{
-			component.input(transform);
+			component.input(transform, delta);
 		}
 
 		foreach(child; children)
 		{
-			child.input();
+			child.input(delta);
 		}
 			
 	}
 
-	public void update()
+	public void update(float delta)
 	{
 		foreach(component; components)
 		{
-			component.update(transform);
+			component.update(transform, delta);
 		}
 
 		foreach(child; children)
 		{
-			child.update();
+			child.update(delta);
 		}			
 	}
 

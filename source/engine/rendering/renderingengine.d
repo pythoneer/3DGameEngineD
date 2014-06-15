@@ -35,9 +35,9 @@ public class RenderingEngine
 		mainCamera = new Camera(cast(float)Util.toRadians(70.0f), 800.0f/600.0f, 0.01f, 1000.0f);
 	}
 
-	public void input()
+	public void input(float delta)
  	{
- 		mainCamera.input();
+ 		mainCamera.input(delta);
   	}
 
 	public void render(GameObject object)

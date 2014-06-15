@@ -4,30 +4,11 @@ import std.datetime;
 
 class Time
 {
-	this()
-	{
-		// Constructor code
-	}
+	public static final double SECOND = 10000000L;
 
-
-	public static final long SECOND = 10000000L;
-	
-	private static double delta;
-	
-	public static long getTime()
+	public static double getTime()
 	{
-		return Clock.currStdTime();
+		return cast(double)Clock.currStdTime()/cast(double)SECOND;
 	}
-	
-	public static double getDelta()
-	{
-		return delta;
-	}
-	
-	public static void setDelta(double delta)
-	{
-		Time.delta = delta;
-	}
-
 }
 

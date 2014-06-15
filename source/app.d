@@ -4,10 +4,7 @@ import std.string;
 import derelict.opengl3.gl;
 
 import engine.core.coreengine;
-
 import testgame; 
-
-
 
 int main()
 {

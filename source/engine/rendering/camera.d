@@ -36,10 +36,10 @@ class Camera
 	}
 
 
-	public void input()
+	public void input(float delta)
 	{
-		float movAmt = cast(float)(10 * Time.getDelta());
-		float rotAmt = cast(float)(100 * Time.getDelta());
+		float movAmt = cast(float)(10 * delta);
+		float rotAmt = cast(float)(100 * delta);
 
 		if(Input.isKeyPressed(SDLK_w))
 		{

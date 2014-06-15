@@ -82,20 +82,22 @@ class CoreEngine
 		//const double frameTime = 1.0f / FRAME_CAP;
 		m_game.init();
 		
-		long lastTime = Time.getTime();
+		double lastTime = Time.getTime();
 		double unprocessedTime = 0;
 		
 		while(m_isRunning)
 		{
 			bool shouldRender = false;
 			
-			long startTime = Time.getTime();
-			long passedTime = startTime - lastTime;
+			double startTime = Time.getTime();
+			double passedTime = startTime - lastTime;
 			lastTime = startTime;
 			
-			unprocessedTime += cast(double)passedTime / cast(double)Time.SECOND;
+			unprocessedTime += passedTime;
 			frameCounter += passedTime;
-
+			
+//			writefln("pt: %f",passedTime);
+//			write("\33[1A\33[2K");
 
 			while(unprocessedTime > m_frameTime)
 			{
@@ -106,13 +108,15 @@ class CoreEngine
 				if(Window.isCloseRequested())
 					stop();
 				
-				Time.setDelta(m_frameTime);
-				Input.update();
-				renderingEngine.input();
-				m_game.input();
-				m_game.update();
-
-				if(frameCounter >= Time.SECOND)
+				m_game.input(cast(float)m_frameTime);
+				renderingEngine.input(cast(float)m_frameTime);	
+				Input.update();			
+				m_game.update(cast(float)m_frameTime);
+				
+//				writefln("fc: %d",frameCounter);
+//				write("\33[1A\33[2K");
+//				
+				if(frameCounter >= 1.0)
 				{				
 					writefln("FPS: %d",frames);
 					write("\33[1A\33[2K");
