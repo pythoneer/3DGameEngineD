@@ -7,10 +7,11 @@ import std.conv;
 
 import derelict.opengl3.gl3;
 
-import engine.rendering.vertex;
 import engine.core.util;
 import engine.core.vector3f;
 import engine.core.vector2f;
+import engine.rendering.vertex;
+import engine.rendering.meshloading.objmodel;
 
 class Mesh
 {
@@ -74,40 +75,42 @@ class Mesh
 
 		string meshPath = "./res/models/" ~ fileName;
 		
-		if(exists(meshPath) != 0){
-			
-			File file = File(meshPath, "r");
-			while (!file.eof()) {
-				string line = chomp(file.readln());
-				string[] tokens = split(line);
-				
-				if(tokens.length == 0 || tokens[0] == "#")
-				{
-					continue;
-				}
-				else if(tokens[0] == "v")
-				{
-					
-					Vertex tmp = new Vertex(new Vector3f(to!float(tokens[1]),
-							 							 to!float(tokens[2]),
-							 							 to!float(tokens[3])));
-					vertices ~= tmp;
-				}
-				else if(tokens[0] == "f")
-				{ 
-					indices ~= to!int(tokens[1]) -1;
-					indices ~= to!int(tokens[2]) -1;
-					indices ~= to!int(tokens[3]) -1;
-				}
-			}
-			
-		}
-		else 
-		{
-			writeln("could not find mesh file: " ~ fileName);
-		}
-			
-		addVertices(vertices, indices, true);
+		OBJModel test = new OBJModel(fileName);
+		
+//		if(exists(meshPath) != 0){
+//			
+//			File file = File(meshPath, "r");
+//			while (!file.eof()) {
+//				string line = chomp(file.readln());
+//				string[] tokens = split(line);
+//				
+//				if(tokens.length == 0 || tokens[0] == "#")
+//				{
+//					continue;
+//				}
+//				else if(tokens[0] == "v")
+//				{
+//					
+//					Vertex tmp = new Vertex(new Vector3f(to!float(tokens[1]),
+//							 							 to!float(tokens[2]),
+//							 							 to!float(tokens[3])));
+//					vertices ~= tmp;
+//				}
+//				else if(tokens[0] == "f")
+//				{ 
+//					indices ~= to!int(tokens[1]) -1;
+//					indices ~= to!int(tokens[2]) -1;
+//					indices ~= to!int(tokens[3]) -1;
+//				}
+//			}
+//			
+//		}
+//		else 
+//		{
+//			writeln("could not find mesh file: " ~ fileName);
+//		}
+//			
+//		addVertices(vertices, indices, true);
 	}
 	
 	
