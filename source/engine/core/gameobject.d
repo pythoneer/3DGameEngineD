@@ -24,13 +24,14 @@ class GameObject
 	public void addComponent(GameComponent component)
 	{
 		components ~= component;
+		component.setParent(this);
 	}
 
 	public void input(float delta)
 	{
 		foreach(component; components)
 		{
-			component.input(transform, delta);
+			component.input(delta);
 		}
 
 		foreach(child; children)
@@ -44,7 +45,7 @@ class GameObject
 	{
 		foreach(component; components)
 		{
-			component.update(transform, delta);
+			component.update(delta);
 		}
 
 		foreach(child; children)
@@ -57,7 +58,7 @@ class GameObject
 	{
 		foreach(component; components)
 		{
-			component.render(transform, shader);
+			component.render(shader);
 		}
 
 		foreach(child; children)

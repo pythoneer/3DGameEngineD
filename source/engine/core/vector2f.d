@@ -120,4 +120,11 @@ class Vector2f
 	{
 		this.y = y;
 	}
+	
+	
+ 	public float max()
+ 	{
+ 		return fmax(x, y);
+ 	}
+ 
 }

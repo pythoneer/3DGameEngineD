@@ -154,5 +154,11 @@ class Vector3f
  	public Vector2f getYX() { return new Vector2f(y, x); }
  	public Vector2f getZY() { return new Vector2f(z, y); }
  	public Vector2f getXZ() { return new Vector2f(x, z); }
+ 	
+ 	
+ 	public float max()
+ 	{
+ 		return fmax(x, fmax(y, z));
+ 	}
 }
 

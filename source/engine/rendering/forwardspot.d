@@ -70,7 +70,7 @@ class ForwardSpot : Shader
  		setUniformf(uniformName ~ ".atten.constant", pointLight.getConstant());
  		setUniformf(uniformName ~ ".atten.linear", pointLight.getLinear());
  		setUniformf(uniformName ~ ".atten.exponent", pointLight.getExponent());
-		super.setUniform(uniformName ~ ".position", pointLight.getPosition());
+		super.setUniform(uniformName ~ ".position", pointLight.getTransform().getPos());
 		setUniformf(uniformName ~ ".range", pointLight.getRange());
 	}
 

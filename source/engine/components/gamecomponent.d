@@ -1,14 +1,27 @@
 module engine.components.gamecomponent;
 
 import engine.core.transform;
+import engine.core.gameobject;
 import engine.rendering.shader;
 import engine.rendering.renderingengine;
 
 class GameComponent
 {
-	public void input(Transform transform, float delta) {}
-	public void update(Transform transform, float delta) {}
-	public void render(Transform transform, Shader shader) {}
+	private GameObject parent;
+
+	public void input(float delta) {}
+	public void update(float delta) {}
+	public void render(Shader shader) {}
+
+	public void setParent(GameObject parent)
+	{
+		this.parent = parent;
+	}
+
+	public Transform getTransform()
+	{
+		return parent.getTransform();
+	}
 
 	public void addToRenderingEngine(RenderingEngine renderingEngine) {}
 }
