@@ -12,11 +12,6 @@ class Quaternion
 	private float z;
 	private float w;
 
-	public this()
- 	{
- 		this(0,0,0,1);
- 	}
-
 	public this(float x, float y, float z, float w)
 	{
 		this.x = x;
@@ -30,7 +25,7 @@ class Quaternion
 		return cast(float)sqrt(x * x + y * y + z * z + w * w);
 	}
 	
-	public Quaternion initRotation(Vector3f axis, float angle)
+	public this(Vector3f axis, float angle)
  	{
  		float sinHalfAngle = cast(float)sin(angle / 2);
  		float cosHalfAngle = cast(float)cos(angle / 2);
@@ -39,8 +34,6 @@ class Quaternion
  		this.y = axis.getY() * sinHalfAngle;
  		this.z = axis.getZ() * sinHalfAngle;
  		this.w = cosHalfAngle;
- 
- 		return this;
  	}
  	
  	public Matrix4f toRotationMatrix()
@@ -77,6 +70,9 @@ class Quaternion
  	{
  		return new Vector3f(-(1.0f - 2.0f * (y*y + z*z)), -2.0f * (x*y - w*z), -2.0f * (x*z + w*y));
  	}
+ 	
+ 	public Quaternion set(float x, float y, float z, float w) { this.x = x; this.y = y; this.z = z; this.w = w; return this; }
+	public Quaternion set(Quaternion r) { set(r.getX(), r.getY(), r.getZ(), r.getW()); return this; }
 
 	public Quaternion normalized()
 	{
@@ -93,6 +89,11 @@ class Quaternion
 	public Quaternion conjugate()
 	{
 		return new Quaternion(-x, -y, -z, w);
+	}
+
+	public Quaternion mul(float r)
+	{
+		return new Quaternion(x * r, y * r, z * r, w * r);
 	}
 
 	public Quaternion mul(Quaternion r)
@@ -154,4 +155,10 @@ class Quaternion
 	{
 		this.w = w;
 	}
+	
+	public bool equals(Quaternion r)
+	{
+		return x == r.getX() && y == r.getY() && z == r.getZ() && w == r.getW();
+	}
+	
 }

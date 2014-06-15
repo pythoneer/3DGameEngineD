@@ -11,21 +11,15 @@ class DirectionalLight : BaseLight
 	private BaseLight base;
 	private Vector3f direction;
 
-	public this(Vector3f color, float intensity, Vector3f direction)
+	public this(Vector3f color, float intensity)
 	{
 		super(color, intensity);
-		this.direction = direction.normalized();
 		//TODO singleton?
 		setShader(new ForwardDirectional());
 	}
 	
 	public Vector3f getDirection()
 	{
-		return direction;
-	}
-
-	public void setDirection(Vector3f direction)
-	{
-		this.direction = direction.normalized();
+		return getTransform().getRot().getForward();
 	}
 }

@@ -26,8 +26,10 @@ class Camera : GameComponent
 	
 	public Matrix4f getViewProjection()
 	{
-		Matrix4f cameraRotation = getTransform().getRot().toRotationMatrix();
-		Matrix4f cameraTranslation = new Matrix4f().initTranslation(-getTransform().getPos().getX(), -getTransform().getPos().getY(), -getTransform().getPos().getZ());
+		Matrix4f cameraRotation = getTransform().getTransformedRot().toRotationMatrix();
+		Vector3f cameraPos = getTransform().getTransformedPos().mul(-1);
+
+		Matrix4f cameraTranslation = new Matrix4f().initTranslation(cameraPos.getX(), cameraPos.getY(), cameraPos.getZ());
 
 		return projection.mul(cameraRotation.mul(cameraTranslation));
 	}
@@ -68,19 +70,23 @@ class Camera : GameComponent
 
 		if(Input.isKeyPressed(SDLK_i))
 		{
-			getTransform().setRot(getTransform().getRot().mul(new Quaternion().initRotation(getTransform().getRot().getRight(), (cast(float) Util.toRadians(-rotAmt * sensitivity)))).normalized());
+//			getTransform().setRot(getTransform().getRot().mul(new Quaternion().initRotation(getTransform().getRot().getRight(), (cast(float) Util.toRadians(-rotAmt * sensitivity)))).normalized());
+			getTransform().setRot(getTransform().getRot().mul(new Quaternion(getTransform().getTransformedRot().getRight(), (cast(float) Util.toRadians(-rotAmt * sensitivity)))).normalized());
 		}
 		if(Input.isKeyPressed(SDLK_k))
 		{
-			getTransform().setRot(getTransform().getRot().mul(new Quaternion().initRotation(getTransform().getRot().getRight(), (cast(float) Util.toRadians(rotAmt * sensitivity)))).normalized());
+//			getTransform().setRot(getTransform().getRot().mul(new Quaternion().initRotation(getTransform().getRot().getRight(), (cast(float) Util.toRadians(rotAmt * sensitivity)))).normalized());
+			getTransform().setRot(getTransform().getRot().mul(new Quaternion(getTransform().getTransformedRot().getRight(), (cast(float) Util.toRadians(rotAmt * sensitivity)))).normalized());
 		}
 		if(Input.isKeyPressed(SDLK_j))
 		{
-			getTransform().setRot(getTransform().getRot().mul(new Quaternion().initRotation(new Vector3f(0,1,0), cast(float) Util.toRadians(-rotAmt * sensitivity))).normalized());
+//			getTransform().setRot(getTransform().getRot().mul(new Quaternion().initRotation(new Vector3f(0,1,0), cast(float) Util.toRadians(-rotAmt * sensitivity))).normalized());
+			getTransform().setRot(getTransform().getRot().mul(new Quaternion(new Vector3f(0,1,0), cast(float) Util.toRadians(-rotAmt  * sensitivity))).normalized());
 		}
 		if(Input.isKeyPressed(SDLK_l))
 		{
-			getTransform().setRot(getTransform().getRot().mul(new Quaternion().initRotation(new Vector3f(0,1,0), cast(float) Util.toRadians(rotAmt * sensitivity))).normalized());
+//			getTransform().setRot(getTransform().getRot().mul(new Quaternion().initRotation(new Vector3f(0,1,0), cast(float) Util.toRadians(rotAmt * sensitivity))).normalized());
+			getTransform().setRot(getTransform().getRot().mul(new Quaternion(new Vector3f(0,1,0), cast(float) Util.toRadians(rotAmt  * sensitivity))).normalized());
 		}
 
 	}
