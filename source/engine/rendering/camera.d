@@ -2,13 +2,13 @@ module engine.rendering.camera;
 
 import std.stdio;
 
-//import gl3n.linalg;
 import derelict.sdl2.sdl;
 
 import engine.core.time;
 import engine.core.vector3f;
 import engine.core.input;
 import engine.core.matrix;	
+import engine.core.util;
 
 class Camera
 {
@@ -39,6 +39,10 @@ class Camera
 
 	public void input(float delta)
 	{
+		
+		float sensitivity = 0.5f;
+//		float movAmt = cast(float)(10 * delta);
+		
 		float movAmt = cast(float)(10 * delta);
 		float rotAmt = cast(float)(100 * delta);
 
@@ -63,22 +67,26 @@ class Camera
 		if(Input.isKeyPressed(SDLK_i))
 		{
 //			writeln("-rotx");
-			rotateX(-rotAmt);
+//			rotateX(-rotAmt);
+			rotateX(cast(float)Util.toRadians(-rotAmt * sensitivity));
 		}
 		if(Input.isKeyPressed(SDLK_k))
 		{
 //			writeln("rotx");
-			rotateX(rotAmt);
+//			rotateX(rotAmt);
+			rotateX(cast(float)Util.toRadians(rotAmt * sensitivity));
 		}
 		if(Input.isKeyPressed(SDLK_j))
 		{
 //			writeln("-roty");
-			rotateY(-rotAmt);
+//			rotateY(-rotAmt);
+			rotateY(cast(float)Util.toRadians(-rotAmt * sensitivity));
 		}
 		if(Input.isKeyPressed(SDLK_l))
 		{
 //			writeln("roty");
-			rotateY(rotAmt);
+//			rotateY(rotAmt);
+			rotateY(cast(float)Util.toRadians(rotAmt * sensitivity));
 		}
 
 //		if(Input.getKey(Input.KEY_UP))

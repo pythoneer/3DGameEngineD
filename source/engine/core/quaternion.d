@@ -3,6 +3,7 @@ module engine.core.quaternion;
 import std.math;
 
 import engine.core.vector3f;
+import engine.core.matrix;
 
 class Quaternion
 {
@@ -10,6 +11,11 @@ class Quaternion
 	private float y;
 	private float z;
 	private float w;
+
+	public this()
+ 	{
+ 		this(0,0,0,1);
+ 	}
 
 	public this(float x, float y, float z, float w)
 	{
@@ -23,6 +29,54 @@ class Quaternion
 	{
 		return cast(float)sqrt(x * x + y * y + z * z + w * w);
 	}
+	
+	public Quaternion initRotation(Vector3f axis, float angle)
+ 	{
+ 		float sinHalfAngle = cast(float)sin(angle / 2);
+ 		float cosHalfAngle = cast(float)cos(angle / 2);
+ 
+ 		this.x = axis.getX() * sinHalfAngle;
+ 		this.y = axis.getY() * sinHalfAngle;
+ 		this.z = axis.getZ() * sinHalfAngle;
+ 		this.w = cosHalfAngle;
+ 
+ 		return this;
+ 	}
+ 	
+ 	public Matrix4f toRotationMatrix()
+ 	{
+ 		return new Matrix4f().initRotation(getForward(), getUp(), getRight());
+ 	}
+ 
+ 	public Vector3f getForward()
+ 	{
+ 		return new Vector3f(2.0f * (x*z - w*y), 2.0f * (y*z + w*x), 1.0f - 2.0f * (x*x + y*y));
+ 	}
+ 
+ 	public Vector3f getBack()
+ 	{
+ 		return new Vector3f(-2.0f * (x*z - w*y), -2.0f * (y*z + w*x), -(1.0f - 2.0f * (x*x + y*y)));
+ 	}
+ 
+ 	public Vector3f getUp()
+ 	{
+ 		return new Vector3f(2.0f * (x*y + w*z), 1.0f - 2.0f * (x*x + z*z), 2.0f * (y*z - w*x));
+ 	}
+ 
+ 	public Vector3f getDown()
+ 	{
+ 		return new Vector3f(-2.0f * (x*y + w*z), -(1.0f - 2.0f * (x*x + z*z)), -2.0f * (y*z - w*x));
+ 	}
+ 
+ 	public Vector3f getRight()
+ 	{
+ 		return new Vector3f(1.0f - 2.0f * (y*y + z*z), 2.0f * (x*y - w*z), 2.0f * (x*z + w*y));
+ 	}
+ 
+ 	public Vector3f getLeft()
+ 	{
+ 		return new Vector3f(-(1.0f - 2.0f * (y*y + z*z)), -2.0f * (x*y - w*z), -2.0f * (x*z + w*y));
+ 	}
 
 	public Quaternion normalized()
 	{

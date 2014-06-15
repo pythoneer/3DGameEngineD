@@ -51,24 +51,12 @@ class Vector3f
 	
 	public Vector3f rotate(float angle, Vector3f axis)
 	{
-		float sinHalfAngle = cast(float)sin(Util.toRadians(angle / 2));
-		float cosHalfAngle = cast(float)cos(Util.toRadians(angle / 2));
-
-		float rX = axis.getX() * sinHalfAngle;
-		float rY = axis.getY() * sinHalfAngle;
-		float rZ = axis.getZ() * sinHalfAngle;
-		float rW = cosHalfAngle;
-
-		Quaternion rotation = new Quaternion(rX, rY, rZ, rW);
+		Quaternion rotation = new Quaternion().initRotation(axis, angle);
 		Quaternion conjugate = rotation.conjugate();
 
 		Quaternion w = rotation.mul(this).mul(conjugate);
 
-		x = w.getX();
-		y = w.getY();
-		z = w.getZ();
-
-		return new Vector3f(x, y, z);
+		return new Vector3f(w.getX(), w.getY(), w.getZ());
 	}
 	
 	public Vector3f lerp(Vector3f dest, float lerpFactor)
@@ -155,6 +143,12 @@ class Vector3f
  	public Vector2f getZY() { return new Vector2f(z, y); }
  	public Vector2f getXZ() { return new Vector2f(x, z); }
  	
+ 	public void set(float x, float y, float z) 
+ 	{ 
+ 		this.x = x;
+ 		this.y = y; 
+ 		this.z = z; 
+	}
  	
  	public float max()
  	{
