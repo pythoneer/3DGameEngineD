@@ -32,6 +32,8 @@ class GameObject
 
 	public void input(float delta)
 	{
+		transform.update();
+		
 		foreach(component; components)
 		{
 			component.input(delta);

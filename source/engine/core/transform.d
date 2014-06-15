@@ -28,30 +28,43 @@ public class Transform
 		parentMatrix = new Matrix4f().initIdentity();
 	}
 	
+	public void update()
+	{
+		if(oldPos !is null)
+		{
+			oldPos.set(pos);
+			oldRot.set(rot);
+			oldScale.set(scale);
+		}
+		else
+		{
+			oldPos = new Vector3f(0,0,0).set(pos).add(1.0f);
+			oldRot = new Quaternion(0,0,0,0).set(rot).mul(0.5f);
+			oldScale = new Vector3f(0,0,0).set(scale).add(1.0f);
+		}
+	}
+	
+	public void rotate(Vector3f axis, float angle)
+	{
+		rot = new Quaternion(axis, angle).mul(rot).normalized();
+	}
+	
 	public bool hasChanged()
- 	{
- 		if(oldPos is null)
- 		{
- 			oldPos = new Vector3f(0,0,0).set(pos);
- 			oldRot = new Quaternion(0,0,0,0).set(rot);
- 			oldScale = new Vector3f(0,0,0).set(scale);
- 			return true;
- 		}
- 
- 		if(parent !is null && parent.hasChanged())
- 			return true;
- 
- 		if(!pos.equals(oldPos))
- 			return true;
- 
- 		if(!rot.equals(oldRot))
- 			return true;
- 
- 		if(!scale.equals(oldScale))
- 			return true;
- 
- 		return false;
- 	}
+	{
+		if(parent !is null && parent.hasChanged())
+			return true;
+
+		if(!pos.equals(oldPos))
+			return true;
+
+		if(!rot.equals(oldRot))
+			return true;
+
+		if(!scale.equals(oldScale))
+			return true;
+
+		return false;
+	}
 	
 	public Matrix4f getTransformation()
 	{
