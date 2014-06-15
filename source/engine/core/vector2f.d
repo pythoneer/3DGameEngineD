@@ -85,6 +85,16 @@ class Vector2f
 	{
 		return new Vector2f(x / r, y / r);
 	}
+	
+	public float cross(Vector2f r)
+ 	{
+ 		return x * r.getY() - y * r.getX();
+ 	}
+ 
+ 	public Vector2f lerp(Vector2f dest, float lerpFactor)
+ 	{
+ 		return dest.sub(this).mul(lerpFactor).add(this);
+ 	}
 
 //	public string toString()
 //	{

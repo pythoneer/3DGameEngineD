@@ -8,54 +8,54 @@ import engine.rendering.camera;
 public class Transform
 {
 	
-	private Vector3f translation;
-	private Vector3f rotation;
 	private Vector3f scale;
+	private Vector3f pos;
+ 	private Vector3f rot;
 	
 	public this()
 	{
-		translation = new Vector3f(0f,0f,0f);
-		rotation = new Vector3f(0f,0f,0f);
+		pos = new Vector3f(0f,0f,0f);
+		rot = new Vector3f(0f,0f,0f);
 		scale = new Vector3f(1f,1f,1f);
 	}
 	
 	public Matrix4f getTransformation()
 	{
-		Matrix4f translationMatrix = new Matrix4f().initTranslation(translation.getX(), translation.getY(), translation.getZ());
-		Matrix4f rotationMatrix = new Matrix4f().initRotation(rotation.getX(), rotation.getY(), rotation.getZ());
+		Matrix4f translationMatrix = new Matrix4f().initTranslation(pos.getX(), pos.getY(), pos.getZ());
+		Matrix4f rotationMatrix = new Matrix4f().initRotation(rot.getX(), rot.getY(), rot.getZ());
 		Matrix4f scaleMatrix = new Matrix4f().initScale(scale.getX(), scale.getY(), scale.getZ());
 
 		return translationMatrix.mul(rotationMatrix.mul(scaleMatrix));
 	}
 	
-	public Vector3f getTranslation()
+	public Vector3f getPos()
 	{
-		return translation;
+		return pos;
 	}
 
-	public void setTranslation(Vector3f translation)
+	public void setPos(Vector3f pos)
 	{
-		this.translation = translation;
+		this.pos = pos;
 	}
 	
-	public void setTranslation(float x, float y, float z)
+	public void setPos(float x, float y, float z)
 	{
-		this.translation = new Vector3f(x, y, z);
+		this.pos = new Vector3f(x, y, z);
 	}
 
-	public Vector3f getRotation()
+	public Vector3f getRot()
 	{
-		return rotation;
+		return rot;
 	}
 
-	public void setRotation(Vector3f rotation)
+	public void setRot(Vector3f rot)
 	{
-		this.rotation = rotation;
+		this.rot = rot;
 	}
 	
-	public void setRotation(float x, float y, float z)
+	public void setRot(float x, float y, float z)
 	{
-		this.rotation = new Vector3f(x, y, z);
+		this.rot = new Vector3f(x, y, z);
 	}
 	
 	public Vector3f getScale()

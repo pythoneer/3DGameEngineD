@@ -4,6 +4,7 @@ import std.math;
 
 import engine.core.util;
 import engine.core.quaternion;
+import engine.core.vector2f;
 
 class Vector3f
 {
@@ -69,6 +70,11 @@ class Vector3f
 
 		return new Vector3f(x, y, z);
 	}
+	
+	public Vector3f lerp(Vector3f dest, float lerpFactor)
+ 	{
+ 		return dest.sub(this).mul(lerpFactor).add(this);
+ 	}
 	
 	public Vector3f add(Vector3f r)
 	{
@@ -139,5 +145,14 @@ class Vector3f
 	{
 		this.z = z;
 	}
+	
+	//swizzeling
+	public Vector2f getXY() { return new Vector2f(x, y); }
+ 	public Vector2f getYZ() { return new Vector2f(y, z); }
+ 	public Vector2f getZX() { return new Vector2f(z, x); }
+ 
+ 	public Vector2f getYX() { return new Vector2f(y, x); }
+ 	public Vector2f getZY() { return new Vector2f(z, y); }
+ 	public Vector2f getXZ() { return new Vector2f(x, z); }
 }
 
