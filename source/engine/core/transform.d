@@ -4,7 +4,7 @@ import engine.core.util;
 import engine.core.vector3f;
 import engine.core.matrix;
 import engine.core.quaternion;
-import engine.rendering.camera;
+import engine.components.camera;
 
 public class Transform
 {

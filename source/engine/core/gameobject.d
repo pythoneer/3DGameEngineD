@@ -21,10 +21,12 @@ class GameObject
 		children ~= child;
 	}
 
-	public void addComponent(GameComponent component)
+	public GameObject addComponent(GameComponent component)
 	{
 		components ~= component;
 		component.setParent(this);
+		
+		return this;
 	}
 
 	public void input(float delta)

@@ -25,16 +25,6 @@ class CoreEngine
 	private int m_height;
 	private double m_frameTime;
 
-//	public this() 
-//	{
-//		printf("opengl version: '%s'\n", RenderUtil.getOpenGLVersion());
-//		RenderUtil.initGraphics();
-//
-//		m_isRunning = false;
-//		m_game = new TestGame();
-//		m_game.init();
-//	}
-
 	public this(int width, int height, double framerate, Game game)
 	{
 		m_isRunning = false;
@@ -43,17 +33,12 @@ class CoreEngine
 		m_height = height;
 		m_frameTime = 1.0/framerate;
 	}
-	
-//	private void initializeRenderingSystem()
-//	{
-//		writeln(RenderUtil.getOpenGLVersion());
-//		RenderUtil.initGraphics();
-//	}
 
 	public void createWindow(string title)
 	{
 		Window.createWindow(m_width, m_height, title);
 		this.renderingEngine = new RenderingEngine();
+		printf("opengl version: '%s'\n", this.renderingEngine.getOpenGLVersion());
 	}
 
 	public void start()
@@ -79,7 +64,6 @@ class CoreEngine
 		int frames = 0;
 		long frameCounter = 0;
 		
-		//const double frameTime = 1.0f / FRAME_CAP;
 		m_game.init();
 		
 		double lastTime = Time.getTime();
@@ -108,8 +92,7 @@ class CoreEngine
 				if(Window.isCloseRequested())
 					stop();
 				
-				m_game.input(cast(float)m_frameTime);
-				renderingEngine.input(cast(float)m_frameTime);	
+				m_game.input(cast(float)m_frameTime);	
 				Input.update();			
 				m_game.update(cast(float)m_frameTime);
 				
@@ -138,14 +121,6 @@ class CoreEngine
 		
 		cleanUp();
 	}//run
-
-
-//	private void render()
-//	{
-//		RenderUtil.clearScreen();
-//		m_game.render();
-//		Window.render();
-//	}
 	
 	private void cleanUp()
 	{

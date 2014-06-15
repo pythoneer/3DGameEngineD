@@ -52,28 +52,5 @@ class Util
 	{
 		return ( PI / 180) * angle;
 	}
-	
-//	public static vec3d rotate(vec3d vector, float angle, vec3d axis)
-//	{
-//		float sinHalfAngle = cast(float)sin(radians(angle / 2));
-//		float cosHalfAngle = cast(float)cos(radians(angle / 2));
-//
-//		float rX = axis.x * sinHalfAngle;
-//		float rY = axis.y * sinHalfAngle;
-//		float rZ = axis.z * sinHalfAngle;
-//		float rW = cosHalfAngle;
-//
-//		quat rotation = quat(rW, rX, rY, rZ);
-//		quat conjugate = rotation.conjugated();
-//
-//		//Quaternion w = rotation.mul(this).mul(conjugate);
-//		quat w = rotation * vector * conjugate;
-//
-////		x = w.getX();
-////		y = w.getY();
-////		z = w.getZ();
-//
-//		return vec3d(w.x, w.y, w.z);
-//	}
 }
 

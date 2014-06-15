@@ -23,6 +23,7 @@ import engine.components.baselight;
 import engine.components.directionallight;
 import engine.components.pointlight;
 import engine.components.spotlight;
+import engine.components.camera;
 
 class TestGame : Game
 {	
@@ -69,5 +70,7 @@ class TestGame : Game
 		getRootObject().addChild(directionalLightObject);
 		getRootObject().addChild(pointLightObject);
 		getRootObject().addChild(spotLightObject);
+		
+		getRootObject().addChild(new GameObject().addComponent(new Camera(cast(float)Util.toRadians(70.0f), cast(float)Window.getWidth()/cast(float)Window.getHeight(), 0.01f, 1000.0f)));
 	}
 }

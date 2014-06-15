@@ -54,7 +54,7 @@ class ForwardDirectional : Shader
 		setUniformf("specularIntensity", material.getSpecularIntensity());
 		setUniformf("specularPower", material.getSpecularPower());
 
-		super.setUniform("eyePos", getRenderingEngine().getMainCamera().getPos());
+		super.setUniform("eyePos", getRenderingEngine().getMainCamera().getTransform().getPos());
 		setUniformDirectionalLight("directionalLight", cast(DirectionalLight)getRenderingEngine().getActiveLight());
 	}
 
