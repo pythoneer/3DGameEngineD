@@ -161,6 +161,12 @@ class Shader
 		uniforms[uniform] = uniformLocation;
 	}
 	
+	public void setAttribLocation(string attributeName, int location)
+ 	{
+ 		const char* c_attribName = attributeName.toStringz();
+ 		glBindAttribLocation(program, location, c_attribName);
+ 	}
+	
 	public void setUniformi(string uniformName, int value)
 	{
 		glUniform1i(uniforms[uniformName], value);

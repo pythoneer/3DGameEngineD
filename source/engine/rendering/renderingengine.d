@@ -9,16 +9,18 @@ import engine.core.gameobject;
 import engine.core.util;
 import engine.rendering.shader;
 import engine.rendering.basicshader;
+import engine.rendering.forwardambient;
 import engine.rendering.camera;
 
 public class RenderingEngine
 {
 	private Shader shader;
 	private Camera mainCamera;
+	private Vector3f ambientLight;
 	
 	public this()
 	{
-		shader = new BasicShader();
+		shader = new ForwardAmbient();
 		
 		glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
@@ -33,7 +35,13 @@ public class RenderingEngine
 		
 		//TODO window width and height
 		mainCamera = new Camera(cast(float)Util.toRadians(70.0f), 800.0f/600.0f, 0.01f, 1000.0f);
+		ambientLight = new Vector3f(0.2f, 0.2f, 0.2f);
 	}
+	
+	public Vector3f getAmbientLight()
+ 	{
+ 		return ambientLight;
+  	}
 
 	public void input(float delta)
  	{
