@@ -11,7 +11,7 @@ class GameComponent
 
 	public void input(float delta) {}
 	public void update(float delta) {}
-	public void render(Shader shader) {}
+	public void render(Shader shader, RenderingEngine renderingEngine) {}
 
 	public void setParent(GameObject parent)
 	{

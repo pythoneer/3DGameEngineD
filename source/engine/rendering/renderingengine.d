@@ -8,7 +8,6 @@ import engine.core.vector3f;
 import engine.core.gameobject;
 import engine.core.util;
 import engine.rendering.shader;
-import engine.rendering.basicshader;
 import engine.rendering.forwardambient;
 import engine.rendering.forwarddirectional;
 import engine.rendering.forwardpoint;
@@ -65,7 +64,7 @@ public class RenderingEngine
 		
  		forwardAmbient.setRenderingEngine(this);
 		
-		object.render(forwardAmbient);
+		object.render(forwardAmbient, this);
 		
 		glEnable(GL_BLEND);
  		glBlendFunc(GL_ONE, GL_ONE);
@@ -76,7 +75,7 @@ public class RenderingEngine
  		{
  			light.getShader().setRenderingEngine(this);
  			activeLight = light;
- 			object.render(light.getShader());
+ 			object.render(light.getShader(), this);
  		}
 
  		glDepthFunc(GL_LESS);

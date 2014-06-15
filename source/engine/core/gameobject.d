@@ -59,16 +59,16 @@ class GameObject
 		}			
 	}
 
-	public void render(Shader shader)
+	public void render(Shader shader, RenderingEngine renderingEngine)
 	{
 		foreach(component; components)
 		{
-			component.render(shader);
+			component.render(shader, renderingEngine);
 		}
 
 		foreach(child; children)
 		{
-			child.render(shader);
+			child.render(shader, renderingEngine);
 		}
 	}
 	

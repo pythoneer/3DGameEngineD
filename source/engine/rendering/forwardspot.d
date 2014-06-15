@@ -4,6 +4,7 @@ import engine.core.transform;
 import engine.core.matrix;
 import engine.rendering.shader;
 import engine.rendering.material;
+import engine.rendering.renderingengine;
 import engine.components.pointlight;
 import engine.components.baselight;
 import engine.components.spotlight;
@@ -42,20 +43,20 @@ class ForwardSpot : Shader
 	}
 
 	override
-	public void updateUniforms(Transform transform, Material material)
+	public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine)
 	{
 		Matrix4f worldMatrix = transform.getTransformation();
-		Matrix4f projectedMatrix = getRenderingEngine().getMainCamera().getViewProjection().mul(worldMatrix);
-		material.getTexture().bind();
+		Matrix4f projectedMatrix = renderingEngine.getMainCamera().getViewProjection().mul(worldMatrix);
+ 		material.getTexture("diffuse").bind();
 
 		super.setUniform("model", worldMatrix);
 		super.setUniform("MVP", projectedMatrix);
 
-		setUniformf("specularIntensity", material.getSpecularIntensity());
-		setUniformf("specularPower", material.getSpecularPower());
+		setUniformf("specularIntensity", material.getFloat("specularIntensity"));
+ 		setUniformf("specularPower", material.getFloat("specularPower"));
 
-		super.setUniform("eyePos", getRenderingEngine().getMainCamera().getTransform().getTransformedPos());
-		setUniformSpotLight("spotLight", cast(SpotLight)getRenderingEngine().getActiveLight());
+		super.setUniform("eyePos", renderingEngine.getMainCamera().getTransform().getTransformedPos());
+ 		setUniformSpotLight("spotLight", cast(SpotLight)renderingEngine.getActiveLight());
 	}
 
 	public void setUniformBaseLight(string uniformName, BaseLight baseLight)

@@ -187,7 +187,7 @@ class Shader
 		glUniformMatrix4fv(uniforms[uniformName], 1, GL_TRUE, Util.createBuffer(value).ptr);
 	}
 	
-	public void updateUniforms(Transform transform, Material material)
+	public void updateUniforms(Transform transform, Material material, RenderingEngine renderingEngine)
 	{
 
 	}

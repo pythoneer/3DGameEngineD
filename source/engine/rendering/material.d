@@ -1,70 +1,63 @@
 module engine.rendering.material;
 
+import std.string;
+
 import engine.core.vector3f;
 import engine.rendering.texture;
 
 class Material
 {
-	private Texture texture;
-	private Vector3f color;
-	private float specularIntensity;
- 	private float specularPower;
+	private Texture[string] textureHashMap;
+	private Vector3f[string] vector3fHashMap;
+	private float[string] floatHashMap;
 
-	public this(Texture texture)
+	public this()
 	{
-		this(texture, new Vector3f(1,1,1));
+
 	}
 
-	public this(Texture texture, Vector3f color)
+	public void addTexture(string name, Texture texture) 
 	{
-		this(texture, color, 2, 32);
+		textureHashMap[name] = texture; 
+	
+	}
+	public void addVector3f(string name, Vector3f vector3f) 
+	{ 
+		vector3fHashMap[name] = vector3f; 
 	}
 	
-	public this(Texture texture, Vector3f color, float specularIntensity, float specularPower)
- 	{
-  		this.texture = texture;
-  		this.color = color;
- 		this.specularIntensity = specularIntensity;
- 		this.specularPower = specularPower;
-  	}
-
-	public Texture getTexture()
-	{
-		return texture;
+	public void addFloat(string name, float floatValue) 
+	{ 
+		floatHashMap[name] = floatValue; 
 	}
 
-	public void setTexture(Texture texture)
+	public Texture getTexture(string name)
 	{
-		this.texture = texture;
+		if(name in textureHashMap)
+		{
+			return textureHashMap[name];
+		}
+		
+		return new Texture("test.png");
 	}
 
-	public Vector3f getColor()
+	public Vector3f getVector3f(string name)
 	{
-		return color;
+		if(name in vector3fHashMap)
+		{
+			return vector3fHashMap[name];
+		}
+		
+		return new Vector3f(0,0,0);
 	}
 
-	public void setColor(Vector3f color)
+	public float getFloat(string name)
 	{
-		this.color = color;
-	}
-	
-	public float getSpecularIntensity()
-	{
-		return specularIntensity;
-	}
-
-	public void setSpecularIntensity(float specularIntensity)
-	{
-		this.specularIntensity = specularIntensity;
-	}
-
-	public float getSpecularPower()
-	{
-		return specularPower;
-	}
-
-	public void setSpecularPower(float specularPower)
-	{
-		this.specularPower = specularPower;
+		if(name in floatHashMap)
+		{
+			return floatHashMap[name];
+		}
+		
+		return 0;
 	}
 }

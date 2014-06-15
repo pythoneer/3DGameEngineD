@@ -1,6 +1,7 @@
 ﻿module engine.core.game;
 
 import engine.core.gameobject;
+import engine.rendering.renderingengine;
 
 class Game
 {
@@ -19,7 +20,17 @@ class Game
 		getRootObject().update(delta);
 	}
 
-	public GameObject getRootObject()
+	public void render(RenderingEngine renderingEngine)
+	{
+		renderingEngine.render(getRootObject());
+	}
+
+	public void addObject(GameObject object)
+	{
+		getRootObject().addChild(object);
+	}
+
+	private GameObject getRootObject()
 	{
 		if(root is null)
 			root = new GameObject();

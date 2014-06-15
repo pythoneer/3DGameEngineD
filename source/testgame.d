@@ -15,7 +15,6 @@ import engine.rendering.window;
 import engine.rendering.mesh;
 import engine.rendering.meshrenderer;
 import engine.rendering.shader;
-import engine.rendering.basicshader;
 import engine.rendering.vertex;
 import engine.rendering.material;
 import engine.rendering.texture;
@@ -41,7 +40,7 @@ class TestGame : Game
 		int indices[] = [ 0, 1, 2,
 				2, 1, 3];
 
-		Vertex[] vertices2 = [ 	new Vertex( new Vector3f(-fieldWidth/ 10, 0.0f, -fieldDepth/ 10), new Vector2f(0.0f, 0.0f)),
+		Vertex[] vertices2 = [	new Vertex( new Vector3f(-fieldWidth/ 10, 0.0f, -fieldDepth/ 10), new Vector2f(0.0f, 0.0f)),
 				new Vertex( new Vector3f(-fieldWidth/ 10, 0.0f, fieldDepth/ 10 * 3), new Vector2f(0.0f, 1.0f)),
 				new Vertex( new Vector3f(fieldWidth/ 10 * 3, 0.0f, -fieldDepth/ 10), new Vector2f(1.0f, 0.0f)),
 				new Vertex( new Vector3f(fieldWidth/ 10 * 3, 0.0f, fieldDepth/ 10 * 3), new Vector2f(1.0f, 1.0f))];
@@ -52,7 +51,10 @@ class TestGame : Game
 		Mesh mesh2 = new Mesh(vertices2, indices2, true);
 
 		Mesh mesh = new Mesh(vertices, indices, true);
-		Material material = new Material(new Texture("test.png"), new Vector3f(1,1,1), 1, 8);
+		Material material = new Material();//new Texture("test.png"), new Vector3f(1,1,1), 1, 8);
+		material.addTexture("diffuse", new Texture("test.png"));
+		material.addFloat("specularIntensity", 1);
+		material.addFloat("specularPower", 8);
 
 		MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
 
@@ -77,10 +79,10 @@ class TestGame : Game
 		spotLightObject.getTransform().getPos().set(5, 0, 5);
 		spotLightObject.getTransform().setRot(new Quaternion(new Vector3f(0,1,0), cast(float)Util.toRadians(90.0f)));
 
-		getRootObject().addChild(planeObject);
-		getRootObject().addChild(directionalLightObject);
-		getRootObject().addChild(pointLightObject);
-		getRootObject().addChild(spotLightObject);
+		addObject(planeObject);
+		addObject(directionalLightObject);
+		addObject(pointLightObject);
+		addObject(spotLightObject);
 
 		//getRootObject().addChild(new GameObject().addComponent(new Camera((float)Math.toRadians(70.0f), (float)Window.getWidth()/(float)Window.getHeight(), 0.01f, 1000.0f)));
 
@@ -97,7 +99,7 @@ class TestGame : Game
 		//getRootObject()
 						.addChild(new GameObject().addComponent(new Camera(cast(float)Util.toRadians(70.0f), cast(float)Window.getWidth()/cast(float)Window.getHeight(), 0.01f, 1000.0f)));
 
-		getRootObject().addChild(testMesh1);
+		addObject(testMesh1);
 
 		directionalLight.getTransform().setRot(new Quaternion(new Vector3f(1,0,0), cast(float)Util.toRadians(-45)));
 	}

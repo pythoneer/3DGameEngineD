@@ -109,7 +109,7 @@ class CoreEngine
 			}
 			if(shouldRender)
 			{
-				renderingEngine.render(m_game.getRootObject());
+				m_game.render(renderingEngine);
  				Window.render();
 				frames++;
 			}
