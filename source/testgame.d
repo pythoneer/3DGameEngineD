@@ -40,7 +40,7 @@ class TestGame : Game
 		int indices[] = [ 0, 1, 2,
 				2, 1, 3];
 
-		Vertex[] vertices2 = [	new Vertex( new Vector3f(-fieldWidth/ 10, 0.0f, -fieldDepth/ 10), new Vector2f(0.0f, 0.0f)),
+		Vertex[] vertices2 = [ 	new Vertex( new Vector3f(-fieldWidth/ 10, 0.0f, -fieldDepth/ 10), new Vector2f(0.0f, 0.0f)),
 				new Vertex( new Vector3f(-fieldWidth/ 10, 0.0f, fieldDepth/ 10 * 3), new Vector2f(0.0f, 1.0f)),
 				new Vertex( new Vector3f(fieldWidth/ 10 * 3, 0.0f, -fieldDepth/ 10), new Vector2f(1.0f, 0.0f)),
 				new Vertex( new Vector3f(fieldWidth/ 10 * 3, 0.0f, fieldDepth/ 10 * 3), new Vector2f(1.0f, 1.0f))];
@@ -65,7 +65,7 @@ class TestGame : Game
 		planeObject.getTransform().getPos().set(0, -1, 5);
 
 		GameObject directionalLightObject = new GameObject();
-		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1,1,1), 0.4f);
+		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0,0,1), 0.4f);
 
 		directionalLightObject.addComponent(directionalLight);
 
@@ -90,6 +90,7 @@ class TestGame : Game
 
 		GameObject testMesh1 = new GameObject().addComponent(new MeshRenderer(mesh2, material));
 		GameObject testMesh2 = new GameObject().addComponent(new MeshRenderer(mesh2, material));
+		GameObject testMesh3 = new GameObject().addComponent(new MeshRenderer(tempMesh, material));
 
 		testMesh1.getTransform().getPos().set(0, 2, 0);
 		testMesh1.getTransform().setRot(new Quaternion(new Vector3f(0,1,0), 0.4f));
@@ -102,6 +103,7 @@ class TestGame : Game
 						.addChild(new GameObject().addComponent(new Camera(cast(float)Util.toRadians(70.0f), cast(float)Window.getWidth()/cast(float)Window.getHeight(), 0.01f, 1000.0f)));
 
 		addObject(testMesh1);
+		addObject(testMesh3);
 
 		directionalLight.getTransform().setRot(new Quaternion(new Vector3f(1,0,0), cast(float)Util.toRadians(-45)));
 	}

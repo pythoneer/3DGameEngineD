@@ -12,6 +12,7 @@ import engine.core.vector3f;
 import engine.core.vector2f;
 import engine.rendering.vertex;
 import engine.rendering.meshloading.objmodel;
+import engine.rendering.meshloading.indexedmodel;
 
 class Mesh
 {
@@ -70,12 +71,32 @@ class Mesh
 	public void loadMesh(string fileName)
 	{
 	
-		Vertex[] vertices;
-		int[] indices;
+//		Vertex[] vertices;
+//		int[] indices;
 
-		string meshPath = "./res/models/" ~ fileName;
+//		string meshPath = "./res/models/" ~ fileName;
 		
 		OBJModel test = new OBJModel(fileName);
+ 		IndexedModel model = test.toIndexedModel();
+ 		model.calcNormals();
+ 		
+ 		
+ 		Vertex[] vertices;
+
+		for(int i = 0; i < model.getPositions().length; i++)
+		{
+			vertices ~= new Vertex(model.getPositions()[i],
+					model.getTexCoords()[i],
+					model.getNormals()[i]);
+		}
+
+//		Vertex[] vertexData = new Vertex[vertices.length];
+//		vertices.toArray(vertexData);
+
+//		Integer[] indexData = new Integer[model.getIndices().size()];
+//		model.getIndices().toArray(indexData);
+
+		addVertices(vertices, model.getIndices(), false);
 		
 //		if(exists(meshPath) != 0){
 //			

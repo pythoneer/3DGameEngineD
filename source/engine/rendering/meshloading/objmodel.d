@@ -9,6 +9,7 @@ import std.file;
 import engine.core.vector3f;
 import engine.core.vector2f;
 import engine.rendering.meshloading.objindex;
+import engine.rendering.meshloading.indexedmodel;
 
 public class OBJModel
 {
@@ -72,7 +73,86 @@ public class OBJModel
 			writeln("could not find mesh file: " ~ fileName);
 		}
 	}
+	
+	
+	public IndexedModel toIndexedModel()
+	{
+		IndexedModel result = new IndexedModel();
+		IndexedModel normalModel = new IndexedModel();
+		int[OBJIndex] resultIndexMap;
+		int[int] normalIndexMap;
+		int[int] indexMap;
 
+		for(int i = 0; i < indices.length; i++)
+		{
+			OBJIndex currentIndex = indices[i];
+
+			Vector3f currentPosition = positions[currentIndex.vertexIndex];
+			Vector2f currentTexCoord;
+			Vector3f currentNormal;
+
+			if(hasTexCoords)
+				currentTexCoord = texCoords[currentIndex.texCoordIndex];
+			else
+				currentTexCoord = new Vector2f(0,0);
+
+			if(hasNormals)
+				currentNormal = normals[currentIndex.normalIndex];
+			else
+				currentNormal = new Vector3f(0,0,0);
+
+
+			int modelVertexIndex;
+
+			if(currentIndex !in resultIndexMap)
+			{
+				
+				modelVertexIndex = cast(int)result.getPositions().length;
+				resultIndexMap[currentIndex] = modelVertexIndex;
+
+				result.getPositions() ~= currentPosition;
+				result.getTexCoords() ~= currentTexCoord;
+				if(hasNormals)
+					result.getNormals() ~= currentNormal;
+			}
+			else
+			{
+				modelVertexIndex = resultIndexMap[currentIndex];
+			}
+
+			int normalModelIndex;
+
+			if(currentIndex.vertexIndex !in normalIndexMap)
+			{
+				
+				normalModelIndex = cast(int)normalModel.getPositions().length;
+				normalIndexMap[currentIndex.vertexIndex] = normalModelIndex;
+
+				normalModel.getPositions() ~= currentPosition;
+				normalModel.getTexCoords() ~= currentTexCoord;
+				normalModel.getNormals() ~= currentNormal;
+			}
+			else
+			{
+				normalModelIndex = normalIndexMap[currentIndex.vertexIndex];
+			}
+
+			result.getIndices() ~= modelVertexIndex;
+			normalModel.getIndices() ~= normalModelIndex;
+			indexMap[modelVertexIndex] = normalModelIndex;
+		}
+
+		if(!hasNormals)
+		{
+			normalModel.calcNormals();
+
+			for(int i = 0; i < result.getPositions().length; i++)
+				result.getNormals() ~= (normalModel.getNormals()[indexMap[i]]);
+		}
+
+		return result;
+	}
+	
 	private OBJIndex parseOBJIndex(string token)
 	{
 		string[] values = token.split("/");
@@ -94,9 +174,4 @@ public class OBJModel
 
 		return result;
 	}
-
-	public Vector3f[] getPositions() { return positions; }
-	public Vector2f[] getTexCoords() { return texCoords; }
-	public Vector3f[] getNormals() { return normals; }
-	public OBJIndex[] getIndices() { return indices; }
 }

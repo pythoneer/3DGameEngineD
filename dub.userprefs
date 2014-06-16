@@ -1,16 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="source/phongshader.d">
+  <MonoDevelop.Ide.Workbench ActiveDocument="source/engine/rendering/renderingengine.d">
     <Files>
-      <File FileName="source/app.d" Line="112" Column="1" />
-      <File FileName="source/phongshader.d" Line="76" Column="1" />
-      <File FileName="source/game.d" Line="122" Column="1" />
-      <File FileName="source/shader.d" Line="141" Column="1" />
+      <File FileName="source/engine/rendering/renderingengine.d" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/naikon/Documents/dev/git-repos/3DGameEngineD/source/phongshader.d" line="73" column="1" />
+      <Breakpoint file="/home/naikon/Documents/dev/git-repos/3DGameEngineD/source/engine/rendering/forwarddirectional.d" line="47" column="1" />
+      <Breakpoint file="/home/naikon/Documents/dev/git-repos/3DGameEngineD/source/engine/rendering/renderingengine.d" line="48" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
