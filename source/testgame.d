@@ -65,7 +65,7 @@ class TestGame : Game
 		planeObject.getTransform().getPos().set(0, -1, 5);
 
 		GameObject directionalLightObject = new GameObject();
-		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0,0,1), 0.4f);
+		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1,1,1), 0.4f);
 
 		directionalLightObject.addComponent(directionalLight);
 
