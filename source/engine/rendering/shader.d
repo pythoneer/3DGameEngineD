@@ -4,6 +4,7 @@ import std.stdio;
 import std.file;
 import core.runtime;
 import std.string;
+import std.algorithm;
 
 import derelict.opengl3.gl3;
 
@@ -46,8 +47,10 @@ class Shader
  		addProgram(loadShader(text), GL_FRAGMENT_SHADER);
  	}
  	
- 		public static string loadShader(string fileName)
+	public static string loadShader(string fileName)
 	{
+		const string INCLUDE_DIRECTIVE = "#include";
+		
 		string shaderPath = "./res/shaders/" ~ fileName;
 		string shaderSource = "";
 
@@ -56,7 +59,18 @@ class Shader
 			
 			while (!file.eof()) {
 				string line = chomp(file.readln());
-				shaderSource ~= line ~ "\n";
+//				shaderSource ~= line ~ "\n";
+				
+				if(line.startsWith(INCLUDE_DIRECTIVE))
+ 				{
+ 					auto index = indexOf(line, INCLUDE_DIRECTIVE);
+ 					auto src = loadShader(line[index + 10 .. $-1]);
+ 					shaderSource ~= src;
+ 				}
+ 				else
+ 				{
+ 					shaderSource ~= line ~ "\n";
+ 				}				
 			}
 		}
 		else 
