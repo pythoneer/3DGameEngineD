@@ -13,17 +13,28 @@ import engine.core.vector2f;
 import engine.rendering.vertex;
 import engine.rendering.meshloading.objmodel;
 import engine.rendering.meshloading.indexedmodel;
+import engine.rendering.resourcemanagement.meshresource;
 
 class Mesh
 {
-	private GLuint vbo;
-	private GLuint ibo;
-	private long size;
+	private static MeshResource[string] loadedModels;
+ 	private MeshResource resource;
+ 	private string fileName;
 	
 	public this(string fileName)
 	{
-		initMeshData();
- 		loadMesh(fileName);
+		this.fileName = fileName;
+
+		if(fileName in loadedModels)
+		{
+			resource = loadedModels[fileName];
+			resource.addReference();
+		}
+		else
+		{
+			loadMesh(fileName);
+			loadedModels[fileName] = resource;
+		}
 	}
 	
 	public this(Vertex[] vertices, int[] indices)
@@ -33,17 +44,17 @@ class Mesh
  	
  	public this(Vertex[] vertices, int[] indices, bool calcNormals)
  	{
- 		initMeshData();
+ 		fileName = "";
  		addVertices(vertices, indices, calcNormals);
   	}
  	
- 	private void initMeshData()
-  	{
- 		glGenBuffers(1, &vbo);
- 		glGenBuffers(1, &ibo);
- 		size = 0;
-  	}
- 	
+ 	public ~this()
+	{
+		if(resource.removeReference() && fileName.length != 0)
+		{
+			loadedModels.remove(fileName);
+		}
+	}	
 	
 	private void addVertices(Vertex[] vertices, int[] indices)
 	{
@@ -57,24 +68,19 @@ class Mesh
 			this.calcNormals(vertices, indices);
 		}
 
-		size = indices.length;
+		resource = new MeshResource(cast(int)indices.length);
 
 		float[] vertexDataArray = Util.createBuffer(vertices);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, resource.getVbo());
 		glBufferData(GL_ARRAY_BUFFER, vertexDataArray.length * float.sizeof, vertexDataArray.ptr, GL_STATIC_DRAW);
 		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource.getIbo());
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.length * int.sizeof, indices.ptr, GL_STATIC_DRAW);
 	}
 	
 	public void loadMesh(string fileName)
 	{
-	
-//		Vertex[] vertices;
-//		int[] indices;
-
-//		string meshPath = "./res/models/" ~ fileName;
 		
 		OBJModel test = new OBJModel(fileName);
  		IndexedModel model = test.toIndexedModel();
@@ -90,48 +96,8 @@ class Mesh
 					model.getNormals()[i]);
 		}
 
-//		Vertex[] vertexData = new Vertex[vertices.length];
-//		vertices.toArray(vertexData);
-
-//		Integer[] indexData = new Integer[model.getIndices().size()];
-//		model.getIndices().toArray(indexData);
-
 		addVertices(vertices, model.getIndices(), false);
 		
-//		if(exists(meshPath) != 0){
-//			
-//			File file = File(meshPath, "r");
-//			while (!file.eof()) {
-//				string line = chomp(file.readln());
-//				string[] tokens = split(line);
-//				
-//				if(tokens.length == 0 || tokens[0] == "#")
-//				{
-//					continue;
-//				}
-//				else if(tokens[0] == "v")
-//				{
-//					
-//					Vertex tmp = new Vertex(new Vector3f(to!float(tokens[1]),
-//							 							 to!float(tokens[2]),
-//							 							 to!float(tokens[3])));
-//					vertices ~= tmp;
-//				}
-//				else if(tokens[0] == "f")
-//				{ 
-//					indices ~= to!int(tokens[1]) -1;
-//					indices ~= to!int(tokens[2]) -1;
-//					indices ~= to!int(tokens[3]) -1;
-//				}
-//			}
-//			
-//		}
-//		else 
-//		{
-//			writeln("could not find mesh file: " ~ fileName);
-//		}
-//			
-//		addVertices(vertices, indices, true);
 	}
 	
 	
@@ -141,7 +107,7 @@ class Mesh
 		glEnableVertexAttribArray(1);	//tex
 		glEnableVertexAttribArray(2);	//norm
 		
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, resource.getVbo);
 		
 		glVertexAttribPointer(cast(uint)0, 
 							  3, 
@@ -164,8 +130,8 @@ class Mesh
 							  8 * float.sizeof, 
 							  cast(GLvoid*)(3 * float.sizeof + 2 * float.sizeof));	//norm
 		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glDrawElements(GL_TRIANGLES, cast(int)size, GL_UNSIGNED_INT, null);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource.getIbo());
+		glDrawElements(GL_TRIANGLES, cast(int)resource.getSize(), GL_UNSIGNED_INT, null);
 		
 		glDisableVertexAttribArray(0);	//pos
 		glDisableVertexAttribArray(1);	//tex

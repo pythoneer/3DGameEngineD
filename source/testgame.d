@@ -55,6 +55,11 @@ class TestGame : Game
 		material.addTexture("diffuse", new Texture("test.png"));
 		material.addFloat("specularIntensity", 1);
 		material.addFloat("specularPower", 8);
+		
+		Material material2 = new Material();//new Texture("test.png"), new Vector3f(1,1,1), 1, 8);
+ 		material2.addTexture("diffuse", new Texture("bricks.jpg"));
+ 		material2.addFloat("specularIntensity", 1);
+ 		material2.addFloat("specularPower", 8);
 
 		Mesh tempMesh = new Mesh("monkey3.obj");
 
@@ -102,8 +107,12 @@ class TestGame : Game
 		//getRootObject()
 						.addChild(new GameObject().addComponent(new Camera(cast(float)Util.toRadians(70.0f), cast(float)Window.getWidth()/cast(float)Window.getHeight(), 0.01f, 1000.0f)));
 
+		testMesh3.getTransform().getPos().set(3,4,5);
+
 		addObject(testMesh1);
 		addObject(testMesh3);
+
+		addObject(new GameObject().addComponent(new MeshRenderer(new Mesh("monkey3.obj"), material2)));
 
 		directionalLight.getTransform().setRot(new Quaternion(new Vector3f(1,0,0), cast(float)Util.toRadians(-45)));
 	}
