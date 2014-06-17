@@ -2,7 +2,6 @@ module engine.rendering.resourcemanagement.meshresource;
 
 import derelict.opengl3.gl3;
 
-
 class MeshResource
 {
 	private GLuint vbo;

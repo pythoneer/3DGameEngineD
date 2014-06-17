@@ -9,20 +9,29 @@ import derelict.freeimage.types;
 import derelict.freeimage.freeimage;
 import derelict.freeimage.functions;
 
+import engine.rendering.resourcemanagement.textureresource;
+
 class Texture
 {
-	private int id;
-
+	private static TextureResource[string] loadedTextures;
+ 	private TextureResource resource;
+ 	private string fileName;
 
 	public this(string fileName)
  	{
- 		this(Texture.loadTexture(fileName));
- 	}
+ 		this.fileName = fileName;
 
-	public this(int id)
-	{
-		this.id = id;
-	}
+		if(fileName in loadedTextures)
+		{
+			resource = loadedTextures[fileName];
+			resource.addReference();
+		}
+		else
+		{
+			resource = new TextureResource(loadTexture(fileName));
+			loadedTextures[fileName] = resource;
+		}
+ 	}
 	
 	public static int loadTexture(string fileName)
 	{
@@ -63,11 +72,11 @@ class Texture
 
 	public void bind()
 	{
-		glBindTexture(GL_TEXTURE_2D, id);
+		glBindTexture(GL_TEXTURE_2D, resource.getId());
 	}
 
 	public int getID()
 	{
-		return id;
+		return resource.getId();
 	}
 }
