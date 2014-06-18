@@ -1,6 +1,7 @@
 module engine.components.baselight;
 
 import engine.core.vector3f;
+import engine.core.coreengine;
 import engine.rendering.shader;
 import engine.rendering.renderingengine;
 import engine.components.gamecomponent;
@@ -18,10 +19,10 @@ class BaseLight : GameComponent
 	}
 	
 	override
- 	public void addToRenderingEngine(RenderingEngine renderingEngine)
- 	{
- 		renderingEngine.addLight(this);
- 	}
+	public void addToEngine(CoreEngine engine)
+	{
+		engine.getRenderingEngine().addLight(this);
+	}
  
  	public void setShader(Shader shader)
  	{

@@ -10,6 +10,7 @@ import engine.core.input;
 import engine.core.matrix;	
 import engine.core.util;
 import engine.core.quaternion;
+import engine.core.coreengine;
 import engine.rendering.renderingengine;
 import engine.components.gamecomponent;
 
@@ -35,9 +36,9 @@ class Camera : GameComponent
 	}
 	
 	override
-	public void addToRenderingEngine(RenderingEngine renderingEngine)
+	public void addToEngine(CoreEngine engine)
 	{
-		renderingEngine.addCamera(this);
+		engine.getRenderingEngine().addCamera(this);
 	}
 
 	override

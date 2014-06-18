@@ -1,6 +1,7 @@
 ﻿module engine.core.game;
 
 import engine.core.gameobject;
+import engine.core.coreengine;
 import engine.rendering.renderingengine;
 
 class Game
@@ -37,6 +38,8 @@ class Game
 
 		return root;
 	}
+	
+	public void setEngine(CoreEngine engine) { getRootObject().setEngine(engine); }
 
 }
 

@@ -32,6 +32,7 @@ class CoreEngine
 		m_width = width;
 		m_height = height;
 		m_frameTime = 1.0/framerate;
+		m_game.setEngine(this);
 	}
 
 	public void createWindow(string title)
@@ -126,5 +127,10 @@ class CoreEngine
 	{
 		Window.dispose();
 	}
+	
+	public RenderingEngine getRenderingEngine() 
+	{
+ 		return renderingEngine;
+ 	}
 
 }//CoreEngine

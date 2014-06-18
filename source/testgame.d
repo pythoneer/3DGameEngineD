@@ -18,6 +18,7 @@ import engine.rendering.shader;
 import engine.rendering.vertex;
 import engine.rendering.material;
 import engine.rendering.texture;
+import engine.rendering.attenuation;
 import engine.components.baselight;
 import engine.components.directionallight;
 import engine.components.pointlight;
@@ -75,10 +76,10 @@ class TestGame : Game
 		directionalLightObject.addComponent(directionalLight);
 
 		GameObject pointLightObject = new GameObject();
-		pointLightObject.addComponent(new PointLight(new Vector3f(0,1,0), 0.4f, new Vector3f(0,0,1)));
+		pointLightObject.addComponent(new PointLight(new Vector3f(0,1,0), 0.4f, new Attenuation(0,0,1)));
 
 		SpotLight spotLight = new SpotLight(new Vector3f(0,1,1), 1.4f,
-				new Vector3f(0,0,0.1f), 0.7f);
+				new Attenuation(0,0,0.1f), 0.7f);
 
 		GameObject spotLightObject = new GameObject();
 		spotLightObject.addComponent(spotLight);
