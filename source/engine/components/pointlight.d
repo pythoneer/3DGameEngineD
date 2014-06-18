@@ -3,9 +3,7 @@ module engine.components.pointlight;
 import std.math;
 
 import engine.core.vector3f;
-import engine.rendering.renderingengine;
-import engine.rendering.forwardpoint;
-import engine.components.gamecomponent;
+import engine.rendering.shader;
 import engine.components.baselight;
 
 public class PointLight : BaseLight
@@ -26,7 +24,7 @@ public class PointLight : BaseLight
 
 		this.range = cast(float)((-b + sqrt(b * b - 4 * a * c))/(2 * a));
 
-		setShader(new ForwardPoint());
+		setShader(new Shader("forward-point"));
 	}
 
 	public float getRange()

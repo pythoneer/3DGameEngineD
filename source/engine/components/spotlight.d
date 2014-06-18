@@ -2,7 +2,7 @@ module engine.components.spotlight;
 
 import engine.core.vector3f;
 import engine.components.pointlight;
-import engine.rendering.forwardspot;
+import engine.rendering.shader;
 
 class SpotLight : PointLight
 {
@@ -13,7 +13,7 @@ class SpotLight : PointLight
 		super(color, intensity, attenuation);
 		this.cutoff = cutoff;
 
-		setShader(new ForwardSpot());
+		setShader(new Shader("forward-spot"));
 	}
 
 	public Vector3f getDirection()

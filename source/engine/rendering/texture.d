@@ -70,8 +70,15 @@ class Texture
 		return 0;
 	}
 
-	public void bind()
+//	public void bind()
+//	{
+//		bind(0);
+//	}
+
+	public void bind(int samplerSlot)
 	{
+//		assert(samplerSlot >= 0 && samplerSlot <= 31);
+		glActiveTexture(GL_TEXTURE0 + samplerSlot);
 		glBindTexture(GL_TEXTURE_2D, resource.getId());
 	}
 
