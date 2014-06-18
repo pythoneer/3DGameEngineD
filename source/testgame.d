@@ -24,6 +24,8 @@ import engine.components.directionallight;
 import engine.components.pointlight;
 import engine.components.spotlight;
 import engine.components.camera;
+import engine.components.lookatcomponent;
+import engine.components.freelook;
 
 class TestGame : Game
 {	
@@ -96,7 +98,7 @@ class TestGame : Game
 
 		GameObject testMesh1 = new GameObject().addComponent(new MeshRenderer(mesh2, material));
 		GameObject testMesh2 = new GameObject().addComponent(new MeshRenderer(mesh2, material));
-		GameObject testMesh3 = new GameObject().addComponent(new MeshRenderer(tempMesh, material));
+		GameObject testMesh3 = new GameObject().addComponent(new LookAtComponent()).addComponent(new MeshRenderer(tempMesh, material));
 
 		testMesh1.getTransform().getPos().set(0, 2, 0);
 		testMesh1.getTransform().setRot(new Quaternion(new Vector3f(0,1,0), 0.4f));
@@ -104,10 +106,10 @@ class TestGame : Game
 		testMesh2.getTransform().getPos().set(0, 0, 5);
 
 		testMesh1.addChild(testMesh2);
-		testMesh2
-		//getRootObject()
-						.addChild(new GameObject().addComponent(new Camera(cast(float)Util.toRadians(70.0f), cast(float)Window.getWidth()/cast(float)Window.getHeight(), 0.01f, 1000.0f)));
-
+		testMesh2.addChild(
+ 				//addObject(
+ 				new GameObject().addComponent(new FreeLook()).addComponent(new Camera(cast(float) Util.toRadians(70.0f), cast(float) Window.getWidth() / cast(float) Window.getHeight(), 0.01f, 1000.0f)));
+  
 		testMesh3.getTransform().getPos().set(3,4,5);
 
 		addObject(testMesh1);
