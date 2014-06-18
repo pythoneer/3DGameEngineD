@@ -12,18 +12,7 @@ class ForwardAmbient : Shader
 {
 	public this()
 	{
-		super();
-
-		addVertexShaderFromFile("forward-ambient.vs");
-		addFragmentShaderFromFile("forward-ambient.fs");
-
-		setAttribLocation("position", 0);
-		setAttribLocation("texCoord", 1);
-
-		compileShader();
-
-		addUniform("MVP");
-		addUniform("ambientIntensity");
+		super("forward-ambient");
 	}
 
 	override

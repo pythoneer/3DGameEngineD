@@ -12,31 +12,7 @@ class ForwardPoint : Shader
 {
 	public this()
 	{
-		super();
-
-		addVertexShaderFromFile("forward-point.vs");
-		addFragmentShaderFromFile("forward-point.fs");
-
-		setAttribLocation("position", 0);
-		setAttribLocation("texCoord", 1);
-		setAttribLocation("normal", 2);
-
-		compileShader();
-
-		addUniform("model");
-		addUniform("MVP");
-
-		addUniform("specularIntensity");
-		addUniform("specularPower");
-		addUniform("eyePos");
-
-		addUniform("pointLight.base.color");
-		addUniform("pointLight.base.intensity");
-		addUniform("pointLight.atten.constant");
-		addUniform("pointLight.atten.linear");
-		addUniform("pointLight.atten.exponent");
-		addUniform("pointLight.position");
-		addUniform("pointLight.range");
+		super("forward-point");
 	}
 
 	override

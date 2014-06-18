@@ -4,7 +4,9 @@ import std.stdio;
 import std.file;
 import core.runtime;
 import std.string;
+import std.conv;
 import std.algorithm;
+import std.regex;
 
 import derelict.opengl3.gl3;
 
@@ -21,7 +23,14 @@ class Shader
 	private int[string] uniforms;
 	private RenderingEngine renderingEngine;
 	
-	public this()
+	 	
+ 	private struct GLSLStruct
+	{
+		public string type;
+		public string name;
+	}
+	
+	public this(string shaderName)
 	{
 		program = glCreateProgram();
 		
@@ -30,24 +39,96 @@ class Shader
 			writeln("Shader creation failed: Could not find valid memory location in constructor");
 //			Runtime.terminate();
 		}
+		
+		string vertexShaderText = loadShader(shaderName ~ ".vs");
+		string fragmentShaderText = loadShader(shaderName ~ ".fs");
+
+		addVertexShader(vertexShaderText);
+		addFragmentShader(fragmentShaderText);
+
+		addAllAttributes(vertexShaderText);
+
+		compileShader();
+
+		addAllUniforms(vertexShaderText);
+		addAllUniforms(fragmentShaderText);
+		
 	}
 	
-	public void addVertexShaderFromFile(string text)
+	
+	private void addAllAttributes(string shaderText)
  	{
- 		addProgram(loadShader(text), GL_VERTEX_SHADER);
+ 		auto attrRegex = regex(r"attribute\s+(\w+)\s+(\w+)\s*;", "gm");
+ 		auto m = match(shaderText, attrRegex);
+ 		int i = 0;
+ 		foreach(attr; m)
+ 		{	
+ 			setAttribLocation(attr[2], i++);		
+ 		}
  	}
  	
- 	public void addGeometryShaderFromFile(string text)
- 	{
- 		addProgram(loadShader(text), GL_GEOMETRY_SHADER);
- 	}
+ 	private void addAllUniforms(string shaderText)
+	{
+		GLSLStruct[][string] structs = findUniformStructs(shaderText);
+
+		auto attrRegex = regex(r"uniform\s+(\w+)\s+(\w+)\s*;", "gm");
+ 		auto m = match(shaderText, attrRegex);
+ 		
+ 		foreach(attr; m)
+ 		{
+ 			addUniformWithStructCheck(attr[2], attr[1], structs);
+ 		}
+	}
+
+
+	private GLSLStruct[][string] findUniformStructs(string shaderText)
+	{
+		
+		GLSLStruct[][string] result;
+		
+		auto structRegex = regex(r"struct\s+(\w+)\s*\{((.*\s*)+?)\};", "gm");
+		auto attrRegex = regex(r"\s*(\w+)\s+(\w+)\s*;", "gm");
+		auto m = match(shaderText, structRegex);
+		
+		foreach(str; m)
+		{
+			auto mattr = match(str[2], attrRegex);
+			
+			GLSLStruct[] glslStructs;
+			
+			foreach(attr; mattr)
+			{
+				GLSLStruct glslStruct;			
+				glslStruct.type = attr[1];
+				glslStruct.name = attr[2];	
+				
+				glslStructs ~= glslStruct;			
+			}
+			
+			result[str[1]] = glslStructs;
+		}
+				
+		return result;
+	}
+	
+	
+	private void addUniformWithStructCheck(string uniformName, string uniformType, GLSLStruct[][string] strs)
+	{
+		if(uniformType in strs)
+		{
+			GLSLStruct[] structComponents = strs[uniformType];
+			foreach(GLSLStruct str; structComponents)
+			{
+				addUniformWithStructCheck(uniformName ~ "." ~ str.name, str.type, strs);
+			}
+		}
+		else
+		{
+			addUniform(uniformName);
+		}
+	}
  	
- 	public void addFragmentShaderFromFile(string text)
- 	{
- 		addProgram(loadShader(text), GL_FRAGMENT_SHADER);
- 	}
- 	
-	public static string loadShader(string fileName)
+	private static string loadShader(string fileName)
 	{
 		const string INCLUDE_DIRECTIVE = "#include";
 		
@@ -89,22 +170,22 @@ class Shader
 		glUseProgram(program);
 	}
 	
-	public void addVertexShader(string text)
+	private void addVertexShader(string text)
 	{
 		addProgram(text, GL_VERTEX_SHADER);
 	}
 	
-	public void addGeometryShader(string text)
+	private void addGeometryShader(string text)
 	{
 		addProgram(text, GL_GEOMETRY_SHADER);
 	}
 	
-	public void addFragmentShader(string text)
+	private void addFragmentShader(string text)
 	{
 		addProgram(text, GL_FRAGMENT_SHADER);
 	}
 	
-	public void compileShader()
+	private void compileShader()
 	{
 
 		glLinkProgram(program);
@@ -163,7 +244,7 @@ class Shader
 		glAttachShader(program, shader);
 	}
 	
-	public void addUniform(string uniform)
+	private void addUniform(string uniform)
 	{
 		int uniformLocation = glGetUniformLocation(program, uniform.toStringz());
 		
@@ -175,7 +256,7 @@ class Shader
 		uniforms[uniform] = uniformLocation;
 	}
 	
-	public void setAttribLocation(string attributeName, int location)
+	private void setAttribLocation(string attributeName, int location)
  	{
  		const char* c_attribName = attributeName.toStringz();
  		glBindAttribLocation(program, location, c_attribName);
