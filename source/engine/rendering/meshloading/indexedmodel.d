@@ -3,6 +3,8 @@ module engine.rendering.meshloading.indexedmodel;
 import engine.core.vector3f;
 import engine.core.vector2f;
 
+/*DEPRICATED*/
+
 class IndexedModel
 {
 	private Vector3f[] positions;

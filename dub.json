@@ -6,6 +6,7 @@
 	"dependencies": {
 		"derelict-sdl2": ">=1.2.0",
 		"derelict-gl3": ">=1.0.0",
-		"derelict-fi": "~master"
+		"derelict-fi": "~master",
+		"derelict-assimp3": ">=1.0.0"
 	} 
 }

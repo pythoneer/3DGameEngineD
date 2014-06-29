@@ -6,13 +6,15 @@ import std.file;
 import std.conv;
 
 import derelict.opengl3.gl3;
+import derelict.assimp3.assimp;
+import derelict.assimp3.types;
 
 import engine.core.util;
 import engine.core.vector3f;
 import engine.core.vector2f;
 import engine.rendering.vertex;
-import engine.rendering.meshloading.objmodel;
-import engine.rendering.meshloading.indexedmodel;
+//import engine.rendering.meshloading.objmodel;
+//import engine.rendering.meshloading.indexedmodel;
 import engine.rendering.resourcemanagement.meshresource;
 
 class Mesh
@@ -82,22 +84,60 @@ class Mesh
 	public void loadMesh(string fileName)
 	{
 		
-		OBJModel test = new OBJModel(fileName);
- 		IndexedModel model = test.toIndexedModel();
- 		model.calcNormals();
- 		
- 		
- 		Vertex[] vertices;
-
-		for(int i = 0; i < model.getPositions().length; i++)
+		string meshPath = "./res/models/" ~ fileName;
+		
+		const aiScene* scene = aiImportFile(meshPath.toStringz(),
+											aiProcess_Triangulate |
+											aiProcess_GenSmoothNormals | 
+											aiProcess_FlipUVs);
+		
+		if(!scene)
 		{
-			vertices ~= new Vertex(model.getPositions()[i],
-					model.getTexCoords()[i],
-					model.getNormals()[i]);
+			writeln( "Mesh load failed!: " , fileName );
+//			assert(0 == 0);
+		}
+		else
+		{
+			writeln( "Mesh successfully loaded: " , fileName);
 		}
 
-		addVertices(vertices, model.getIndices(), false);
+		const aiMesh* model = scene.mMeshes[0];  //->mMeshes[0];
 		
+		Vertex[] vertices;
+		int[] indices;
+		
+		bool hasTexCoords = model.mTextureCoords[0] !is null ;
+		
+		const aiVector3D aiZeroVector = aiVector3D(0.0f, 0.0f, 0.0f);
+		for(uint i = 0; i < model.mNumVertices; i++) 
+		{
+			const aiVector3D* pPos = &(model.mVertices[i]);
+			const aiVector3D* pNormal = &(model.mNormals[i]);
+			const aiVector3D* pTexCoord = hasTexCoords ? &(model.mTextureCoords[0][i]) : &aiZeroVector;
+
+			Vertex vert = new Vertex(new Vector3f(pPos.x, pPos.y, pPos.z),
+					    new Vector2f(pTexCoord.x, pTexCoord.y),
+					    new Vector3f(pNormal.x, pNormal.y, pNormal.z));
+
+			vertices ~= vert;
+		}
+
+		for(uint i = 0; i < model.mNumFaces; i++)
+		{
+			const aiFace face = model.mFaces[i];
+			//assert(face.mNumIndices == 3);
+			if(face.mNumIndices != 3) 
+			{
+				writeln("number of faces is not 3");
+			}
+			indices ~= face.mIndices[0];
+			indices ~= face.mIndices[1];
+			indices ~= face.mIndices[2];
+		}
+		
+		addVertices(vertices, indices, false);
+		
+		aiReleaseImport(scene);		
 	}
 	
 	

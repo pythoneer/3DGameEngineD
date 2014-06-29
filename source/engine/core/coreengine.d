@@ -4,6 +4,7 @@ import std.stdio;
 import std.string;
 
 import derelict.opengl3.gl;
+import derelict.assimp3.assimp;
 
 import engine.core.game;
 import engine.core.time;
@@ -27,6 +28,8 @@ class CoreEngine
 
 	public this(int width, int height, double framerate, Game game)
 	{
+		DerelictASSIMP3.load();
+		
 		m_isRunning = false;
 		m_game = game;
 		m_width = width;
