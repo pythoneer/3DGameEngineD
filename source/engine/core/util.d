@@ -25,6 +25,10 @@ class Util
 			floatVertices[i * Vertex.SIZE + 5] = vertices[i].getNormal().getX();
 			floatVertices[i * Vertex.SIZE + 6] = vertices[i].getNormal().getY();
 			floatVertices[i * Vertex.SIZE + 7] = vertices[i].getNormal().getZ();
+			
+			floatVertices[i * Vertex.SIZE + 8] = vertices[i].getTangent().getX();
+			floatVertices[i * Vertex.SIZE + 9] = vertices[i].getTangent().getY();
+			floatVertices[i * Vertex.SIZE + 10] = vertices[i].getTangent().getZ();
 		
 		}
 

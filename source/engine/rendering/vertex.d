@@ -7,7 +7,7 @@ import engine.core.vector2f;
 
 class Vertex
 {
-	public static final int SIZE = 8;
+	public static final int SIZE = 11;
 	
 	private Vector3f pos;
 	private Vector2f texCoord;
@@ -29,6 +29,7 @@ class Vertex
 		this.pos = pos;
 		this.texCoord = texCoord;
 		this.normal = normal;
+		this.tangent = tangent;
 	}
 
 	
@@ -60,6 +61,16 @@ class Vertex
 	public void setNormal(Vector3f normal)
 	{
 		this.normal = normal;
+	}
+	
+	public Vector3f getTangent()
+	{
+		return tangent;
+	}
+
+	public void setTangent(Vector3f tangent)
+	{
+		this.tangent = tangent;
 	}
 }
 

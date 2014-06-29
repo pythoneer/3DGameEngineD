@@ -116,11 +116,13 @@ class Mesh
 			const aiVector3D* pNormal = &(model.mNormals[i]);
 			const aiVector3D* pTexCoord = hasTexCoords ? &(model.mTextureCoords[0][i]) : &aiZeroVector;
 			const aiVector3D* pTangent = &(model.mTangents[i]);
-
+			
+//			writeln("tx: ", pTangent.x, " ty: " , pTangent.y, " tz: ", pTangent.z);
+			
 			Vertex vert = new Vertex(new Vector3f(pPos.x, pPos.y, pPos.z),
-					      new Vector2f(pTexCoord.x, pTexCoord.y),
-					      new Vector3f(pNormal.x, pNormal.y, pNormal.z),
-					      new Vector3f(pTangent.x, pTangent.y, pTangent.z));
+					      			 new Vector2f(pTexCoord.x, pTexCoord.y),
+					      			 new Vector3f(pNormal.x, pNormal.y, pNormal.z),
+					      			 new Vector3f(pTangent.x, pTangent.y, pTangent.z));
 
 			vertices ~= vert;
 		}
@@ -146,6 +148,8 @@ class Mesh
 	
 	public void draw()
 	{
+		int vertexSize = cast(int)(Vertex.SIZE * float.sizeof);
+		
 		glEnableVertexAttribArray(0);	//pos
 		glEnableVertexAttribArray(1);	//tex
 		glEnableVertexAttribArray(2);	//norm
@@ -157,28 +161,28 @@ class Mesh
 							  3, 
 							  GL_FLOAT, 
 							  GL_FALSE, 
-							  8 * float.sizeof, 
+							  vertexSize, 
 							  cast(GLvoid*)0);	//pos
 							  
 		glVertexAttribPointer(cast(uint)1, 
 							  2, 
 							  GL_FLOAT, 
 							  GL_FALSE, 
-							  8 * float.sizeof, 
+							  vertexSize, 
 							  cast(GLvoid*)(3 * float.sizeof));	//tex
 							  
 		glVertexAttribPointer(cast(uint)2, 
 							  3, 
 							  GL_FLOAT, 
 							  GL_FALSE, 
-							  8 * float.sizeof, 
+							  vertexSize, 
 							  cast(GLvoid*)(3 * float.sizeof + 2 * float.sizeof));	//norm
 							  
 	  glVertexAttribPointer(cast(uint)3, 
 							  3, 
 							  GL_FLOAT, 
 							  GL_FALSE, 
-							  8 * float.sizeof, 
+							  vertexSize, 
 							  cast(GLvoid*)(3 * float.sizeof + 2 * float.sizeof + 3 * float.sizeof));	//tang
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource.getIbo());
