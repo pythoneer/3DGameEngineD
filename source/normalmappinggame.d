@@ -37,8 +37,11 @@ class NormalMappingGame : Game
 		GameObject spotLightObject = new GameObject();
 		GameObject directionalLightObject = new GameObject();
 	
-		planeObject.addComponent(new MeshRenderer(new Mesh("plane3.obj"), new Material(new Texture("bricks.jpg"), 1, 8, 
-                                                                                 new Texture("bricks_normal.jpg"))));
+		planeObject.addComponent(new MeshRenderer(new Mesh("plane3.obj"), new Material(new Texture("bricks.jpg"), 0.5f, 4, 
+                                                                                       new Texture("bricks_normal.jpg"),
+                                                                                       new Texture("bricks_disp.png"), 0.03f, -0.5f)));
+	
+		
 		planeObject.getTransform().setPos(new Vector3f(0, -1, 5));
 		planeObject.getTransform().setScale(4.0f);
 	
@@ -54,9 +57,15 @@ class NormalMappingGame : Game
 		GameObject testMesh2 = new GameObject();
 	
 		testMesh1.addComponent(new MeshRenderer(new Mesh("plane3.obj"), new Material(new Texture("bricks2.jpg"), 1, 8,
-																					new Texture("bricks2_normal.jpg"))));
+																					 new Texture("bricks2_normal.jpg"),
+																					 new Texture("bricks2_disp.jpg"), 0.04f, -1.0f)));
+		
+		
+		
 		testMesh2.addComponent(new MeshRenderer(new Mesh("plane3.obj"), new Material(new Texture("bricks2.jpg"), 1, 8,
-																					new Texture("bricks2_normal.jpg"))));
+																					 new Texture("bricks2_normal.jpg"))));
+		
+		
 	
 		testMesh1.getTransform().setPos(new Vector3f(0, 2, 0));
 		testMesh1.getTransform().setRot(new Quaternion(new Vector3f(0,1,0), 0.4f));

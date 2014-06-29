@@ -32,8 +32,11 @@ public class RenderingEngine : MappedValues
 	{
 		super();
 		forwardAmbient = new Shader("forward-ambient");
+		
 		samplerMap["diffuse"] = 0;
 		samplerMap["normalMap"] = 1;
+		samplerMap["dispMap"] = 2;
+		
 		addVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));
 		
 		glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
