@@ -15,6 +15,15 @@ class Material : MappedValues
 		super();
 	}
 
+	this(Texture diffuse, float specularIntensity, float specularPower,
+		Texture normalMap = new Texture("default_normal.jpg"))
+	{
+		addTexture("diffuse", diffuse);
+		addFloat("specularIntensity", specularIntensity);
+		addFloat("specularPower", specularPower);
+		addTexture("normalMap", normalMap);
+	}
+	
 	public void addTexture(string name, Texture texture) 
 	{
 		textureHashMap[name] = texture; 

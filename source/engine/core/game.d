@@ -31,6 +31,11 @@ class Game
 		getRootObject().addChild(object);
 	}
 
+	protected void addToScene(GameObject child) 
+	{ 
+		root.addChild(child);
+	}
+
 	private GameObject getRootObject()
 	{
 		if(root is null)

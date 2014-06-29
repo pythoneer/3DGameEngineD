@@ -150,4 +150,9 @@ public class Transform
 		this.scale = scale;
 	}
 	
+	public void setScale(float scale)
+	{
+		this.scale = new Vector3f(scale, scale, scale);
+	}
+	
 }

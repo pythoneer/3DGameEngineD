@@ -12,6 +12,7 @@ class Vertex
 	private Vector3f pos;
 	private Vector2f texCoord;
 	private Vector3f normal;
+	private Vector3f tangent;
 	
 	public this(Vector3f pos)
 	{
@@ -23,7 +24,7 @@ class Vertex
 		this(pos, texCoord, new Vector3f(0,0,0));
 	}
 
-	public this(Vector3f pos, Vector2f texCoord, Vector3f normal)
+	public this(Vector3f pos, Vector2f texCoord, Vector3f normal = new Vector3f(0,0,0), Vector3f tangent = new Vector3f(0,0,0))
 	{
 		this.pos = pos;
 		this.texCoord = texCoord;

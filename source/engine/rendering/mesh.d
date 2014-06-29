@@ -89,7 +89,8 @@ class Mesh
 		const aiScene* scene = aiImportFile(meshPath.toStringz(),
 											aiProcess_Triangulate |
 											aiProcess_GenSmoothNormals | 
-											aiProcess_FlipUVs);
+											aiProcess_FlipUVs |
+											aiProcess_CalcTangentSpace);
 		
 		if(!scene)
 		{
@@ -114,10 +115,12 @@ class Mesh
 			const aiVector3D* pPos = &(model.mVertices[i]);
 			const aiVector3D* pNormal = &(model.mNormals[i]);
 			const aiVector3D* pTexCoord = hasTexCoords ? &(model.mTextureCoords[0][i]) : &aiZeroVector;
+			const aiVector3D* pTangent = &(model.mTangents[i]);
 
 			Vertex vert = new Vertex(new Vector3f(pPos.x, pPos.y, pPos.z),
-					    new Vector2f(pTexCoord.x, pTexCoord.y),
-					    new Vector3f(pNormal.x, pNormal.y, pNormal.z));
+					      new Vector2f(pTexCoord.x, pTexCoord.y),
+					      new Vector3f(pNormal.x, pNormal.y, pNormal.z),
+					      new Vector3f(pTangent.x, pTangent.y, pTangent.z));
 
 			vertices ~= vert;
 		}
@@ -146,6 +149,7 @@ class Mesh
 		glEnableVertexAttribArray(0);	//pos
 		glEnableVertexAttribArray(1);	//tex
 		glEnableVertexAttribArray(2);	//norm
+		glEnableVertexAttribArray(3);	//tang
 		
 		glBindBuffer(GL_ARRAY_BUFFER, resource.getVbo);
 		
@@ -169,6 +173,13 @@ class Mesh
 							  GL_FALSE, 
 							  8 * float.sizeof, 
 							  cast(GLvoid*)(3 * float.sizeof + 2 * float.sizeof));	//norm
+							  
+	  glVertexAttribPointer(cast(uint)3, 
+							  3, 
+							  GL_FLOAT, 
+							  GL_FALSE, 
+							  8 * float.sizeof, 
+							  cast(GLvoid*)(3 * float.sizeof + 2 * float.sizeof + 3 * float.sizeof));	//tang
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource.getIbo());
 		glDrawElements(GL_TRIANGLES, cast(int)resource.getSize(), GL_UNSIGNED_INT, null);
@@ -176,6 +187,7 @@ class Mesh
 		glDisableVertexAttribArray(0);	//pos
 		glDisableVertexAttribArray(1);	//tex
 		glDisableVertexAttribArray(2);	//norm
+		glDisableVertexAttribArray(3);	//tang
 	}
 	
 	private void calcNormals(Vertex[] vertices, int[] indices)
