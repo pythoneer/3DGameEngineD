@@ -1,5 +1,7 @@
 module engine.rendering.meshloading.objindex;
 
+/*DEPRICATED*/
+
 class OBJIndex
 {
 	public int vertexIndex;

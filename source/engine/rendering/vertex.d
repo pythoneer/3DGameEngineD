@@ -7,11 +7,12 @@ import engine.core.vector2f;
 
 class Vertex
 {
-	public static final int SIZE = 8;
+	public static final int SIZE = 11;
 	
 	private Vector3f pos;
 	private Vector2f texCoord;
 	private Vector3f normal;
+	private Vector3f tangent;
 	
 	public this(Vector3f pos)
 	{
@@ -23,11 +24,12 @@ class Vertex
 		this(pos, texCoord, new Vector3f(0,0,0));
 	}
 
-	public this(Vector3f pos, Vector2f texCoord, Vector3f normal)
+	public this(Vector3f pos, Vector2f texCoord, Vector3f normal = new Vector3f(0,0,0), Vector3f tangent = new Vector3f(0,0,0))
 	{
 		this.pos = pos;
 		this.texCoord = texCoord;
 		this.normal = normal;
+		this.tangent = tangent;
 	}
 
 	
@@ -59,6 +61,16 @@ class Vertex
 	public void setNormal(Vector3f normal)
 	{
 		this.normal = normal;
+	}
+	
+	public Vector3f getTangent()
+	{
+		return tangent;
+	}
+
+	public void setTangent(Vector3f tangent)
+	{
+		this.tangent = tangent;
 	}
 }
 

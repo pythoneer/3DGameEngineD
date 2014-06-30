@@ -11,6 +11,8 @@ import engine.core.vector2f;
 import engine.rendering.meshloading.objindex;
 import engine.rendering.meshloading.indexedmodel;
 
+/*DEPRICATED*/
+
 public class OBJModel
 {
 	private Vector3f[] positions;
@@ -25,7 +27,7 @@ public class OBJModel
 		hasTexCoords = false;
 		hasNormals = false;
 		
-		string meshPath = "./res/models/" ~ fileName;
+		string meshPath = fileName;
 		
 		if(exists(meshPath) != 0){
 			

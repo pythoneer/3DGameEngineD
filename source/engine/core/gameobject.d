@@ -1,6 +1,7 @@
 module engine.core.gameobject;
 
 import engine.core.transform;
+import engine.core.coreengine;
 import engine.rendering.shader;
 import engine.rendering.renderingengine;
 import engine.components.gamecomponent;
@@ -10,15 +11,18 @@ class GameObject
 	private GameObject[] children;
 	private GameComponent[] components;
 	private Transform transform;
+	private CoreEngine engine;
 
 	public this()
 	{
 		transform = new Transform();
+		engine = null;
 	}
 
 	public void addChild(GameObject child)
 	{
 		children ~= child;
+		child.setEngine(engine);
 		child.getTransform().setParent(transform);
 	}
 
@@ -72,16 +76,22 @@ class GameObject
 		}
 	}
 	
-	public void addToRenderingEngine(RenderingEngine renderingEngine)
+	public void setEngine(CoreEngine engine)
 	{
-		foreach(component; components)
+		if(this.engine != engine)
 		{
-			component.addToRenderingEngine(renderingEngine);
-		}
+			this.engine = engine;
 
-		foreach(child; children)
-		{
-			child.addToRenderingEngine(renderingEngine);
+			foreach(component; components)
+			{
+				component.addToEngine(engine);
+				}
+			
+			foreach(child; children)
+			{
+				child.setEngine(engine);
+			}
+				
 		}
 	}
 

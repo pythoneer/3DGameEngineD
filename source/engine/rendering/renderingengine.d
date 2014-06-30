@@ -6,30 +6,38 @@ import derelict.opengl3.gl3;
 
 import engine.core.vector3f;
 import engine.core.gameobject;
+import engine.core.transform;
 import engine.core.util;
 import engine.rendering.shader;
-import engine.rendering.forwardambient;
-import engine.rendering.forwarddirectional;
-import engine.rendering.forwardpoint;
-import engine.rendering.forwardspot;
+import engine.rendering.resourcemanagement.mappedvalues;
+import engine.rendering.material;
 import engine.components.camera;
 import engine.components.baselight;
 import engine.components.directionallight; 
 import engine.components.pointlight;
 import engine.components.spotlight;
 
-public class RenderingEngine
+
+public class RenderingEngine : MappedValues
 {
-	private Shader forwardAmbient;
-	private Camera mainCamera;
-	private Vector3f ambientLight;
- 	
+
+	private int[string] samplerMap;	
  	private BaseLight[] lights;
  	private BaseLight activeLight;
+ 	
+	private Shader forwardAmbient;
+	private Camera mainCamera;
 	
 	public this()
 	{
-		forwardAmbient = new ForwardAmbient();
+		super();
+		forwardAmbient = new Shader("forward-ambient");
+		
+		samplerMap["diffuse"] = 0;
+		samplerMap["normalMap"] = 1;
+		samplerMap["dispMap"] = 2;
+		
+		addVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));
 		
 		glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
@@ -41,28 +49,11 @@ public class RenderingEngine
 		glEnable(GL_DEPTH_CLAMP);
 
 		glEnable(GL_TEXTURE_2D);
-
-		ambientLight = new Vector3f(0.2f, 0.2f, 0.2f);	
 	}
 	
-	public Vector3f getAmbientLight()
- 	{
- 		return ambientLight;
-  	}
-
-	public void addCamera(Camera camera)
- 	{
- 		mainCamera = camera;
- 	}
-
 	public void render(GameObject object)
 	{
-		clearScreen();
-		
-		lights.clear();
-		object.addToRenderingEngine(this);
-		
- 		forwardAmbient.setRenderingEngine(this);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		object.render(forwardAmbient, this);
 		
@@ -73,7 +64,6 @@ public class RenderingEngine
  
  		foreach(light; lights)
  		{
- 			light.getShader().setRenderingEngine(this);
  			activeLight = light;
  			object.render(light.getShader(), this);
  		}
@@ -81,57 +71,46 @@ public class RenderingEngine
  		glDepthFunc(GL_LESS);
  		glDepthMask(true);
  		glDisable(GL_BLEND);
-		
-		
 	}
-
-	private static void clearScreen()
+	
+	public void updateUniformStruct(Transform transform, Material material, Shader shader, string uniformName, string uniformType)
 	{
-		//TODO: Stencil Buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//		throw new IllegalArgumentException(uniformType + " is not a supported type in RenderingEngine");
 	}
-
-	private static void setTextures(bool enabled)
-	{
-		if(enabled)
-			glEnable(GL_TEXTURE_2D);
-		else
-			glDisable(GL_TEXTURE_2D);
-	}
-
-	private static void unbindTextures()
-	{
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
-	private static void setClearColor(Vector3f color)
-	{
-		glClearColor(color.getX(), color.getY(), color.getZ(), 1.0f);
-	}
-
+	
 	public static const (char*) getOpenGLVersion()
 	{
 		return glGetString(GL_VERSION);
 	}
 	
+	public void addLight(BaseLight light)
+	{
+		lights ~= light;
+	}
+
+	public void addCamera(Camera camera)
+	{
+		mainCamera = camera;
+	}
+
+	public int getSamplerSlot(string samplerName)
+	{
+		return samplerMap[samplerName];
+	}
+
+	public BaseLight getActiveLight()
+	{
+		return activeLight;
+	}
+
 	public Camera getMainCamera()
- 	{
- 		return mainCamera;
- 	}
- 
- 	public void setMainCamera(Camera mainCamera)
- 	{
- 		this.mainCamera = mainCamera;
- 	}
- 	
- 	public void addLight(BaseLight light)
- 	{
- 		this.lights ~= light;
- 	}
- 	
- 	public BaseLight getActiveLight()
- 	{
- 		return this.activeLight;
- 	}
+	{
+		return mainCamera;
+	}
+
+	public void setMainCamera(Camera mainCamera)
+	{
+		this.mainCamera = mainCamera;
+	}
  	
 }

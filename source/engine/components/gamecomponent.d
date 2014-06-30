@@ -2,6 +2,7 @@ module engine.components.gamecomponent;
 
 import engine.core.transform;
 import engine.core.gameobject;
+import engine.core.coreengine;
 import engine.rendering.shader;
 import engine.rendering.renderingengine;
 
@@ -23,5 +24,5 @@ class GameComponent
 		return parent.getTransform();
 	}
 
-	public void addToRenderingEngine(RenderingEngine renderingEngine) {}
+	public void addToEngine(CoreEngine engine) {}
 }

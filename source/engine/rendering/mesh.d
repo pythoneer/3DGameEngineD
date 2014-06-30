@@ -6,24 +6,37 @@ import std.file;
 import std.conv;
 
 import derelict.opengl3.gl3;
+import derelict.assimp3.assimp;
+import derelict.assimp3.types;
 
 import engine.core.util;
 import engine.core.vector3f;
 import engine.core.vector2f;
 import engine.rendering.vertex;
-import engine.rendering.meshloading.objmodel;
-import engine.rendering.meshloading.indexedmodel;
+//import engine.rendering.meshloading.objmodel;
+//import engine.rendering.meshloading.indexedmodel;
+import engine.rendering.resourcemanagement.meshresource;
 
 class Mesh
 {
-	private GLuint vbo;
-	private GLuint ibo;
-	private long size;
+	private static MeshResource[string] loadedModels;
+ 	private MeshResource resource;
+ 	private string fileName;
 	
 	public this(string fileName)
 	{
-		initMeshData();
- 		loadMesh(fileName);
+		this.fileName = fileName;
+
+		if(fileName in loadedModels)
+		{
+			resource = loadedModels[fileName];
+			resource.addReference();
+		}
+		else
+		{
+			loadMesh(fileName);
+			loadedModels[fileName] = resource;
+		}
 	}
 	
 	public this(Vertex[] vertices, int[] indices)
@@ -33,17 +46,17 @@ class Mesh
  	
  	public this(Vertex[] vertices, int[] indices, bool calcNormals)
  	{
- 		initMeshData();
+ 		fileName = "";
  		addVertices(vertices, indices, calcNormals);
   	}
  	
- 	private void initMeshData()
-  	{
- 		glGenBuffers(1, &vbo);
- 		glGenBuffers(1, &ibo);
- 		size = 0;
-  	}
- 	
+ 	public ~this()
+	{
+		if(resource.removeReference() && fileName.length != 0)
+		{
+			loadedModels.remove(fileName);
+		}
+	}	
 	
 	private void addVertices(Vertex[] vertices, int[] indices)
 	{
@@ -57,119 +70,128 @@ class Mesh
 			this.calcNormals(vertices, indices);
 		}
 
-		size = indices.length;
+		resource = new MeshResource(cast(int)indices.length);
 
 		float[] vertexDataArray = Util.createBuffer(vertices);
 		
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, resource.getVbo());
 		glBufferData(GL_ARRAY_BUFFER, vertexDataArray.length * float.sizeof, vertexDataArray.ptr, GL_STATIC_DRAW);
 		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource.getIbo());
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.length * int.sizeof, indices.ptr, GL_STATIC_DRAW);
 	}
 	
 	public void loadMesh(string fileName)
 	{
-	
-//		Vertex[] vertices;
-//		int[] indices;
-
-//		string meshPath = "./res/models/" ~ fileName;
 		
-		OBJModel test = new OBJModel(fileName);
- 		IndexedModel model = test.toIndexedModel();
- 		model.calcNormals();
- 		
- 		
- 		Vertex[] vertices;
-
-		for(int i = 0; i < model.getPositions().length; i++)
+		string meshPath = "./res/models/" ~ fileName;
+		
+		const aiScene* scene = aiImportFile(meshPath.toStringz(),
+											aiProcess_Triangulate |
+											aiProcess_GenSmoothNormals | 
+											aiProcess_FlipUVs |
+											aiProcess_CalcTangentSpace);
+		
+		if(!scene)
 		{
-			vertices ~= new Vertex(model.getPositions()[i],
-					model.getTexCoords()[i],
-					model.getNormals()[i]);
+			writeln( "Mesh load failed!: " , fileName );
+//			assert(0 == 0);
+		}
+		else
+		{
+			writeln( "Mesh successfully loaded: " , fileName);
 		}
 
-//		Vertex[] vertexData = new Vertex[vertices.length];
-//		vertices.toArray(vertexData);
-
-//		Integer[] indexData = new Integer[model.getIndices().size()];
-//		model.getIndices().toArray(indexData);
-
-		addVertices(vertices, model.getIndices(), false);
+		const aiMesh* model = scene.mMeshes[0];  //->mMeshes[0];
 		
-//		if(exists(meshPath) != 0){
-//			
-//			File file = File(meshPath, "r");
-//			while (!file.eof()) {
-//				string line = chomp(file.readln());
-//				string[] tokens = split(line);
-//				
-//				if(tokens.length == 0 || tokens[0] == "#")
-//				{
-//					continue;
-//				}
-//				else if(tokens[0] == "v")
-//				{
-//					
-//					Vertex tmp = new Vertex(new Vector3f(to!float(tokens[1]),
-//							 							 to!float(tokens[2]),
-//							 							 to!float(tokens[3])));
-//					vertices ~= tmp;
-//				}
-//				else if(tokens[0] == "f")
-//				{ 
-//					indices ~= to!int(tokens[1]) -1;
-//					indices ~= to!int(tokens[2]) -1;
-//					indices ~= to!int(tokens[3]) -1;
-//				}
-//			}
-//			
-//		}
-//		else 
-//		{
-//			writeln("could not find mesh file: " ~ fileName);
-//		}
-//			
-//		addVertices(vertices, indices, true);
+		Vertex[] vertices;
+		int[] indices;
+		
+		bool hasTexCoords = model.mTextureCoords[0] !is null ;
+		
+		const aiVector3D aiZeroVector = aiVector3D(0.0f, 0.0f, 0.0f);
+		for(uint i = 0; i < model.mNumVertices; i++) 
+		{
+			const aiVector3D* pPos = &(model.mVertices[i]);
+			const aiVector3D* pNormal = &(model.mNormals[i]);
+			const aiVector3D* pTexCoord = hasTexCoords ? &(model.mTextureCoords[0][i]) : &aiZeroVector;
+			const aiVector3D* pTangent = &(model.mTangents[i]);
+			
+//			writeln("tx: ", pTangent.x, " ty: " , pTangent.y, " tz: ", pTangent.z);
+			
+			Vertex vert = new Vertex(new Vector3f(pPos.x, pPos.y, pPos.z),
+					      			 new Vector2f(pTexCoord.x, pTexCoord.y),
+					      			 new Vector3f(pNormal.x, pNormal.y, pNormal.z),
+					      			 new Vector3f(pTangent.x, pTangent.y, pTangent.z));
+
+			vertices ~= vert;
+		}
+
+		for(uint i = 0; i < model.mNumFaces; i++)
+		{
+			const aiFace face = model.mFaces[i];
+			//assert(face.mNumIndices == 3);
+			if(face.mNumIndices != 3) 
+			{
+				writeln("number of faces is not 3");
+			}
+			indices ~= face.mIndices[0];
+			indices ~= face.mIndices[1];
+			indices ~= face.mIndices[2];
+		}
+		
+		addVertices(vertices, indices, false);
+		
+		aiReleaseImport(scene);		
 	}
 	
 	
 	public void draw()
 	{
+		int vertexSize = cast(int)(Vertex.SIZE * float.sizeof);
+		
 		glEnableVertexAttribArray(0);	//pos
 		glEnableVertexAttribArray(1);	//tex
 		glEnableVertexAttribArray(2);	//norm
+		glEnableVertexAttribArray(3);	//tang
 		
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, resource.getVbo);
 		
 		glVertexAttribPointer(cast(uint)0, 
 							  3, 
 							  GL_FLOAT, 
 							  GL_FALSE, 
-							  8 * float.sizeof, 
+							  vertexSize, 
 							  cast(GLvoid*)0);	//pos
 							  
 		glVertexAttribPointer(cast(uint)1, 
 							  2, 
 							  GL_FLOAT, 
 							  GL_FALSE, 
-							  8 * float.sizeof, 
+							  vertexSize, 
 							  cast(GLvoid*)(3 * float.sizeof));	//tex
 							  
 		glVertexAttribPointer(cast(uint)2, 
 							  3, 
 							  GL_FLOAT, 
 							  GL_FALSE, 
-							  8 * float.sizeof, 
+							  vertexSize, 
 							  cast(GLvoid*)(3 * float.sizeof + 2 * float.sizeof));	//norm
+							  
+	  glVertexAttribPointer(cast(uint)3, 
+							  3, 
+							  GL_FLOAT, 
+							  GL_FALSE, 
+							  vertexSize, 
+							  cast(GLvoid*)(3 * float.sizeof + 2 * float.sizeof + 3 * float.sizeof));	//tang
 		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glDrawElements(GL_TRIANGLES, cast(int)size, GL_UNSIGNED_INT, null);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource.getIbo());
+		glDrawElements(GL_TRIANGLES, cast(int)resource.getSize(), GL_UNSIGNED_INT, null);
 		
 		glDisableVertexAttribArray(0);	//pos
 		glDisableVertexAttribArray(1);	//tex
 		glDisableVertexAttribArray(2);	//norm
+		glDisableVertexAttribArray(3);	//tang
 	}
 	
 	private void calcNormals(Vertex[] vertices, int[] indices)
