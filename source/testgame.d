@@ -52,11 +52,11 @@ class TestGame : Game
 
 		Mesh mesh = new Mesh(vertices, indices, true);
 		Material material = new Material();//new Texture("test.png"), new Vector3f(1,1,1), 1, 8);
-		material.addTexture("diffuse", new Texture("test.png"));
+		material.addTexture("diffuse", new Texture("mushroom.png"));
 		material.addFloat("specularIntensity", 1);
 		material.addFloat("specularPower", 8);
 
-		Mesh tempMesh = new Mesh("monkey3.obj");
+		Mesh tempMesh = new Mesh("mushroom.obj");
 
 		MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
 
