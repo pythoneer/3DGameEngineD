@@ -1,5 +1,7 @@
 module engine.rendering.resourcemanagement.textureresource;
 
+import std.stdio;
+
 import derelict.opengl3.gl3;
 
 class TextureResource
@@ -9,10 +11,11 @@ class TextureResource
 	private int numTextures;
 	private int width;
 	private int height;
+	private GLuint frameBuffer;
 	
 	private int refCount;
 
-	public this(GLenum textureTarget, int width, int height, int numTextures, ubyte** data, GLint* filters)
+	public this(GLenum textureTarget, int width, int height, int numTextures, ubyte** data, GLint* filters, GLenum* attachments)
 	{	
 		textureId = cast(GLuint*)new GLuint[numTextures];
 		
@@ -23,12 +26,16 @@ class TextureResource
 		this.width = width;
 		this.height = height;
 		
+		this.frameBuffer = 0;
+		
 		initTextures(data, filters);
+		initRenderTargets(attachments);
 	}
 
 	~this()
 	{
 		if(*textureId) glDeleteTextures(numTextures, textureId);
+		if(frameBuffer) glDeleteFramebuffers(1, &frameBuffer);
 		if(textureId) delete textureId; // TODO ?? 
 	}
 	
@@ -43,6 +50,53 @@ class TextureResource
 			glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, filters[i]); 
 			
 			glTexImage2D(textureTarget, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, data[i]);
+		}
+	}
+	
+	private void initRenderTargets(GLenum* attachments)
+	{
+		if(attachments is null)
+		{
+			return;
+		}
+		
+		GLenum[] drawBuffers;
+		
+		for(int i = 0; i < numTextures; i++)
+		{
+			if(attachments[i] == GL_DEPTH_ATTACHMENT) // Stencil?
+			{
+				drawBuffers ~= GL_NONE;
+			}
+			else
+			{
+				drawBuffers ~= attachments[i];
+			}
+			
+			if(attachments[i] == GL_NONE)
+			{
+				continue;
+			}
+			
+			if(frameBuffer == 0)
+			{
+				glGenFramebuffers(1, &frameBuffer);
+				glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
+			}
+			
+			glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, attachments[i], textureTarget, textureId[i], 0);
+		}
+		
+		if(frameBuffer == 0)
+		{
+			return;
+		}
+		
+		glDrawBuffers(textureTarget, drawBuffers.ptr);
+		
+		if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			writeln("Framebuffer creation failed!");
 		}
 	}
 	

@@ -17,7 +17,7 @@ class Texture
  	private TextureResource resource;
  	private string fileName;
 
-	public this(string fileName, GLenum textureTarget = GL_TEXTURE_2D, GLint filter = GL_LINEAR)
+	public this(string fileName, GLenum textureTarget = GL_TEXTURE_2D, GLint filter = GL_LINEAR, GLenum attachment = GL_NONE)
  	{
  		this.fileName = fileName;
 
@@ -40,7 +40,7 @@ class Texture
 				int nHeight = FreeImage_GetHeight(pImage);
 				ubyte* data = FreeImage_GetBits(pImage);
 				
-				resource = new TextureResource(textureTarget, nWidth, nHeight, 1, &data, &filter);
+				resource = new TextureResource(textureTarget, nWidth, nHeight, 1, &data, &filter, &attachment);
 				
 				FreeImage_Unload(pImage);
 			}
@@ -53,10 +53,10 @@ class Texture
 		}
  	}
  	
- 	this(int width, int height, ubyte* data, GLenum textureTarget, GLint filter) 
+ 	this(int width, int height, ubyte* data, GLenum textureTarget, GLint filter, GLenum attachment = GL_NONE) 
  	{
  		this.fileName = "";
- 		resource = new TextureResource(textureTarget, width, height, 1, &data, &filter);
+ 		resource = new TextureResource(textureTarget, width, height, 1, &data, &filter, &attachment);
  	}
 
 	public void bind(int samplerSlot)
