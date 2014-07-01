@@ -81,8 +81,8 @@ public class RenderingEngine : MappedValues
 		
 		//Begin Temp init
 
-	  	int width = Window.getWidth() / 3;
-		int height = Window.getHeight() / 3;
+	  	int width = Window.getWidth() / 2;
+		int height = Window.getHeight() / 2;
 		int dataSize = width * height * 4;
 	
 		ubyte* data = cast(ubyte*)new ubyte[dataSize];
@@ -92,19 +92,25 @@ public class RenderingEngine : MappedValues
 	
 //		delete[] data;
 	
-		Vertex vertices[] = [ new Vertex(new Vector3f(-1,-1,0),new Vector2f(1,0)),
-		                      new Vertex(new Vector3f(-1,1,0),new Vector2f(1,1)),
-		                      new Vertex(new Vector3f(1,1,0),new Vector2f(0,1)),
-		                      new Vertex(new Vector3f(1,-1,0),new Vector2f(0,0)) ];
-	
-		int indices[] = [ 2, 1, 0,
-		                  3, 2, 0 ];
+//		Vertex vertices[] = [ new Vertex(new Vector3f(-1,-1,0),new Vector2f(1,0)),
+//		                      new Vertex(new Vector3f(-1,1,0),new Vector2f(1,1)),
+//		                      new Vertex(new Vector3f(1,1,0),new Vector2f(0,1)),
+//		                      new Vertex(new Vector3f(1,-1,0),new Vector2f(0,0)) ];
+		                      
+//		                      
+//      Vertex vertices[] = [ new Vertex(new Vector3f(-1,-1,0),new Vector2f(0,0)),
+//		                      new Vertex(new Vector3f(-1,1,0),new Vector2f(0,1)),
+//		                      new Vertex(new Vector3f(1,1,0),new Vector2f(1,1)),
+//		                      new Vertex(new Vector3f(1,-1,0),new Vector2f(1,0)) ];
+//	
+//		int indices[] = [ 2, 1, 0,
+//		                  3, 2, 0 ];
 	
 		g_material = new Material(g_tempTarget, 1, 8);
 		g_transform = new Transform();
-		g_transform.setScale(0.9f);
-		g_mesh = new Mesh(vertices, indices, true);
-	
+		g_transform.setScale(0.8f);
+		g_mesh = new Mesh("monkey1.obj");//(vertices, indices, true)
+		
 		g_camera = new Camera((new Matrix4f()).initIdentity());
 		g_cameraObject = (new GameObject()).addComponent(g_camera);
 	

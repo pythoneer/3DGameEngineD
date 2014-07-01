@@ -116,6 +116,7 @@ class Window
 	
 	public static void bindAsRenderTarget()
 	{
+		glBindTexture(GL_TEXTURE_2D,0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // framebuffer 0 is the window
 		glViewport(0, 0, Window.width, Window.height);
 	}

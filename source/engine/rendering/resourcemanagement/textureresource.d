@@ -28,8 +28,12 @@ class TextureResource
 		
 		this.frameBuffer = 0;
 		
+		
+		
 		initTextures(data, filters);
 		initRenderTargets(attachments);
+
+		
 	}
 
 	~this()
@@ -48,6 +52,9 @@ class TextureResource
 			glBindTexture(textureTarget, textureId[i]);
 			glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, filters[i]);
 			glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, filters[i]); 
+			
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 			
 			glTexImage2D(textureTarget, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, data[i]);
 		}
@@ -98,7 +105,10 @@ class TextureResource
 		{
 			writeln("Framebuffer creation failed!");
 		}
+		
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
+	
 	
 	public void bind(int textureNum) 
 	{
@@ -107,6 +117,7 @@ class TextureResource
 	
 	public void bindAsRenderTarget()
 	{
+		glBindTexture(GL_TEXTURE_2D,0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
 		glViewport(0, 0, width, height);
 	}
