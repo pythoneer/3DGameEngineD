@@ -33,23 +33,27 @@ import engine.core.util;
 public class RenderingEngine : MappedValues
 {
 
-	//Temp variables
- Texture g_tempTarget;
- Mesh g_mesh;
- Transform g_transform;
- Material g_material;
- Camera g_camera;
- GameObject g_cameraObject;
+
+ 
 
 
 
+
+	private Camera mainCamera;
+ 	private Camera altCamera;
+ 	private GameObject altCameraObject;
+ 	
+ 	private Texture tempTarget;
+ 	private Material planeMaterial; 	
+ 	private Mesh planeMesh;
+ 	private Transform planeTransform;
 
 	private int[string] samplerMap;	
  	private BaseLight[] lights;
  	private BaseLight activeLight;
  	
 	private Shader forwardAmbient;
-	private Camera mainCamera;
+
 	private Shader defaultShader;
 	
 	public this()
@@ -62,7 +66,7 @@ public class RenderingEngine : MappedValues
 		samplerMap["dispMap"] = 2;
 		
 //		addVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));  //temp
-		addVector3f("ambient", new Vector3f(0.2f, 0.2f, 0.2f));
+		addVector3f("ambient", new Vector3f(0.5f, 0.5f, 0.5f));
 		defaultShader = new Shader("forward-ambient");
 		
 		glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
@@ -71,12 +75,13 @@ public class RenderingEngine : MappedValues
 		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
-
 		glEnable(GL_DEPTH_CLAMP);
-
 		glEnable(GL_TEXTURE_2D);
 		
-		
+		altCamera = new Camera((new Matrix4f()).initIdentity());
+		altCameraObject = (new GameObject()).addComponent(altCamera);
+		altCamera.getTransform().rotate(new Vector3f(0,1,0),Util.toRadians(180.0f));
+		altCamera.getTransform().rotate(new Vector3f(0,0,1),Util.toRadians(-90.0f));
 		
 		
 		//Begin Temp init
@@ -88,19 +93,15 @@ public class RenderingEngine : MappedValues
 		ubyte* data = cast(ubyte*)new ubyte[dataSize];
 		//memset(data, 0, dataSize);
 	
-		g_tempTarget = new Texture(width, height, data, GL_TEXTURE_2D, GL_NEAREST, GL_COLOR_ATTACHMENT0);
+		tempTarget = new Texture(width, height, data, GL_TEXTURE_2D, GL_NEAREST, GL_COLOR_ATTACHMENT0);
 	
 
-	
-		g_material = new Material(g_tempTarget, 1, 8);
-		g_transform = new Transform();
-		g_transform.setScale(0.8f);
-		g_mesh = new Mesh("monkey1.obj");//(vertices, indices, true)
+		planeMaterial = new Material(tempTarget, 1, 8);
+		planeTransform = new Transform();
+		planeTransform.setScale(0.8f);
+		planeMesh = new Mesh("cube.obj");
 		
-		g_camera = new Camera((new Matrix4f()).initIdentity());
-		g_cameraObject = (new GameObject()).addComponent(g_camera);
-	
-		g_camera.getTransform().rotate(new Vector3f(0,1,0),Util.toRadians(180.0f));
+
 		
 		//End Temp init
 	}
@@ -109,7 +110,7 @@ public class RenderingEngine : MappedValues
 	{
 //		Window.bindAsRenderTarget();
 		
-		g_tempTarget.bindAsRenderTarget();
+		tempTarget.bindAsRenderTarget();
 		glClearColor(0.0f,0.0f,0.0f,0.0f);
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
@@ -134,13 +135,13 @@ public class RenderingEngine : MappedValues
 		Window.bindAsRenderTarget();
 	
 		Camera temp = mainCamera;
-		mainCamera = g_camera;
+		mainCamera = altCamera;
 	
 		glClearColor(0.0f,0.0f,0.5f,1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		defaultShader.bind();
-		defaultShader.updateUniforms(g_transform, g_material, this);
-		g_mesh.draw();
+		defaultShader.updateUniforms(planeTransform, planeMaterial, this);
+		planeMesh.draw();
 	
 		mainCamera = temp;
 	}

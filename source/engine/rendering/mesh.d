@@ -92,15 +92,21 @@ class Mesh
 											aiProcess_FlipUVs |
 											aiProcess_CalcTangentSpace);
 		
-		if(!scene)
+		if(!scene || !scene.mMeshes)
 		{
-			writeln( "Mesh load failed!: " , fileName );
+			writeln( "Mesh load failed!: " , fileName , " num: " , scene.mNumMeshes );
+			const char* error = aiGetErrorString();
+			printf("error: '%s'\n", error);
+			//writeln(error);
+
 //			assert(0 == 0);
 		}
 		else
 		{
 			writeln( "Mesh successfully loaded: " , fileName);
 		}
+
+		writeln(scene.mMeshes);
 
 		const aiMesh* model = scene.mMeshes[0];  //->mMeshes[0];
 		
