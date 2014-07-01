@@ -90,21 +90,7 @@ public class RenderingEngine : MappedValues
 	
 		g_tempTarget = new Texture(width, height, data, GL_TEXTURE_2D, GL_NEAREST, GL_COLOR_ATTACHMENT0);
 	
-//		delete[] data;
-	
-//		Vertex vertices[] = [ new Vertex(new Vector3f(-1,-1,0),new Vector2f(1,0)),
-//		                      new Vertex(new Vector3f(-1,1,0),new Vector2f(1,1)),
-//		                      new Vertex(new Vector3f(1,1,0),new Vector2f(0,1)),
-//		                      new Vertex(new Vector3f(1,-1,0),new Vector2f(0,0)) ];
-		                      
-//		                      
-//      Vertex vertices[] = [ new Vertex(new Vector3f(-1,-1,0),new Vector2f(0,0)),
-//		                      new Vertex(new Vector3f(-1,1,0),new Vector2f(0,1)),
-//		                      new Vertex(new Vector3f(1,1,0),new Vector2f(1,1)),
-//		                      new Vertex(new Vector3f(1,-1,0),new Vector2f(1,0)) ];
-//	
-//		int indices[] = [ 2, 1, 0,
-//		                  3, 2, 0 ];
+
 	
 		g_material = new Material(g_tempTarget, 1, 8);
 		g_transform = new Transform();

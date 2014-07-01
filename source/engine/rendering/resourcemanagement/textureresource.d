@@ -12,6 +12,7 @@ class TextureResource
 	private int width;
 	private int height;
 	private GLuint frameBuffer;
+	private GLuint renderBuffer;
 	
 	private int refCount;
 
@@ -27,19 +28,17 @@ class TextureResource
 		this.height = height;
 		
 		this.frameBuffer = 0;
-		
-		
-		
+		this.renderBuffer = 0;
+				
 		initTextures(data, filters);
-		initRenderTargets(attachments);
-
-		
+		initRenderTargets(attachments);		
 	}
 
 	~this()
 	{
 		if(*textureId) glDeleteTextures(numTextures, textureId);
 		if(frameBuffer) glDeleteFramebuffers(1, &frameBuffer);
+		if(renderBuffer) glDeleteRenderbuffers(1, &renderBuffer);
 		if(textureId) delete textureId; // TODO ?? 
 	}
 	
@@ -68,12 +67,14 @@ class TextureResource
 		}
 		
 		GLenum[] drawBuffers;
+		bool hasDepth = false;
 		
 		for(int i = 0; i < numTextures; i++)
 		{
 			if(attachments[i] == GL_DEPTH_ATTACHMENT) // Stencil?
 			{
 				drawBuffers ~= GL_NONE;
+				hasDepth = true;
 			}
 			else
 			{
@@ -99,6 +100,14 @@ class TextureResource
 			return;
 		}
 		
+		if(!hasDepth)
+		{
+			glGenRenderbuffers(1, &renderBuffer);
+			glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderBuffer);
+		}
+		
 		glDrawBuffers(textureTarget, drawBuffers.ptr);
 		
 		if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -106,7 +115,7 @@ class TextureResource
 			writeln("Framebuffer creation failed!");
 		}
 		
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 	
 	
