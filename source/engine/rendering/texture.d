@@ -17,7 +17,7 @@ class Texture
  	private TextureResource resource;
  	private string fileName;
 
-	public this(string fileName)
+	public this(string fileName, GLenum textureTarget = GL_TEXTURE_2D, GLint filter = GL_LINEAR)
  	{
  		this.fileName = fileName;
 
@@ -28,62 +28,51 @@ class Texture
 		}
 		else
 		{
-			resource = new TextureResource(loadTexture(fileName));
+			string texturePath = "./res/textures/" ~ fileName;
+			const char *pPath = texturePath.toStringz();
+						
+			if(exists(texturePath) != 0)
+			{
+				FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pPath), pPath);
+								
+				FIBITMAP *pImage = FreeImage_ConvertTo32Bits(bitmap);
+				int nWidth = FreeImage_GetWidth(pImage);
+				int nHeight = FreeImage_GetHeight(pImage);
+				ubyte* data = FreeImage_GetBits(pImage);
+				
+				resource = new TextureResource(textureTarget, nWidth, nHeight, 1, &data, &filter);
+				
+				FreeImage_Unload(pImage);
+			}
+			else
+			{
+				writeln("could not find texture: " ~ fileName);
+			}
+		
 			loadedTextures[fileName] = resource;
 		}
  	}
-	
-	public static int loadTexture(string fileName)
-	{
-
-		string texturePath = "./res/textures/" ~ fileName;
-		const char *pPath = texturePath.toStringz();
-		
-		
-		if(exists(texturePath) != 0)
-		{
-			FIBITMAP *bitmap = FreeImage_Load(FreeImage_GetFileType(pPath), pPath);
-			
-			GLuint textureId;
-			glGenTextures(1, &textureId);
-			
-			glBindTexture(GL_TEXTURE_2D, textureId);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
-			
-			FIBITMAP *pImage = FreeImage_ConvertTo32Bits(bitmap);
-			int nWidth = FreeImage_GetWidth(pImage);
-			int nHeight = FreeImage_GetHeight(pImage);
-			
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, nWidth, nHeight,
-			    0, GL_BGRA, GL_UNSIGNED_BYTE, FreeImage_GetBits(pImage));
-			
-			FreeImage_Unload(pImage);
-			
-			return textureId;
-		}
-		else
-		{
-			writeln("could not find texture: " ~ fileName);
-		}
-
-		return 0;
-	}
-
-//	public void bind()
-//	{
-//		bind(0);
-//	}
+ 	
+ 	this(int width, int height, ubyte* data, GLenum textureTarget, GLint filter) 
+ 	{
+ 		this.fileName = "";
+ 		resource = new TextureResource(textureTarget, width, height, 1, &data, &filter);
+ 	}
 
 	public void bind(int samplerSlot)
 	{
 //		assert(samplerSlot >= 0 && samplerSlot <= 31);
 		glActiveTexture(GL_TEXTURE0 + samplerSlot);
-		glBindTexture(GL_TEXTURE_2D, resource.getId());
+		resource.bind(0);
+	}
+	
+	public void bindAsRenderTarget()
+	{
+		
 	}
 
-	public int getID()
-	{
-		return resource.getId();
-	}
+//	public int getID()
+//	{
+//		return resource.getTextureId();
+//	}
 }
