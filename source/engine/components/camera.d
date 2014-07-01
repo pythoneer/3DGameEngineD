@@ -25,6 +25,11 @@ class Camera : GameComponent
 		this.projection = new Matrix4f().initPerspective(fov, aspect, zNear, zFar);
 	}
 	
+	public this(Matrix4f projection)
+	{
+		this.projection = projection;
+	}
+	
 	public Matrix4f getViewProjection()
 	{
 		Matrix4f cameraRotation = getTransform().getTransformedRot().conjugate().toRotationMatrix();

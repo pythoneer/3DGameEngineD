@@ -68,7 +68,7 @@ class Texture
 	
 	public void bindAsRenderTarget()
 	{
-		
+		resource.bindAsRenderTarget();
 	}
 
 //	public int getID()

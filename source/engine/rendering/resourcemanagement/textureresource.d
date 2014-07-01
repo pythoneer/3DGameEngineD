@@ -105,6 +105,12 @@ class TextureResource
 		glBindTexture(textureTarget, textureId[textureNum]);
 	}
 	
+	public void bindAsRenderTarget()
+	{
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer);
+		glViewport(0, 0, width, height);
+	}
+	
 	public void addReference()
 	{
 		refCount++;
