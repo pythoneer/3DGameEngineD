@@ -114,6 +114,12 @@ class Window
 		return Window.height;
 	}
 	
+	public static void bindAsRenderTarget()
+	{
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // framebuffer 0 is the window
+		glViewport(0, 0, Window.width, Window.height);
+	}
+	
 //	public static string getTitle()
 //	{
 ////		return Display.getTitle();

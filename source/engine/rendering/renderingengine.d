@@ -11,6 +11,7 @@ import engine.core.util;
 import engine.rendering.shader;
 import engine.rendering.resourcemanagement.mappedvalues;
 import engine.rendering.material;
+import engine.rendering.window;
 import engine.components.camera;
 import engine.components.baselight;
 import engine.components.directionallight; 
@@ -53,8 +54,9 @@ public class RenderingEngine : MappedValues
 	
 	public void render(GameObject object)
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		Window.bindAsRenderTarget();
 		
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 		object.render(forwardAmbient, this);
 		
 		glEnable(GL_BLEND);

@@ -231,7 +231,7 @@ class Shader
 				if(line.startsWith(INCLUDE_DIRECTIVE))
  				{
  					auto index = indexOf(line, INCLUDE_DIRECTIVE);
- 					auto src = loadShader(line[index + 10 .. $-1]);
+ 					auto src = loadShader(line[index + 10 .. $-1]);  //TODO do with regex
  					shaderSource ~= src;
  				}
  				else

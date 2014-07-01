@@ -178,7 +178,7 @@ class Mesh
 							  vertexSize, 
 							  cast(GLvoid*)(3 * float.sizeof + 2 * float.sizeof));	//norm
 							  
-	  glVertexAttribPointer(cast(uint)3, 
+	  	glVertexAttribPointer(cast(uint)3, 
 							  3, 
 							  GL_FLOAT, 
 							  GL_FALSE, 
