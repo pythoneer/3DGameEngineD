@@ -76,8 +76,8 @@ class NormalMappingGame : Game
 		testMesh1.addChild(testMesh2);
 	
 		addToScene(planeObject);
-		addToScene(pointLightObject);
-		addToScene(spotLightObject);
+//		addToScene(pointLightObject);
+//		addToScene(spotLightObject);
 		addToScene(directionalLightObject);
 		addToScene(testMesh1);
 		testMesh2.addChild(

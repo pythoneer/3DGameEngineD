@@ -60,7 +60,7 @@ public class RenderingEngine : MappedValues
 		samplerMap["dispMap"] = 2;
 		
 		setVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));  //temp
-//		addVector3f("ambient", new Vector3f(0.5f, 0.5f, 0.5f));
+		setTexture("shadowMap", new Texture(1024, 1024, cast(ubyte*)0, GL_TEXTURE_2D, GL_NEAREST, GL_DEPTH_COMPONENT16, GL_DEPTH_COMPONENT, true, GL_DEPTH_ATTACHMENT));
 		defaultShader = new Shader("forward-ambient");
 		
 		glClearColor(0.15f, 0.15f, 0.15f, 0.0f);

@@ -4,6 +4,7 @@ import engine.core.vector3f;
 import engine.core.coreengine;
 import engine.rendering.shader;
 import engine.rendering.renderingengine;
+import engine.rendering.shadowinfo;
 import engine.components.gamecomponent;
 
 class BaseLight : GameComponent
@@ -11,11 +12,14 @@ class BaseLight : GameComponent
 	private Vector3f color;
 	private float intensity;
 	private Shader shader;
+	private ShadowInfo shadowInfo;
 
 	public this(Vector3f color, float intensity)
 	{
 		this.color = color;
 		this.intensity = intensity;
+		this.shader = null;
+		this.shadowInfo = null;
 	}
 	
 	override
@@ -52,5 +56,15 @@ class BaseLight : GameComponent
 	public void setIntensity(float intensity)
 	{
 		this.intensity = intensity;
+	}
+	
+	public ShadowInfo getShadowInfo()
+	{
+		return this.shadowInfo;
+	}
+	
+	public void setShadowInfo(ShadowInfo shadowInfo)
+	{
+		this.shadowInfo = shadowInfo;
 	}
 }
