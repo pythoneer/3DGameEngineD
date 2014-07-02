@@ -37,13 +37,13 @@ class NormalMappingGame : Game
 		GameObject spotLightObject = new GameObject();
 		GameObject directionalLightObject = new GameObject();
 	
-		planeObject.addComponent(new MeshRenderer(new Mesh("terrain02.obj"), new Material(new Texture("bricks.jpg"), 0.5f, 4, 
+		planeObject.addComponent(new MeshRenderer(new Mesh("plane4.obj"), new Material(new Texture("bricks.jpg"), 0.5f, 4, 
                                                                                        new Texture("bricks_normal.jpg"),
                                                                                        new Texture("bricks_disp.png"), 0.03f, -0.5f)));
 	
 		
-		planeObject.getTransform().setPos(new Vector3f(0, -10, 5));
-		planeObject.getTransform().setScale(22.0f);
+		planeObject.getTransform().setPos(new Vector3f(0, -1, 5)); //-10
+		planeObject.getTransform().setScale(4.0f); //22
 	
 		pointLightObject.addComponent(new PointLight(new Vector3f(0,1,0),0.4f, new Attenuation(0,0,1)));
 		pointLightObject.getTransform().setPos(new Vector3f(7,0,7));
@@ -67,8 +67,8 @@ class NormalMappingGame : Game
 		
 		
 	
-		testMesh1.getTransform().setPos(new Vector3f(0, 2, 0));
-		testMesh1.getTransform().setRot(new Quaternion(new Vector3f(0,1,0), 0.4f));
+		testMesh1.getTransform().setPos(new Vector3f(-15, 5, 0));
+		testMesh1.getTransform().setRot(new Quaternion(new Vector3f(0,1,0), Util.toRadians(-10)));
 		testMesh1.getTransform().setScale(1.0f);
 	
 		testMesh2.getTransform().setPos(new Vector3f(0, 0, 25));
@@ -80,11 +80,32 @@ class NormalMappingGame : Game
 //		addToScene(spotLightObject);
 		addToScene(directionalLightObject);
 		addToScene(testMesh1);
-		testMesh2.addChild(
- 				//addObject(
- 				new GameObject().addComponent(new FreeLook()).addComponent(new Camera(cast(float) Util.toRadians(70.0f), cast(float) Window.getWidth() / cast(float) Window.getHeight(), 0.01f, 1000.0f)));
+//		testMesh2.addChild(
+		
+		GameObject cameraObject = new GameObject();
+		cameraObject.addComponent(new FreeLook()).addComponent(new Camera(cast(float)Util.toRadians(70.0f), cast(float) Window.getWidth() / cast(float) Window.getHeight(), 0.01f, 1000.0f));
+		cameraObject.getTransform().setPos(new Vector3f(0,10,0));
+		cameraObject.getTransform().rotate(new Vector3f(1,0,0), Util.toRadians(20));
+		addToScene(cameraObject);
   
-	
 		directionalLightObject.getTransform().setRot(new Quaternion(new Vector3f(1,0,0), Util.toRadians(-45)));
+		
+		
+		GameObject box = new GameObject();
+		box.addComponent(new MeshRenderer(new Mesh("cube.obj"), new Material(new Texture("bricks2.jpg"), 1, 8,
+		                                                                                   new Texture("bricks2_normal.png"),
+		                                                                                   new Texture("bricks2_disp.jpg"), 0.04f, -1.0f)));
+		box.getTransform().setPos(new Vector3f(-2,0,15));
+		box.getTransform().setRot(new Quaternion(new Vector3f(0,1,0), Util.toRadians(30.0f)));
+		addToScene(box);
+		
+		GameObject mushRoom = new GameObject();
+		mushRoom.addComponent(new MeshRenderer(new Mesh("mushroom.obj"), new Material(new Texture("mushroom.png"), 1, 8)));
+		mushRoom.getTransform().setPos(new Vector3f(-2,1, 25));
+		mushRoom.getTransform().setRot(new Quaternion(new Vector3f(1,0,0), Util.toRadians(-90)));
+		mushRoom.getTransform().rotate(new Vector3f(0,1,0), Util.toRadians(180));
+		addToScene(mushRoom);
+				
+		
 	}
 }

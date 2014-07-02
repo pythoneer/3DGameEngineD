@@ -53,6 +53,7 @@ public class RenderingEngine : MappedValues
 	private Shader defaultShader;
 	
 	private Matrix4f lightMatrix;
+	private Matrix4f biasMatrix = new Matrix4f().initScale(0.5, 0.5, 0.5).mul(new Matrix4f().initTranslation(1.0, 1.0, 1.0));
 	
 	public this()
 	{
@@ -129,7 +130,7 @@ public class RenderingEngine : MappedValues
  				altCamera.getTransform().setRot(activeLight.getTransform().getTransformedRot());
 // 				altCamera.getTransform().rotate(new Vector3f(1,0,0), Util.toRadians(90));
  				
- 				lightMatrix = altCamera.getViewProjection();
+ 				lightMatrix = biasMatrix.mul(altCamera.getViewProjection());
  				
  				Camera tempCamera = mainCamera;
  				mainCamera = altCamera;	

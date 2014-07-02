@@ -89,12 +89,12 @@ class Mesh
 		const aiScene* scene = aiImportFile(meshPath.toStringz(),
 											aiProcess_Triangulate |
 											aiProcess_GenSmoothNormals | 
-											aiProcess_FlipUVs |
+//											aiProcess_FlipUVs |
 											aiProcess_CalcTangentSpace);
 		
 		if(!scene || !scene.mMeshes)
 		{
-			writeln( "Mesh load failed!: " , fileName , " num: " , scene.mNumMeshes );
+			writeln( "Mesh load failed!: " , fileName );
 			const char* error = aiGetErrorString();
 			printf("error: '%s'\n", error);
 			//writeln(error);

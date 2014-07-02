@@ -2,7 +2,7 @@
 
 float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords)
 {
-	vec3 shadowMapCoords = (initialShadowMapCoords.xyz/initialShadowMapCoords.w) * vec3(0.5) + vec3(0.5);
+	vec3 shadowMapCoords = (initialShadowMapCoords.xyz/initialShadowMapCoords.w) ;// biasMatrix -> * vec3(0.5) + vec3(0.5);
 	return SampleShadowMap(shadowMap, shadowMapCoords.xy, shadowMapCoords.z);
 }
 

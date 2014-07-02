@@ -39,7 +39,7 @@ class TextureResource
 		if(*textureId) glDeleteTextures(numTextures, textureId);
 		if(frameBuffer) glDeleteFramebuffers(1, &frameBuffer);
 		if(renderBuffer) glDeleteRenderbuffers(1, &renderBuffer);
-		if(textureId) delete textureId; // TODO ?? 
+		//if(textureId) delete textureId; // TODO ?? 
 	}
 	
 	private void initTextures(ubyte** data, GLint* filters, GLenum* internalFormat, GLenum* format, bool clamp)
