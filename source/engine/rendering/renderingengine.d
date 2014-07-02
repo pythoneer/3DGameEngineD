@@ -83,7 +83,7 @@ public class RenderingEngine : MappedValues
 	  	int width = Window.getWidth();
 		int height = Window.getHeight();
 	
-		tempTarget = new Texture(width, height, cast(ubyte*)0, GL_TEXTURE_2D, GL_NEAREST, GL_COLOR_ATTACHMENT0);
+		tempTarget = new Texture(width, height, cast(ubyte*)0, GL_TEXTURE_2D, GL_NEAREST, GL_RGBA8, GL_BGRA, false, GL_COLOR_ATTACHMENT0);
 	
 		planeMaterial = new Material(tempTarget, 1, 8);
 		planeTransform = new Transform();

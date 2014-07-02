@@ -16,7 +16,7 @@ class TextureResource
 	
 	private int refCount;
 
-	public this(GLenum textureTarget, int width, int height, int numTextures, ubyte** data, GLint* filters, GLenum* attachments)
+	public this(GLenum textureTarget, int width, int height, int numTextures, ubyte** data, GLint* filters, GLenum* internalFormat, GLenum* format, bool clamp, GLenum* attachments)
 	{	
 		textureId = cast(GLuint*)new GLuint[numTextures];
 		
@@ -30,7 +30,7 @@ class TextureResource
 		this.frameBuffer = 0;
 		this.renderBuffer = 0;
 				
-		initTextures(data, filters);
+		initTextures(data, filters, internalFormat, format, clamp);
 		initRenderTargets(attachments);		
 	}
 
@@ -42,7 +42,7 @@ class TextureResource
 		if(textureId) delete textureId; // TODO ?? 
 	}
 	
-	private void initTextures(ubyte** data, GLint* filters)
+	private void initTextures(ubyte** data, GLint* filters, GLenum* internalFormat, GLenum* format, bool clamp)
 	{
 		glGenTextures(numTextures, textureId);
 		
@@ -52,10 +52,16 @@ class TextureResource
 			glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, filters[i]);
 			glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, filters[i]); 
 			
+			if(clamp)
+			{
+				glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
+			}
+			
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 			
-			glTexImage2D(textureTarget, 0, GL_RGBA8, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, data[i]);
+			glTexImage2D(textureTarget, 0, internalFormat[i], width, height, 0, format[i], GL_UNSIGNED_BYTE, data[i]);
 		}
 	}
 	

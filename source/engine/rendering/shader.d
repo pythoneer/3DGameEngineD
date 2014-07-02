@@ -80,8 +80,31 @@ class Shader
 		{
 			string uniformName = resource.getUniformNames()[i];
 			string uniformType = resource.getUniformTypes()[i];
-
-			if(uniformType == "sampler2D")
+			
+			if(uniformName.startsWith("R_"))
+			{
+				string unprefixedUniformName = uniformName[2 .. $];
+				
+				if(uniformType == "sampler2D")
+				{
+					int samplerSlot = renderingEngine.getSamplerSlot(unprefixedUniformName);
+					renderingEngine.getTexture(unprefixedUniformName).bind(samplerSlot);
+					setUniformi(unprefixedUniformName, samplerSlot); // uniform or unprefixed?
+				}				
+				else if(uniformType == "vec3")
+					setUniform(uniformName, renderingEngine.getVector3f(unprefixedUniformName));
+				else if(uniformType == "float")
+					setUniformf(uniformName, renderingEngine.getFloat(unprefixedUniformName));
+				else if(uniformType == "DirectionalLight")
+					setUniformDirectionalLight(uniformName, cast(DirectionalLight)renderingEngine.getActiveLight());
+				else if(uniformType == "PointLight")
+					setUniformPointLight(uniformName, cast(PointLight)renderingEngine.getActiveLight());
+				else if(uniformType == "SpotLight")
+					setUniformSpotLight(uniformName, cast(SpotLight)renderingEngine.getActiveLight());
+				else
+					renderingEngine.updateUniformStruct(transform, material, this, uniformName, uniformType);
+			}
+			else if(uniformType == "sampler2D")
 			{
 				int samplerSlot = renderingEngine.getSamplerSlot(uniformName);
 				material.getTexture(uniformName).bind(samplerSlot);
@@ -96,22 +119,7 @@ class Shader
 				else
 					writeln(uniformName ~ " is not a valid component of Transform");
 			}
-			else if(uniformName.startsWith("R_"))
-			{
-				string unprefixedUniformName = uniformName[2 .. $];
-				if(uniformType == "vec3")
-					setUniform(uniformName, renderingEngine.getVector3f(unprefixedUniformName));
-				else if(uniformType == "float")
-					setUniformf(uniformName, renderingEngine.getFloat(unprefixedUniformName));
-				else if(uniformType == "DirectionalLight")
-					setUniformDirectionalLight(uniformName, cast(DirectionalLight)renderingEngine.getActiveLight());
-				else if(uniformType == "PointLight")
-					setUniformPointLight(uniformName, cast(PointLight)renderingEngine.getActiveLight());
-				else if(uniformType == "SpotLight")
-					setUniformSpotLight(uniformName, cast(SpotLight)renderingEngine.getActiveLight());
-				else
-					renderingEngine.updateUniformStruct(transform, material, this, uniformName, uniformType);
-			}
+			
 			else if(uniformName.startsWith("C_"))
 			{
 				if(uniformName == "C_eyePos")
