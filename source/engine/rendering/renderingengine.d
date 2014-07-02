@@ -12,6 +12,7 @@ import engine.rendering.shader;
 import engine.rendering.resourcemanagement.mappedvalues;
 import engine.rendering.material;
 import engine.rendering.window;
+import engine.rendering.shadowinfo;
 import engine.components.camera;
 import engine.components.baselight;
 import engine.components.directionallight; 
@@ -47,8 +48,11 @@ public class RenderingEngine : MappedValues
  	private BaseLight activeLight;
  	
 	private Shader forwardAmbient;
+	private Shader shadowMapShader;
 
 	private Shader defaultShader;
+	
+	private Matrix4f lightMatrix;
 	
 	public this()
 	{
@@ -58,10 +62,12 @@ public class RenderingEngine : MappedValues
 		samplerMap["diffuse"] = 0;
 		samplerMap["normalMap"] = 1;
 		samplerMap["dispMap"] = 2;
+		samplerMap["shadowMap"] = 3;
 		
 		setVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));  //temp
 		setTexture("shadowMap", new Texture(1024, 1024, cast(ubyte*)0, GL_TEXTURE_2D, GL_NEAREST, GL_DEPTH_COMPONENT16, GL_DEPTH_COMPONENT, true, GL_DEPTH_ATTACHMENT));
 		defaultShader = new Shader("forward-ambient");
+		shadowMapShader = new Shader("shadowMapGenerator");
 		
 		glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
 
@@ -76,6 +82,8 @@ public class RenderingEngine : MappedValues
 		altCameraObject = (new GameObject()).addComponent(altCamera);
 		altCamera.getTransform().rotate(new Vector3f(0,1,0),Util.toRadians(180.0f));
 		altCamera.getTransform().rotate(new Vector3f(0,0,1),Util.toRadians(-90.0f));
+		
+//		lightMatrix = altCamera.getViewProjection();
 		
 		
 		//Begin Temp init
@@ -99,25 +107,53 @@ public class RenderingEngine : MappedValues
 	{
 		Window.bindAsRenderTarget();		
 //		tempTarget.bindAsRenderTarget();
-		glClearColor(0.0f,0.0f,0.0f,0.0f);
+//		glClearColor(0.0f,0.0f,0.0f,0.0f);
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 		object.render(forwardAmbient, this);
 		
-		glEnable(GL_BLEND);
- 		glBlendFunc(GL_ONE, GL_ONE);
- 		glDepthMask(false);
- 		glDepthFunc(GL_EQUAL);
+
  
  		foreach(light; lights)
  		{
  			activeLight = light;
+ 			ShadowInfo shadowInfo = light.getShadowInfo();
+ 			
+ 			getTexture("shadowMap").bindAsRenderTarget();
+ 			glClear(GL_DEPTH_BUFFER_BIT);
+ 			
+ 			if(shadowInfo !is null)
+ 			{
+ 				altCamera.setProjection(shadowInfo.getProjection());
+ 				altCamera.getTransform().setPos(activeLight.getTransform().getTransformedPos());
+ 				altCamera.getTransform().setRot(activeLight.getTransform().getTransformedRot());
+// 				altCamera.getTransform().rotate(new Vector3f(1,0,0), Util.toRadians(90));
+ 				
+ 				lightMatrix = altCamera.getViewProjection();
+ 				
+ 				Camera tempCamera = mainCamera;
+ 				mainCamera = altCamera;	
+ 				
+ 				object.render(shadowMapShader, this);
+ 				
+ 				mainCamera = tempCamera;
+ 			}
+
+ 			Window.bindAsRenderTarget();		
+
+			glEnable(GL_BLEND);
+	 		glBlendFunc(GL_ONE, GL_ONE);
+	 		glDepthMask(false);
+	 		glDepthFunc(GL_EQUAL);
+ 			
  			object.render(light.getShader(), this);
+ 			
+	 		glDepthFunc(GL_LESS);
+	 		glDepthMask(true);
+	 		glDisable(GL_BLEND);
  		}
 
- 		glDepthFunc(GL_LESS);
- 		glDepthMask(true);
- 		glDisable(GL_BLEND);
+
  		
  		//Temp Render
 //		Window.bindAsRenderTarget();
@@ -174,4 +210,8 @@ public class RenderingEngine : MappedValues
 		this.mainCamera = mainCamera;
 	}
  	
+ 	public Matrix4f getLightMatrix()
+ 	{
+ 		return lightMatrix;
+ 	}
 }

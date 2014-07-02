@@ -45,6 +45,11 @@ class Camera : GameComponent
 	{
 		engine.getRenderingEngine().addCamera(this);
 	}
+	
+	public void setProjection(Matrix4f projection)
+	{
+		this.projection = projection;
+	}
 
 //	override
 //	public void input(float delta)

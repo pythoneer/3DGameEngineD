@@ -60,16 +60,30 @@ class Matrix4f
 	
 	public Matrix4f initOrthographic(float left, float right, float bottom, float top, float near, float far)
 	{
-		float halfWidth = (right - left)/2.0f;
-		float halfHeight = (top - bottom)/2.0f;
-		float halfDepth = (far - near)/2.0f;
+//		float halfWidth = (right - left)/2.0f;
+//		float halfHeight = (top - bottom)/2.0f;
+//		float halfDepth = (far - near)/2.0f;
+//
+//		m[0][0] = halfWidth;	m[0][1] = 0;			m[0][2] = 0;			m[0][3] = abs(halfWidth);
+//		m[1][0] = 0;			m[1][1] = halfHeight;	m[1][2] = 0;			m[1][3] = abs(halfHeight);
+//		m[2][0] = 0;			m[2][1] = 0;			m[2][2] = halfDepth;	m[2][3] = abs(halfDepth);
+//		m[3][0] = 0;			m[3][1] = 0;			m[3][2] = 0;			m[3][3] = 1;
+//
+//		return this;
+	
+		
+		float width = (right - left);
+		float height = (top - bottom);
+		float depth = (far - near);
 
-		m[0][0] = halfWidth;	m[0][1] = 0;			m[0][2] = 0;			m[0][3] = abs(halfWidth);
-		m[1][0] = 0;			m[1][1] = halfHeight;	m[1][2] = 0;			m[1][3] = abs(halfHeight);
-		m[2][0] = 0;			m[2][1] = 0;			m[2][2] = halfDepth;	m[2][3] = abs(halfDepth);
-		m[3][0] = 0;			m[3][1] = 0;			m[3][2] = 0;			m[3][3] = 1;
+		m[0][0] = 2/width; m[1][0] = 0;        m[2][0] = 0;        m[3][0] = -(right + left)/width;
+		m[0][1] = 0;       m[1][1] = 2/height; m[2][1] = 0;        m[3][1] = -(top + bottom)/height;
+		m[0][2] = 0;       m[1][2] = 0;        m[2][2] = -2/depth; m[3][2] = -(far + near)/depth;
+		m[0][3] = 0;       m[1][3] = 0;        m[2][3] = 0;        m[3][3] = 1; 
 
 		return this;
+	
+		
 	}
 
 	public Matrix4f initRotation(float x, float y, float z)

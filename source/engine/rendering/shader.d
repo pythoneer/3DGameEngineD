@@ -84,12 +84,15 @@ class Shader
 			if(uniformName.startsWith("R_"))
 			{
 				string unprefixedUniformName = uniformName[2 .. $];
-				
-				if(uniformType == "sampler2D")
+				if(unprefixedUniformName == "lightMatrix")
+				{
+					setUniform(uniformName, renderingEngine.getLightMatrix().mul(worldMatrix)); //matrix mul other way around?
+				}
+				else if(uniformType == "sampler2D")
 				{
 					int samplerSlot = renderingEngine.getSamplerSlot(unprefixedUniformName);
 					renderingEngine.getTexture(unprefixedUniformName).bind(samplerSlot);
-					setUniformi(unprefixedUniformName, samplerSlot); // uniform or unprefixed?
+					setUniformi(uniformName, samplerSlot); // uniform or unprefixed?
 				}				
 				else if(uniformType == "vec3")
 					setUniform(uniformName, renderingEngine.getVector3f(unprefixedUniformName));
