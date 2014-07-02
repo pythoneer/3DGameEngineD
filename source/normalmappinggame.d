@@ -37,13 +37,13 @@ class NormalMappingGame : Game
 		GameObject spotLightObject = new GameObject();
 		GameObject directionalLightObject = new GameObject();
 	
-		planeObject.addComponent(new MeshRenderer(new Mesh("plane3.obj"), new Material(new Texture("bricks.jpg"), 0.5f, 4, 
+		planeObject.addComponent(new MeshRenderer(new Mesh("terrain02.obj"), new Material(new Texture("bricks.jpg"), 0.5f, 4, 
                                                                                        new Texture("bricks_normal.jpg"),
                                                                                        new Texture("bricks_disp.png"), 0.03f, -0.5f)));
 	
 		
-		planeObject.getTransform().setPos(new Vector3f(0, -1, 5));
-		planeObject.getTransform().setScale(4.0f);
+		planeObject.getTransform().setPos(new Vector3f(0, -10, 5));
+		planeObject.getTransform().setScale(22.0f);
 	
 		pointLightObject.addComponent(new PointLight(new Vector3f(0,1,0),0.4f, new Attenuation(0,0,1)));
 		pointLightObject.getTransform().setPos(new Vector3f(7,0,7));

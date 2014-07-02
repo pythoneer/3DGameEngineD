@@ -8,7 +8,7 @@ import engine.rendering.resourcemanagement.mappedvalues;
 
 class Material : MappedValues
 {
-	private Texture[string] textureHashMap;
+//	private Texture[string] textureHashMap;
 
 	public this()
 	{
@@ -23,31 +23,31 @@ class Material : MappedValues
 		float dispMapScale = 0.0f, 
 		float dispMapOffset = 0.0f)
 	{
-		addTexture("diffuse", diffuse);
-		addFloat("specularIntensity", specularIntensity);
-		addFloat("specularPower", specularPower);
+		setTexture("diffuse", diffuse);
+		setFloat("specularIntensity", specularIntensity);
+		setFloat("specularPower", specularPower);
 		
-		addTexture("normalMap", normalMap);
+		setTexture("normalMap", normalMap);
 		
 		float baseBias = dispMapScale/2.0f;
-		addTexture("dispMap", dispMap);		
-		addFloat("dispMapScale", dispMapScale);
-		addFloat("dispMapBias", -baseBias + baseBias * dispMapOffset);
+		setTexture("dispMap", dispMap);		
+		setFloat("dispMapScale", dispMapScale);
+		setFloat("dispMapBias", -baseBias + baseBias * dispMapOffset);
 	}
 	
-	public void addTexture(string name, Texture texture) 
-	{
-		textureHashMap[name] = texture; 
-	
-	}
-
-	public Texture getTexture(string name)
-	{
-		if(name in textureHashMap)
-		{
-			return textureHashMap[name];
-		}
-		
-		return new Texture("test.png");
-	}
+//	public void addTexture(string name, Texture texture) 
+//	{
+//		textureHashMap[name] = texture; 
+//	
+//	}
+//
+//	public Texture getTexture(string name)
+//	{
+//		if(name in textureHashMap)
+//		{
+//			return textureHashMap[name];
+//		}
+//		
+//		return new Texture("test.png");
+//	}
 }

@@ -106,8 +106,6 @@ class Mesh
 			writeln( "Mesh successfully loaded: " , fileName);
 		}
 
-		writeln(scene.mMeshes);
-
 		const aiMesh* model = scene.mMeshes[0];  //->mMeshes[0];
 		
 		Vertex[] vertices;

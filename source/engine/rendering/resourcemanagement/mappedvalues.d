@@ -1,19 +1,21 @@
 module engine.rendering.resourcemanagement.mappedvalues;
 
 import engine.core.vector3f;
+import engine.rendering.texture;
 
 
 class MappedValues
 {
 	private Vector3f[string] vector3fHashMap;
 	private float[string] floatHashMap;
+	private Texture[string] textureHashMap;
 
 	public this()
 	{
 	}
 
-	public void addVector3f(string name, Vector3f vector3f) { vector3fHashMap[name] = vector3f; }
-	public void addFloat(string name, float floatValue) { floatHashMap[name] = floatValue; }
+	public void setVector3f(string name, Vector3f vector3f) { vector3fHashMap[name] = vector3f; }
+	public void setFloat(string name, float floatValue) { floatHashMap[name] = floatValue; }
 
 	public Vector3f getVector3f(string name)
 	{
@@ -33,5 +35,21 @@ class MappedValues
 		}
 		
 		return 0;
+	}
+	
+	public void setTexture(string name, Texture texture) 
+	{
+		textureHashMap[name] = texture; 
+	
+	}
+
+	public Texture getTexture(string name)
+	{
+		if(name in textureHashMap)
+		{
+			return textureHashMap[name];
+		}
+		
+		return new Texture("test.png");
 	}
 }

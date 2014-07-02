@@ -33,12 +33,6 @@ import engine.core.util;
 public class RenderingEngine : MappedValues
 {
 
-
- 
-
-
-
-
 	private Camera mainCamera;
  	private Camera altCamera;
  	private GameObject altCameraObject;
@@ -65,8 +59,8 @@ public class RenderingEngine : MappedValues
 		samplerMap["normalMap"] = 1;
 		samplerMap["dispMap"] = 2;
 		
-//		addVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));  //temp
-		addVector3f("ambient", new Vector3f(0.5f, 0.5f, 0.5f));
+		setVector3f("ambient", new Vector3f(0.1f, 0.1f, 0.1f));  //temp
+//		addVector3f("ambient", new Vector3f(0.5f, 0.5f, 0.5f));
 		defaultShader = new Shader("forward-ambient");
 		
 		glClearColor(0.15f, 0.15f, 0.15f, 0.0f);
@@ -86,16 +80,11 @@ public class RenderingEngine : MappedValues
 		
 		//Begin Temp init
 
-	  	int width = Window.getWidth() / 2;
-		int height = Window.getHeight() / 2;
-		int dataSize = width * height * 4;
+	  	int width = Window.getWidth();
+		int height = Window.getHeight();
 	
-		ubyte* data = cast(ubyte*)new ubyte[dataSize];
-		//memset(data, 0, dataSize);
+		tempTarget = new Texture(width, height, cast(ubyte*)0, GL_TEXTURE_2D, GL_NEAREST, GL_COLOR_ATTACHMENT0);
 	
-		tempTarget = new Texture(width, height, data, GL_TEXTURE_2D, GL_NEAREST, GL_COLOR_ATTACHMENT0);
-	
-
 		planeMaterial = new Material(tempTarget, 1, 8);
 		planeTransform = new Transform();
 		planeTransform.setScale(0.8f);
@@ -108,9 +97,8 @@ public class RenderingEngine : MappedValues
 	
 	public void render(GameObject object)
 	{
-//		Window.bindAsRenderTarget();
-		
-		tempTarget.bindAsRenderTarget();
+		Window.bindAsRenderTarget();		
+//		tempTarget.bindAsRenderTarget();
 		glClearColor(0.0f,0.0f,0.0f,0.0f);
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
@@ -132,18 +120,18 @@ public class RenderingEngine : MappedValues
  		glDisable(GL_BLEND);
  		
  		//Temp Render
-		Window.bindAsRenderTarget();
-	
-		Camera temp = mainCamera;
-		mainCamera = altCamera;
-	
-		glClearColor(0.0f,0.0f,0.5f,1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		defaultShader.bind();
-		defaultShader.updateUniforms(planeTransform, planeMaterial, this);
-		planeMesh.draw();
-	
-		mainCamera = temp;
+//		Window.bindAsRenderTarget();
+//	
+//		Camera temp = mainCamera;
+//		mainCamera = altCamera;
+//	
+//		glClearColor(0.0f,0.0f,0.5f,1.0f);
+//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//		defaultShader.bind();
+//		defaultShader.updateUniforms(planeTransform, planeMaterial, this);
+//		planeMesh.draw();
+//	
+//		mainCamera = temp;
 	}
 	
 	public void updateUniformStruct(Transform transform, Material material, Shader shader, string uniformName, string uniformType)
