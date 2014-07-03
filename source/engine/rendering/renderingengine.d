@@ -131,11 +131,22 @@ public class RenderingEngine : MappedValues
 // 				altCamera.getTransform().rotate(new Vector3f(1,0,0), Util.toRadians(90));
  				
  				lightMatrix = biasMatrix.mul(altCamera.getViewProjection());
- 				
+ 								
+ 				setFloat("shadowBias", shadowInfo.getBias() / 1024.0f);
+ 				setVector3f("shadowTexelSize", new Vector3f(1.0f/1024.0f, 1.0f/1024.0f, 0));
+ 						
  				Camera tempCamera = mainCamera;
  				mainCamera = altCamera;	
  				
+ 				if(shadowInfo.getFlipFaces()){
+ 					glCullFace(GL_FRONT);
+ 				}
+ 				
  				object.render(shadowMapShader, this);
+ 				
+ 				if(shadowInfo.getFlipFaces()){
+ 					glCullFace(GL_BACK);
+ 				}
  				
  				mainCamera = tempCamera;
  			}

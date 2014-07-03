@@ -89,7 +89,7 @@ class Mesh
 		const aiScene* scene = aiImportFile(meshPath.toStringz(),
 											aiProcess_Triangulate |
 											aiProcess_GenSmoothNormals | 
-//											aiProcess_FlipUVs |
+											aiProcess_FlipUVs |
 											aiProcess_CalcTangentSpace);
 		
 		if(!scene || !scene.mMeshes)
