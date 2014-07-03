@@ -5,14 +5,18 @@ import engine.core.matrix;
 class ShadowInfo 
 {
 	private Matrix4f projection;
-	float bias;
-	bool flipFaces;
+	private float shadowSoftness;
+	private float lightBleedingReductionAmount;
+	private float varianceMin;
+	private bool flipFaces;
 	
-	public this(Matrix4f projection, float bias = 0, bool flipFaces = true)
+	public this(Matrix4f projection, bool flipFaces = true, float shadowSoftness = 1.0f, float lightBleedingReductionAmount = 0.2f, float minVariance = 0.00002f)
 	{
 		this.projection = projection;
-		this.bias = bias;
 		this.flipFaces = flipFaces;
+		this.shadowSoftness = shadowSoftness;
+		this.lightBleedingReductionAmount = lightBleedingReductionAmount;
+		this.varianceMin = varianceMin;
 	}
 	
 	public Matrix4f getProjection()
@@ -25,16 +29,6 @@ class ShadowInfo
 		this.projection = projection;
 	}
 	
-	public float getBias()
-	{
-		return bias;
-	}
-	
-	public void setBias(float bias)
-	{
-		this.bias = bias;
-	}
-	
 	public bool getFlipFaces()
 	{
 		return flipFaces;
@@ -44,4 +38,36 @@ class ShadowInfo
 	{
 		this.flipFaces = flip;
 	}
+		
+	public float getShadowSoftness()
+	{
+		return shadowSoftness;
+	}
+	
+	public void setShadowSoftness(float softness)
+	{
+		this.shadowSoftness = softness;
+	}	
+	
+	public float getLightBleedingReductionAmount()
+	{
+		return lightBleedingReductionAmount;
+	}
+	
+	public void setLightBleedingReductionAmount(float lightBleedingReductionAmount)
+	{
+		this.lightBleedingReductionAmount = lightBleedingReductionAmount;
+	}	
+	
+	public float getVarianceMin()
+	{
+		return varianceMin;
+	}
+	
+	public void setVarianceMin(float varianceMin)
+	{
+		this.varianceMin = varianceMin;
+	}
+	
+	
 }

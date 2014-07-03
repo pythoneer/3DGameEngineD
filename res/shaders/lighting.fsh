@@ -11,5 +11,7 @@ uniform float dispMapScale;
 uniform float dispMapBias;
 
 uniform sampler2D R_shadowMap;
+uniform float R_shadowVarianceMin;
+uniform float R_shadowShadowLightBleedingReduction;
 
 #include "lighting.glh"
