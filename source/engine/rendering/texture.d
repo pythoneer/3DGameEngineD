@@ -70,6 +70,16 @@ class Texture
 	{
 		resource.bindAsRenderTarget();
 	}
+	
+	public int getWidth()
+	{
+		return resource.getWidth();
+	}
+	
+	public int getHight()
+	{
+		return resource.getHight();
+	}
 
 //	public int getID()
 //	{

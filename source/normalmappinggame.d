@@ -63,7 +63,8 @@ class NormalMappingGame : Game
 		
 		
 		testMesh2.addComponent(new MeshRenderer(new Mesh("plane3.obj"), new Material(new Texture("bricks2.jpg"), 1, 8,
-																					 new Texture("bricks2_normal.jpg"))));
+																					 new Texture("bricks2_normal.jpg"),
+																					 new Texture("bricks2_disp.jpg"), 0.04f, -1.0f)));
 		
 		
 	

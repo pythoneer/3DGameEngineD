@@ -147,6 +147,16 @@ class TextureResource
 		refCount--;
 		return refCount == 0;
 	}
+	
+	public int getWidth()
+	{
+		return this.width;
+	}
+	
+	public int getHight()
+	{
+		return this.height;
+	}
 //
 //	public int getTextureId() { return textureId[0]; }
 //	
