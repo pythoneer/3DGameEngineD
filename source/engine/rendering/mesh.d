@@ -22,10 +22,12 @@ class Mesh
 	private static MeshResource[string] loadedModels;
  	private MeshResource resource;
  	private string fileName;
+ 	private bool flipUVs;
 	
-	public this(string fileName)
+	public this(string fileName, bool flipUVs = true)
 	{
 		this.fileName = fileName;
+		this.flipUVs = flipUVs;
 
 		if(fileName in loadedModels)
 		{
@@ -39,12 +41,12 @@ class Mesh
 		}
 	}
 	
-	public this(Vertex[] vertices, int[] indices)
+	public this(Vertex[] vertices, int[] indices, bool flipUVs = true)
  	{
- 		this(vertices, indices, false);
+ 		this(vertices, indices, false, flipUVs);
  	}
  	
- 	public this(Vertex[] vertices, int[] indices, bool calcNormals)
+ 	public this(Vertex[] vertices, int[] indices, bool calcNormals, bool flipUVs = true)
  	{
  		fileName = "";
  		addVertices(vertices, indices, calcNormals);
@@ -86,11 +88,16 @@ class Mesh
 		
 		string meshPath = "./res/models/" ~ fileName;
 		
-		const aiScene* scene = aiImportFile(meshPath.toStringz(),
-											aiProcess_Triangulate |
-											aiProcess_GenSmoothNormals | 
-											aiProcess_FlipUVs |
-											aiProcess_CalcTangentSpace);
+		int options = 	aiProcess_Triangulate |
+						aiProcess_GenSmoothNormals | 
+						aiProcess_CalcTangentSpace;
+		
+		if(this.flipUVs)
+		{
+			options |= aiProcess_FlipUVs;
+		}				
+		
+		const aiScene* scene = aiImportFile(meshPath.toStringz(),options);
 		
 		if(!scene || !scene.mMeshes)
 		{

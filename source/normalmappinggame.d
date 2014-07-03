@@ -101,8 +101,8 @@ class NormalMappingGame : Game
 		addToScene(box);
 		
 		GameObject mushRoom = new GameObject();
-		mushRoom.addComponent(new MeshRenderer(new Mesh("mushroom.obj"), new Material(new Texture("mushroom.png"), 1, 8)));
-		mushRoom.getTransform().setPos(new Vector3f(-2,1, 25));
+		mushRoom.addComponent(new MeshRenderer(new Mesh("mushroom.obj", false), new Material(new Texture("mushroom.png"), 1, 8)));
+		mushRoom.getTransform().setPos(new Vector3f(-2,1, 30));
 		mushRoom.getTransform().setRot(new Quaternion(new Vector3f(1,0,0), Util.toRadians(-90)));
 		mushRoom.getTransform().rotate(new Vector3f(0,1,0), Util.toRadians(180));
 		addToScene(mushRoom);
