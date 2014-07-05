@@ -58,10 +58,20 @@ class TextureResource
 				glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER); 
 			}
 			
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-			
 			glTexImage2D(textureTarget, 0, internalFormat[i], width, height, 0, format[i], GL_UNSIGNED_BYTE, data[i]);
+			
+			if( filters[i] == GL_NEAREST_MIPMAP_NEAREST ||
+				filters[i] == GL_NEAREST_MIPMAP_LINEAR ||
+				filters[i] == GL_LINEAR_MIPMAP_NEAREST ||
+				filters[i] == GL_LINEAR_MIPMAP_LINEAR)
+			{
+				glGenerateMipmap(GL_TEXTURE_2D);
+			}
+			else
+			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+			}
 		}
 	}
 	
