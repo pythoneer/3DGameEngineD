@@ -1,5 +1,7 @@
 module engine.components.directionallight;
 
+import std.math;
+
 import engine.core.vector3f;
 import engine.core.matrix;
 import engine.core.quaternion;
@@ -50,6 +52,16 @@ class DirectionalLight : BaseLight
 		ShadowCameraTransform result;
 		result.pos = mainCameraPos.add(mainCameraRot.getForward().mul(cast(float)this.halfShadowArea)); 
 		result.rot = getTransform().getTransformedRot();
+		
+		float worldTexelSize = (shadowArea)/cast(float)(1 << getShadowInfo().getShadowMapSizeAsPowerOf2());
+		
+		Vector3f lightSpaceCameraPos = result.pos.rotate(result.rot.conjugate());
+		
+		lightSpaceCameraPos.setX(worldTexelSize * floor(lightSpaceCameraPos.getX / worldTexelSize));
+		lightSpaceCameraPos.setY(worldTexelSize * floor(lightSpaceCameraPos.getY / worldTexelSize));
+		
+		result.pos = lightSpaceCameraPos.rotate(result.rot);
+		
 		return result;
 	}
 

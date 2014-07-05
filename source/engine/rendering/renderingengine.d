@@ -141,7 +141,7 @@ public class RenderingEngine : MappedValues
  			 							
 			setTexture("shadowMap", shadowMaps[shadowMapIndex]);
 			shadowMaps[shadowMapIndex].bindAsRenderTarget();
-			glClearColor(1.0f,1.0f,0.0f,0.0f);  //clear variance etc
+			glClearColor(0.0f,1.0f,0.0f,0.0f);  //clear variance etc
 			glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
  			
  			
