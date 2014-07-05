@@ -65,7 +65,10 @@ class TextureResource
 				filters[i] == GL_LINEAR_MIPMAP_NEAREST ||
 				filters[i] == GL_LINEAR_MIPMAP_LINEAR)
 			{
-				glGenerateMipmap(GL_TEXTURE_2D);
+				glGenerateMipmap(textureTarget);
+				GLfloat maxAnisotropy;
+				glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
+				glTexParameterf(textureTarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy); 
 			}
 			else
 			{

@@ -17,7 +17,7 @@ class Texture
  	private TextureResource resource;
  	private string fileName;
 
-	public this(string fileName, GLenum textureTarget = GL_TEXTURE_2D, GLint filter = GL_LINEAR_MIPMAP_NEAREST, GLenum internalFormat = GL_RGBA8, GLenum format = GL_BGRA, bool clamp = false, GLenum attachment = GL_NONE)
+	public this(string fileName, GLenum textureTarget = GL_TEXTURE_2D, GLint filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA8, GLenum format = GL_BGRA, bool clamp = false, GLenum attachment = GL_NONE)
  	{
  		this.fileName = fileName;
 
@@ -53,7 +53,7 @@ class Texture
 		}
  	}
  	
- 	this(int width, int height, ubyte* data, GLenum textureTarget, GLint filter = GL_LINEAR_MIPMAP_NEAREST, GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false,  GLenum attachment = GL_NONE) 
+ 	this(int width, int height, ubyte* data, GLenum textureTarget, GLint filter = GL_LINEAR_MIPMAP_LINEAR, GLenum internalFormat = GL_RGBA, GLenum format = GL_RGBA, bool clamp = false,  GLenum attachment = GL_NONE) 
  	{
  		this.fileName = "";
  		resource = new TextureResource(textureTarget, width, height, 1, &data, &filter, &internalFormat, &format, clamp, &attachment);
