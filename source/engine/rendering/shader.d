@@ -86,7 +86,8 @@ class Shader
 				string unprefixedUniformName = uniformName[2 .. $];
 				if(unprefixedUniformName == "lightMatrix")
 				{
-					setUniform(uniformName, renderingEngine.getLightMatrix().mul(worldMatrix)); //matrix mul other way around?
+					if(renderingEngine.getLightMatrix !is null)
+						setUniform(uniformName, renderingEngine.getLightMatrix().mul(worldMatrix)); //matrix mul other way around?
 				}
 				else if(uniformType == "sampler2D")
 				{

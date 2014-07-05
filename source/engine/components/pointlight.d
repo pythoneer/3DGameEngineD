@@ -12,7 +12,7 @@ public class PointLight : BaseLight
 	private static final int COLOR_DEPTH = 256;
 
 	private Attenuation attenuation;
-	private float range;
+	protected float range;
 
 	public this(Vector3f color, float intensity, Attenuation attenuation)
 	{

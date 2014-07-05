@@ -6,14 +6,21 @@ class ShadowInfo
 {
 	private Matrix4f projection;
 	private float shadowSoftness;
+	private int shadowMapSizeAsPowerOf2;
 	private float lightBleedingReductionAmount;
 	private float varianceMin;
 	private bool flipFaces;
 	
-	public this(Matrix4f projection, bool flipFaces = true, float shadowSoftness = 1.0f, float lightBleedingReductionAmount = 0.2f, float minVariance = 0.00002f)
+	public this(Matrix4f projection, 
+				bool flipFaces = true, 
+				int shadowMapSizeAsPowerOf2 = 5, 
+				float shadowSoftness = 1.0f, 
+				float lightBleedingReductionAmount = 0.2f, 
+				float minVariance = 0.00002f)
 	{
 		this.projection = projection;
 		this.flipFaces = flipFaces;
+		this.shadowMapSizeAsPowerOf2 = shadowMapSizeAsPowerOf2;
 		this.shadowSoftness = shadowSoftness;
 		this.lightBleedingReductionAmount = lightBleedingReductionAmount;
 		this.varianceMin = varianceMin;
@@ -39,6 +46,11 @@ class ShadowInfo
 		this.flipFaces = flip;
 	}
 		
+	public int getShadowMapSizeAsPowerOf2()
+	{
+		return shadowMapSizeAsPowerOf2;
+	}	
+	
 	public float getShadowSoftness()
 	{
 		return shadowSoftness;

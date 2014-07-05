@@ -48,8 +48,12 @@ class NormalMappingGame : Game
 		pointLightObject.addComponent(new PointLight(new Vector3f(0,1,0),0.4f, new Attenuation(0,0,1)));
 		pointLightObject.getTransform().setPos(new Vector3f(7,0,7));
 	
-		spotLightObject.addComponent(new SpotLight(new Vector3f(0,1,1),0.4f,new Attenuation(0,0,0.1f),0.7f));
-		spotLightObject.getTransform().setRot(new Quaternion(new Vector3f(0,1,0), Util.toRadians(90.0f)));
+		spotLightObject.addComponent(new SpotLight(new Vector3f(0,1,1),0.4f,new Attenuation(0,0,0.01f),Util.toRadians(91.1f), 8));
+		//spotLightObject.getTransform().setRot(new Quaternion(new Vector3f(0,1,0), Util.toRadians(90.0f)));
+	
+		spotLightObject.getTransform().rotate(new Vector3f(0,1,0), Util.toRadians(90.0f));
+		spotLightObject.getTransform().rotate(new Vector3f(1,0,0), Util.toRadians(-60.0f));
+		spotLightObject.getTransform().setPos(new Vector3f(-8,2,15));
 	
 		directionalLightObject.addComponent(new DirectionalLight(new Vector3f(1,1,1), 0.4f));
 	
@@ -78,8 +82,8 @@ class NormalMappingGame : Game
 	
 		addToScene(planeObject);
 //		addToScene(pointLightObject);
-//		addToScene(spotLightObject);
-		addToScene(directionalLightObject);
+		addToScene(spotLightObject);
+//		addToScene(directionalLightObject);
 		addToScene(testMesh1);
 //		testMesh2.addChild(
 		
