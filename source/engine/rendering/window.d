@@ -47,6 +47,10 @@ class Window
 		// Set OpenGL attributes
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+				
+		//MSAAx4
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 		
 		m_window = SDL_CreateWindow(
 			title.toStringz(),                  	// window title

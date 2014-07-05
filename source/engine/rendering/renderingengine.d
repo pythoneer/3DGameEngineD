@@ -90,6 +90,7 @@ public class RenderingEngine : MappedValues
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_DEPTH_CLAMP);
 //		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_MULTISAMPLE);
 		
 		altCamera = new Camera((new Matrix4f()).initIdentity());
 		altCameraObject = (new GameObject()).addComponent(altCamera);
