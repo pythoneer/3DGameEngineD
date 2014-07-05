@@ -13,7 +13,7 @@ import engine.core.gameobject;
 import engine.core.util;
 import engine.rendering.window;
 import engine.rendering.mesh;
-import engine.rendering.meshrenderer;
+import engine.components.meshrenderer;
 import engine.rendering.shader;
 import engine.rendering.vertex;
 import engine.rendering.material;
@@ -55,7 +55,7 @@ class NormalMappingGame : Game
 		spotLightObject.getTransform().rotate(new Vector3f(1,0,0), Util.toRadians(-60.0f));
 		spotLightObject.getTransform().setPos(new Vector3f(-8,2,15));
 	
-		directionalLightObject.addComponent(new DirectionalLight(new Vector3f(1,1,1), 0.4f));
+		directionalLightObject.addComponent(new DirectionalLight(new Vector3f(1,1,1), 0.4f, 10));
 	
 		GameObject testMesh1 = new GameObject();
 		GameObject testMesh2 = new GameObject();
@@ -83,7 +83,7 @@ class NormalMappingGame : Game
 		addToScene(planeObject);
 //		addToScene(pointLightObject);
 		addToScene(spotLightObject);
-//		addToScene(directionalLightObject);
+		addToScene(directionalLightObject);
 		addToScene(testMesh1);
 //		testMesh2.addChild(
 		

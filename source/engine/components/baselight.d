@@ -1,10 +1,12 @@
 module engine.components.baselight;
 
 import engine.core.vector3f;
+import engine.core.quaternion;
 import engine.core.coreengine;
 import engine.rendering.shader;
 import engine.rendering.renderingengine;
 import engine.rendering.shadowinfo;
+import engine.rendering.shadowcameratransform;
 import engine.components.gamecomponent;
 
 class BaseLight : GameComponent
@@ -21,6 +23,15 @@ class BaseLight : GameComponent
 		this.shader = null;
 		this.shadowInfo = null;
 	}
+	
+	public ShadowCameraTransform calcShadowCameraTransform(Vector3f mainCameraPos, Quaternion mainCameraRot)
+	{
+		ShadowCameraTransform result;
+		result.pos = getTransform().getTransformedPos();
+		result.rot = getTransform().getTransformedRot();
+		return result;
+	}
+
 	
 	override
 	public void addToEngine(CoreEngine engine)

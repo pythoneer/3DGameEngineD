@@ -1,4 +1,4 @@
-module engine.rendering.meshrenderer;
+module engine.components.meshrenderer;
 
 import engine.core.transform;
 import engine.rendering.mesh;

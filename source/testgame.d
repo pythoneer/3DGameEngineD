@@ -13,7 +13,7 @@ import engine.core.gameobject;
 import engine.core.util;
 import engine.rendering.window;
 import engine.rendering.mesh;
-import engine.rendering.meshrenderer;
+import engine.components.meshrenderer;
 import engine.rendering.shader;
 import engine.rendering.vertex;
 import engine.rendering.material;

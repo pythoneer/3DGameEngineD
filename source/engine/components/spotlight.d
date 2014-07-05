@@ -18,7 +18,7 @@ class SpotLight : PointLight
 				float intensity, 
 				Attenuation attenuation, 
 				float viewAngle = Util.toRadians(170.0f), 
-				int shadowMapSizeAsPowerOf2 = 8, 
+				int shadowMapSizeAsPowerOf2 = 0, 
 				float shadowSoftness = 1.0f, 
 				float lightBleedingReductionAmount = 0.2f, 
 				float minVariance = 0.00002f)
